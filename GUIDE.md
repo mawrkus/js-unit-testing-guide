@@ -142,6 +142,7 @@ describe( 'A set of functionalities', function ()
 
 
 **:)**
+
 ```js
 describe( 'A set of functionalities', function ()
 {
