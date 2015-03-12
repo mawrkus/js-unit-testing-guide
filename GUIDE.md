@@ -235,6 +235,7 @@ describe( '[unit of work]', function ()
 For example:
 
 **:) :)**
+
 ```js
 describe( 'The Gallery instance', function ()
 {
@@ -302,6 +303,7 @@ it( 'should properly sanitize strings', function ()
 Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving readability and maintainability.
 
 **:) :)**
+
 ```js
 it( 'should sanitize a string containing non-ASCII chars', function ()
 {
