@@ -1,7 +1,7 @@
 # A guide to unit testing in JavaScript
 
 ```
-1st draft.
+1st draft / work-in-progress.
 ```
 
 ## Table of content
