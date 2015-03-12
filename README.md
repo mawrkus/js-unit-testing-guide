@@ -1,34 +1,35 @@
 # A guide to unit testing in JavaScript
 
 ```
-1st draft.
+1st draft / work-in-progress.
 ```
 
 ## Table of content
 
 1. General principles
-	+ Unit tests
-	+ Design principles
+	+ [Unit tests](#unit-tests)
+	+ [Design principles](#design-principles)
 2. Guidelines
-	+ Whenever possible, use TDD
-	+ Structure your tests properly
-	+ Name your tests properly
-	+ Don't comment tests
-	+ Avoid logic in your tests
-	+ Don't write unnecessary expectations
-	+ Setup properly the actions that apply to all the tests involved
-	+ Consider using factory functions in the tests
-	+ Know your testing framework API
-	+ Don't test multiple concerns in the same test
-	+ Cover the general case and the edge cases
-	+ When applying TDD, always start by writing the simplest failing test
-	+ When applying TDD, always make small steps in each test-first cycle
-	+ Test functionalities (features, behaviours), not internal implementation
-	+ Create new tests for every defect
-	+ Don't write unit tests for complex user interactions
-	+ Test simple user actions
-	+ Review test code first
-	+ Practice code katas, learn with pair programming
+	+ [Whenever possible, use TDD](#whenever-possible-use-tdd)
+	+ [Structure your tests properly](#structure-your-tests-properly)
+	+ [Name your tests properly](#name-your-tests-properly)
+	+ [Don't comment tests](#dont-comment-tests)
+	+ [Avoid logic in your tests](#avoid-logic-in-your-tests)
+	+ [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
+	+ [Setup properly the actions that apply to all the tests involved](#setup-properly-the-actions-that-apply-to-all-the-tests-involved)
+	+ [Consider using factory functions in the tests](#consider-using-factory-functions-in-the-tests)
+	+ [Know your testing framework api](#know-your-testing-framework-api)
+	+ [Don't test multiple concerns in the same test](#dont-test-multiple-concerns-in-the-same-test)
+	+ [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
+	+ [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
+	+ [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
+	+ [Test functionalities (features, behaviours), not internal implementation](#test-functionalities-features-behaviours-not-internal-implementation)
+	+ [Create new tests for every defect](#create-new-tests-for-every-defect)
+	+ [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
+	+ [Test simple user actions](#test-simple-user-actions)
+	+ [Review test code first](#review-test-code-first)
+	+ [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
+3. [References](#references)
 
 ## General principles
 
