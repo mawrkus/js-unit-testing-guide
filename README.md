@@ -65,15 +65,16 @@ They must meet the same level of quality as the code being tested.
 
 ### Design principles
 
-In order to write testable code, keep in mind to apply simple design principles, in particular:
+The key to good unit testing is to write **testable code**. Applying simple design principles can help, in particular:
 
 + Use a **good naming** and **comment** your code (the "why" not the "how")
 + **DRY**: avoid code duplication
 + **Single responsibility**: each object/function must focus on a single task
-+ **Minimize dependencies** between components: encapsulate, interchange less information between components
 + Keep a **single level of abstraction** in the same component (for example, do not mix business logic with lower-level technical details in the same method)
++ **Minimize dependencies** between components: encapsulate, interchange less information between components
 + **Support configurability** rather than hard-coding, this prevents from having to replicate the exact same environment when testing (e.g.: markup)
-+ Apply adequate **design patterns**
++ Apply adequate **design patterns**, especially **dependency injection** that allows to separate objects creation responsibility from business logic
++ Avoid global mutable state
 
 ## Guidelines
 
@@ -167,8 +168,6 @@ describe( 'A set of functionalities', function ()
 	} );
 } );
 ```
-
-This will improve readability.
 
 ### Name your tests properly
 
@@ -780,10 +779,10 @@ Whenever a bug is found, create a test that replicates the problem **before touc
 Examples of complex user interactions:
 
 + Filling a form, drag and dropping some items then submitting the form
-+ Clicking a tab, clicking an image thumbnail then navigating through a gallery of images
++ Clicking a tab, clicking an image thumbnail then navigating through a gallery of images previously loaded from a database
 + (...)
 
-These interactions might involve many units of work and should be handled at a higher level by **functional tests**.
+These interactions might involve many units of work and should be handled at a higher level by **functional tests**. They will take more time to execute. They could be flaky (false negatives) and they need debugging whenever a failure is reported.
 
 For functional testing, consider using a test automation framework ([Selenium](http://docs.seleniumhq.org/), ...) or QA manual testing.
 
@@ -795,7 +794,7 @@ Example of simple user actions:
 + Submitting a form that triggers the form validation
 + (...)
 
-These actions can be tested **by simulating DOM events**, for example:
+These actions can be easily tested **by simulating DOM events**, for example:
 
 ```js
 describe( 'When clicking on the "Preview profile" link', function ()
@@ -842,4 +841,5 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + Rebecca Murphy - "Writing Testable JavaScript" : http://alistapart.com/article/writing-testable-javascript
 + YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test" : http://yuiblog.com/blog/2009/01/05/effective-tests/
 + Colin Snover - "Testable code best practices" : http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
++ Miško Hevery - "The Clean Code Talks -- Unit Testing" : https://www.youtube.com/watch?v=wEhu57pih5w
 + Robert C: Martin - "Design principles and design patterns" : http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf
