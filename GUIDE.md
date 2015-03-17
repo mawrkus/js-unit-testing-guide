@@ -1,7 +1,7 @@
 # A guide to unit testing in JavaScript
 
 ```
-1st draft.
+1st draft / work-in-progress.
 ```
 
 ## Table of content
@@ -118,6 +118,7 @@ Note that code written without a test-first approach is often very hard to test!
 Don't hesitate to nest your suites to structure logically your tests in subsets.
 
 **:(**
+
 ```js
 describe( 'A set of functionalities', function ()
 {
@@ -139,7 +140,9 @@ describe( 'A set of functionalities', function ()
 } );
 ```
 
+
 **:)**
+
 ```js
 describe( 'A set of functionalities', function ()
 {
@@ -174,6 +177,7 @@ This will improve readability.
 Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner from times to times. Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
 
 **:(**
+
 ```js
 describe( 'myGallery', function ()
 {
@@ -186,6 +190,7 @@ describe( 'myGallery', function ()
 ```
 
 **:)**
+
 ```js
 describe( 'The Gallery instance', function ()
 {
@@ -231,6 +236,7 @@ describe( '[unit of work]', function ()
 For example:
 
 **:) :)**
+
 ```js
 describe( 'The Gallery instance', function ()
 {
@@ -259,6 +265,7 @@ Always use simple statements. Loops, if-else, etc. must not appear in a test.
 If they do, you add a possible entry point for bugs in the test itself (even a really simple "if-else" can be the cause of massive headaches).
 
 **:(**
+
 ```js
 it( 'should properly sanitize strings', function ()
 {
@@ -282,6 +289,7 @@ it( 'should properly sanitize strings', function ()
 ```
 
 **:)**
+
 ```js
 it( 'should properly sanitize strings', function ()
 {
@@ -296,6 +304,7 @@ it( 'should properly sanitize strings', function ()
 Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving readability and maintainability.
 
 **:) :)**
+
 ```js
 it( 'should sanitize a string containing non-ASCII chars', function ()
 {
@@ -328,6 +337,7 @@ it( 'should sanitize a filename containing more than one dot', function ()
 Remember, unit tests are a design specification of how a certain behaviour should work, not a list of observations of everything the code happens to do.
 
 **:(**
+
 ```js
 it( 'should multiply the number passed as parameter and subtract one', function ()
 {
@@ -343,6 +353,7 @@ it( 'should multiply the number passed as parameter and subtract one', function 
 ```
 
 **:)**
+
 ```js
 it( 'should multiply the number passed as parameter and subtract one', function ()
 {
@@ -356,6 +367,7 @@ This will improve maintainability. Your test is no more tight to implementation 
 ### Setup properly the actions that apply to all the tests involved
 
 **:(**
+
 ```js
 describe( 'Saving the user profile', function ()
 {
@@ -412,6 +424,7 @@ describe( 'Saving the user profile', function ()
 The setup code should apply to all the tests:
 
 **:)**
+
 ```js
 describe( 'Saving the user profile', function ()
 {
@@ -466,6 +479,7 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 It will help reducing the setup code and make each test more readable. The reader of the test does not have to look at multiple places to understand what's going on. In some cases, it will also provide some flexibility when creating new instances (setting an initial state, for example).
 
 **:(**
+
 ```js
 describe( 'User profile module', function ()
 {
@@ -497,6 +511,7 @@ describe( 'User profile module', function ()
 ```
 
 **:)**
+
 ```js
 function createProfileModule( options )
 {
@@ -532,6 +547,7 @@ describe( 'User profile module', function ()
 The API documentation of the testing framework should be your bedside book!
 
 **:(**
+
 ```js
 it( 'should call a method with the proper arguments', function ()
 {
@@ -555,6 +571,7 @@ it( 'should do something else but not now', function ()
 ```
 
 **:)**
+
 ```js
 fit( 'should call once a method with the proper arguments', function ()
 {
@@ -583,6 +600,7 @@ More information on the [Jasmine website](http://jasmine.github.io).
 If a method has several end results, each one should be tested separately. Whenever a bug occurs, it will help you locate the source of the problem.
 
 **:(**
+
 ```js
 it( 'should send the profile data to the server and update the profile view properly', function ()
 {
@@ -592,6 +610,7 @@ it( 'should send the profile data to the server and update the profile view prop
 ```
 
 **:)**
+
 ```js
 it( 'should send the profile data to the server', function ()
 {
@@ -609,6 +628,7 @@ it( 'should update the profile view properly', function ()
 "Strange behaviour" usually happens at the edges... Remember that your tests can be the live documentation of your code.
 
 **:(**
+
 ```js
 it( 'should properly calculate a RPN expression', function ()
 {
@@ -618,6 +638,7 @@ it( 'should properly calculate a RPN expression', function ()
 ```
 
 **:)**
+
 ```js
 describe( 'The RPN expression evaluator', function ()
 {
@@ -654,6 +675,7 @@ describe( 'The RPN expression evaluator', function ()
 ### When applying TDD, always start by writing the simplest failing test
 
 **:(**
+
 ```js
 it( 'should suppress all chars that appear multiple times', function ()
 {
@@ -662,6 +684,7 @@ it( 'should suppress all chars that appear multiple times', function ()
 ```
 
 **:)**
+
 ```js
 it( 'should return an empty string when passed an empty string', function ()
 {
@@ -676,6 +699,7 @@ From there, start building the functionalities incrementally.
 Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver software fast, incrementally, and in short iterations.
 
 **:(**
+
 ```js
 it( 'should return null when the expression is an empty string', function ()
 {
@@ -691,6 +715,7 @@ it( 'should properly calculate a RPN expression', function ()
 ```
 
 **:)**
+
 ```js
 describe( 'The RPN expression evaluator', function ()
 {
@@ -737,6 +762,7 @@ describe( 'The RPN expression evaluator', function ()
 ### Test functionalities (features, behaviours), not internal implementation
 
 **:(**
+
 ```js
 it( 'should add a user in memory', function ()
 {
@@ -750,6 +776,7 @@ it( 'should add a user in memory', function ()
 A better approach is to test at the same level of the API:
 
 **:)**
+
 ```js
 it( 'should add a user in memory', function ()
 {
