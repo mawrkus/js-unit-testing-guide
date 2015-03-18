@@ -23,7 +23,7 @@
 	+ [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
 	+ [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
 	+ [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
-	+ [Test the behaviour, not the internal implementation](#test-functionalities-features-behaviours-not-internal-implementation)
+	+ [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
 	+ [Create new tests for every defect](#create-new-tests-for-every-defect)
 	+ [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
 	+ [Test simple user actions](#test-simple-user-actions)
