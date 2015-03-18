@@ -23,7 +23,7 @@
 	+ [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
 	+ [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
 	+ [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
-	+ [Test functionalities (features, behaviours), not internal implementation](#test-functionalities-features-behaviours-not-internal-implementation)
+	+ [Test the behaviour, not the internal implementation](#test-functionalities-features-behaviours-not-internal-implementation)
 	+ [Create new tests for every defect](#create-new-tests-for-every-defect)
 	+ [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
 	+ [Test simple user actions](#test-simple-user-actions)
@@ -61,14 +61,14 @@ The code is designed to support this independence (see "Design principles" below
 
 **Unit tests are code too**
 
-They must meet the same level of quality as the code being tested.
+They must meet the same level of quality as the code being tested. They can be refactored as well to make them more maintainable and/or readable.
 
 ### Design principles
 
 The key to good unit testing is to write **testable code**. Applying simple design principles can help, in particular:
 
-+ Use a **good naming** and **comment** your code (the "why" not the "how")
-+ **DRY**: avoid code duplication
++ Use a **good naming** and **comment** your code (the "why?" not the "how"), keep in mind that comments are not a substitute for bad naming or bad design
++ **DRY**: Don't Repeat Yourself, avoid code duplication
 + **Single responsibility**: each object/function must focus on a single task
 + Keep a **single level of abstraction** in the same component (for example, do not mix business logic with lower-level technical details in the same method)
 + **Minimize dependencies** between components: encapsulate, interchange less information between components
@@ -252,6 +252,8 @@ describe( 'The Gallery instance', function ()
 ### Don't comment tests
 
 Never. Ever. Tests have a reason to be or not.
+
+Don't comment them because they are too slow, too complex or produce false negatives. Instead, make them fast, simple and trustworthy. If not, remove them completely.
 
 ### Avoid logic in your tests
 
@@ -531,6 +533,8 @@ describe( 'User profile module', function ()
 
 The API documentation of the testing framework should be your bedside book!
 
+Having a good knowledge of the testing framework API can help you reducing the size/complexity of your test code and, in general, help you during development. For example:
+
 **:(**
 ```js
 it( 'should call a method with the proper arguments', function ()
@@ -545,11 +549,11 @@ it( 'should call a method with the proper arguments', function ()
 	expect( foo.bar.calls.argsFor(0) ).toEqual( ['baz'] );
 } );
 
-/*it( 'should do something else but not now', function ()
+/*it( 'should do more but not now', function ()
 {
 } );
 
-it( 'should do something else but not now', function ()
+it( 'should do much more but not now', function ()
 {
 } );*/
 ```
@@ -575,6 +579,8 @@ it( 'should do something else but not now', function ()
 {
 } );
 ```
+
+Note: the handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
 
 More information on the [Jasmine website](http://jasmine.github.io).
 
@@ -603,6 +609,8 @@ it( 'should update the profile view properly', function ()
 	// expect(...)to(...);
 } );
 ```
+
+Beware that writing "AND" or "OR" in test names smell bad...
 
 ### Cover the general case and the edge cases
 
@@ -734,7 +742,7 @@ describe( 'The RPN expression evaluator', function ()
 } );
 ```
 
-### Test functionalities (features, behaviours), not internal implementation
+### Test the behaviour, not the internal implementation
 
 **:(**
 ```js
@@ -755,20 +763,19 @@ it( 'should add a user in memory', function ()
 {
 	userManager.addUser( 'Dr. Falker', 'Joshua' );
 
-	expect( userManager.login( 'Dr. Falker', 'Joshua' ) ).toBe( true );
+	expect( userManager.loginUser( 'Dr. Falker', 'Joshua' ) ).toBe( true );
 } );
 ```
 
-Advantages:
+Advantage:
 
-+ Changing the design of a component will not necessarily force you to refactor the tests
-+ We can discover components on the fly while delivering features
++ Changing the internal implementation of a class/object will not necessarily force you to refactor the tests
 
-Disadvantages:
+Disadvantage:
 
-+ If a test is failing, we have to debug to know which component needs to be fixed
++ If a test is failing, we might have to debug to know which part of the code needs to be fixed
 
-Here, a balance has to be found, unit-testing some of the key components can be beneficial.
+Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
 ### Create new tests for every defect
 
@@ -801,22 +808,24 @@ describe( 'When clicking on the "Preview profile" link', function ()
 {
 	it( 'should show the profile preview if it is hidden', function ()
 	{
-		var profileModule = createProfileModule( { previewLink : document.createElement( 'a' ), previewIsVisible: false } );
+		var previewLink = document.createElement( 'a' ),
+			profileModule = createProfileModule( { previewLink : previewLink, previewIsVisible: false } );
 
 		spyOn( profileModule, 'showPreview' );
 
-		$( profileModule.previewLink ).click();
+		$( previewLink ).click();
 
 		expect( profileModule.showPreview ).toHaveBeenCalled();
 	} );
 
 	it( 'should hide the profile preview if it is displayed', function ()
 	{
-		var profileModule = createProfileModule( { previewLink : document.createElement( 'a' ), previewIsVisible: true } );
+		var previewLink = document.createElement( 'a' ),
+			profileModule = createProfileModule( { previewLink : previewLink, previewIsVisible: true } );
 
 		spyOn( profileModule, 'hidePreview' );
 
-		$( profileModule.previewLink ).click();
+		$( previewLink ).click();
 
 		expect( profileModule.hidePreview ).toHaveBeenCalled();
 	} );
@@ -843,3 +852,7 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + Colin Snover - "Testable code best practices" : http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
 + Miško Hevery - "The Clean Code Talks -- Unit Testing" : https://www.youtube.com/watch?v=wEhu57pih5w
 + Robert C: Martin - "Design principles and design patterns" : http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf
+
+## Contributors
+
+Ruben Norte: https://github.com/rubennorte
