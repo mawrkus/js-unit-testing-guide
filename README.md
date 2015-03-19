@@ -7,28 +7,29 @@
 ## Table of content
 
 1. General principles
-	+ Unit tests
-	+ Design principles
+	+ [Unit tests](#unit-tests)
+	+ [Design principles](#design-principles)
 2. Guidelines
-	+ Whenever possible, use TDD
-	+ Structure your tests properly
-	+ Name your tests properly
-	+ Don't comment tests
-	+ Avoid logic in your tests
-	+ Don't write unnecessary expectations
-	+ Setup properly the actions that apply to all the tests involved
-	+ Consider using factory functions in the tests
-	+ Know your testing framework API
-	+ Don't test multiple concerns in the same test
-	+ Cover the general case and the edge cases
-	+ When applying TDD, always start by writing the simplest failing test
-	+ When applying TDD, always make small steps in each test-first cycle
-	+ Test functionalities (features, behaviours), not internal implementation
-	+ Create new tests for every defect
-	+ Don't write unit tests for complex user interactions
-	+ Test simple user actions
-	+ Review test code first
-	+ Practice code katas, learn with pair programming
+	+ [Whenever possible, use TDD](#whenever-possible-use-tdd)
+	+ [Structure your tests properly](#structure-your-tests-properly)
+	+ [Name your tests properly](#name-your-tests-properly)
+	+ [Don't comment tests](#dont-comment-tests)
+	+ [Avoid logic in your tests](#avoid-logic-in-your-tests)
+	+ [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
+	+ [Setup properly the actions that apply to all the tests involved](#setup-properly-the-actions-that-apply-to-all-the-tests-involved)
+	+ [Consider using factory functions in the tests](#consider-using-factory-functions-in-the-tests)
+	+ [Know your testing framework api](#know-your-testing-framework-api)
+	+ [Don't test multiple concerns in the same test](#dont-test-multiple-concerns-in-the-same-test)
+	+ [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
+	+ [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
+	+ [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
+	+ [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
+	+ [Create new tests for every defect](#create-new-tests-for-every-defect)
+	+ [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
+	+ [Test simple user actions](#test-simple-user-actions)
+	+ [Review test code first](#review-test-code-first)
+	+ [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
+3. [References](#references)
 
 ## General principles
 
@@ -60,19 +61,20 @@ The code is designed to support this independence (see "Design principles" below
 
 **Unit tests are code too**
 
-They must meet the same level of quality as the code being tested.
+They must meet the same level of quality as the code being tested. They can be refactored as well to make them more maintainable and/or readable.
 
 ### Design principles
 
-In order to write testable code, keep in mind to apply simple design principles, in particular:
+The key to good unit testing is to write **testable code**. Applying simple design principles can help, in particular:
 
-+ Use a **good naming** and **comment** your code (the "why" not the "how")
-+ **DRY**: avoid code duplication
++ Use a **good naming** and **comment** your code (the "why?" not the "how"), keep in mind that comments are not a substitute for bad naming or bad design
++ **DRY**: Don't Repeat Yourself, avoid code duplication
 + **Single responsibility**: each object/function must focus on a single task
-+ **Minimize dependencies** between components: encapsulate, interchange less information between components
 + Keep a **single level of abstraction** in the same component (for example, do not mix business logic with lower-level technical details in the same method)
++ **Minimize dependencies** between components: encapsulate, interchange less information between components
 + **Support configurability** rather than hard-coding, this prevents from having to replicate the exact same environment when testing (e.g.: markup)
-+ Apply adequate **design patterns**
++ Apply adequate **design patterns**, especially **dependency injection** that allows to separate objects creation responsibility from business logic
++ Avoid global mutable state
 
 ## Guidelines
 
@@ -118,7 +120,6 @@ Note that code written without a test-first approach is often very hard to test!
 Don't hesitate to nest your suites to structure logically your tests in subsets.
 
 **:(**
-
 ```js
 describe( 'A set of functionalities', function ()
 {
@@ -140,9 +141,7 @@ describe( 'A set of functionalities', function ()
 } );
 ```
 
-
 **:)**
-
 ```js
 describe( 'A set of functionalities', function ()
 {
@@ -170,14 +169,11 @@ describe( 'A set of functionalities', function ()
 } );
 ```
 
-This will improve readability.
-
 ### Name your tests properly
 
 Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner from times to times. Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
 
 **:(**
-
 ```js
 describe( 'myGallery', function ()
 {
@@ -190,7 +186,6 @@ describe( 'myGallery', function ()
 ```
 
 **:)**
-
 ```js
 describe( 'The Gallery instance', function ()
 {
@@ -236,7 +231,6 @@ describe( '[unit of work]', function ()
 For example:
 
 **:) :)**
-
 ```js
 describe( 'The Gallery instance', function ()
 {
@@ -259,13 +253,14 @@ describe( 'The Gallery instance', function ()
 
 Never. Ever. Tests have a reason to be or not.
 
+Don't comment them because they are too slow, too complex or produce false negatives. Instead, make them fast, simple and trustworthy. If not, remove them completely.
+
 ### Avoid logic in your tests
 
 Always use simple statements. Loops, if-else, etc. must not appear in a test.
 If they do, you add a possible entry point for bugs in the test itself (even a really simple "if-else" can be the cause of massive headaches).
 
 **:(**
-
 ```js
 it( 'should properly sanitize strings', function ()
 {
@@ -289,7 +284,6 @@ it( 'should properly sanitize strings', function ()
 ```
 
 **:)**
-
 ```js
 it( 'should properly sanitize strings', function ()
 {
@@ -304,7 +298,6 @@ it( 'should properly sanitize strings', function ()
 Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving readability and maintainability.
 
 **:) :)**
-
 ```js
 it( 'should sanitize a string containing non-ASCII chars', function ()
 {
@@ -337,7 +330,6 @@ it( 'should sanitize a filename containing more than one dot', function ()
 Remember, unit tests are a design specification of how a certain behaviour should work, not a list of observations of everything the code happens to do.
 
 **:(**
-
 ```js
 it( 'should multiply the number passed as parameter and subtract one', function ()
 {
@@ -353,7 +345,6 @@ it( 'should multiply the number passed as parameter and subtract one', function 
 ```
 
 **:)**
-
 ```js
 it( 'should multiply the number passed as parameter and subtract one', function ()
 {
@@ -367,7 +358,6 @@ This will improve maintainability. Your test is no more tight to implementation 
 ### Setup properly the actions that apply to all the tests involved
 
 **:(**
-
 ```js
 describe( 'Saving the user profile', function ()
 {
@@ -424,7 +414,6 @@ describe( 'Saving the user profile', function ()
 The setup code should apply to all the tests:
 
 **:)**
-
 ```js
 describe( 'Saving the user profile', function ()
 {
@@ -479,7 +468,6 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 It will help reducing the setup code and make each test more readable. The reader of the test does not have to look at multiple places to understand what's going on. In some cases, it will also provide some flexibility when creating new instances (setting an initial state, for example).
 
 **:(**
-
 ```js
 describe( 'User profile module', function ()
 {
@@ -511,7 +499,6 @@ describe( 'User profile module', function ()
 ```
 
 **:)**
-
 ```js
 function createProfileModule( options )
 {
@@ -546,8 +533,9 @@ describe( 'User profile module', function ()
 
 The API documentation of the testing framework should be your bedside book!
 
-**:(**
+Having a good knowledge of the testing framework API can help you reducing the size/complexity of your test code and, in general, help you during development. For example:
 
+**:(**
 ```js
 it( 'should call a method with the proper arguments', function ()
 {
@@ -561,17 +549,16 @@ it( 'should call a method with the proper arguments', function ()
 	expect( foo.bar.calls.argsFor(0) ).toEqual( ['baz'] );
 } );
 
-/*it( 'should do something else but not now', function ()
+/*it( 'should do more but not now', function ()
 {
 } );
 
-it( 'should do something else but not now', function ()
+it( 'should do much more but not now', function ()
 {
 } );*/
 ```
 
 **:)**
-
 ```js
 fit( 'should call once a method with the proper arguments', function ()
 {
@@ -593,6 +580,8 @@ it( 'should do something else but not now', function ()
 } );
 ```
 
+Note: the handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
+
 More information on the [Jasmine website](http://jasmine.github.io).
 
 ### Don't test multiple concerns in the same test
@@ -600,7 +589,6 @@ More information on the [Jasmine website](http://jasmine.github.io).
 If a method has several end results, each one should be tested separately. Whenever a bug occurs, it will help you locate the source of the problem.
 
 **:(**
-
 ```js
 it( 'should send the profile data to the server and update the profile view properly', function ()
 {
@@ -610,7 +598,6 @@ it( 'should send the profile data to the server and update the profile view prop
 ```
 
 **:)**
-
 ```js
 it( 'should send the profile data to the server', function ()
 {
@@ -623,12 +610,13 @@ it( 'should update the profile view properly', function ()
 } );
 ```
 
+Beware that writing "AND" or "OR" when naming your test smells bad...
+
 ### Cover the general case and the edge cases
 
 "Strange behaviour" usually happens at the edges... Remember that your tests can be the live documentation of your code.
 
 **:(**
-
 ```js
 it( 'should properly calculate a RPN expression', function ()
 {
@@ -638,7 +626,6 @@ it( 'should properly calculate a RPN expression', function ()
 ```
 
 **:)**
-
 ```js
 describe( 'The RPN expression evaluator', function ()
 {
@@ -675,7 +662,6 @@ describe( 'The RPN expression evaluator', function ()
 ### When applying TDD, always start by writing the simplest failing test
 
 **:(**
-
 ```js
 it( 'should suppress all chars that appear multiple times', function ()
 {
@@ -684,7 +670,6 @@ it( 'should suppress all chars that appear multiple times', function ()
 ```
 
 **:)**
-
 ```js
 it( 'should return an empty string when passed an empty string', function ()
 {
@@ -699,7 +684,6 @@ From there, start building the functionalities incrementally.
 Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver software fast, incrementally, and in short iterations.
 
 **:(**
-
 ```js
 it( 'should return null when the expression is an empty string', function ()
 {
@@ -715,7 +699,6 @@ it( 'should properly calculate a RPN expression', function ()
 ```
 
 **:)**
-
 ```js
 describe( 'The RPN expression evaluator', function ()
 {
@@ -759,10 +742,9 @@ describe( 'The RPN expression evaluator', function ()
 } );
 ```
 
-### Test functionalities (features, behaviours), not internal implementation
+### Test the behaviour, not the internal implementation
 
 **:(**
-
 ```js
 it( 'should add a user in memory', function ()
 {
@@ -776,26 +758,24 @@ it( 'should add a user in memory', function ()
 A better approach is to test at the same level of the API:
 
 **:)**
-
 ```js
 it( 'should add a user in memory', function ()
 {
 	userManager.addUser( 'Dr. Falker', 'Joshua' );
 
-	expect( userManager.login( 'Dr. Falker', 'Joshua' ) ).toBe( true );
+	expect( userManager.loginUser( 'Dr. Falker', 'Joshua' ) ).toBe( true );
 } );
 ```
 
-Advantages:
+Advantage:
 
-+ Changing the design of a component will not necessarily force you to refactor the tests
-+ We can discover components on the fly while delivering features
++ Changing the internal implementation of a class/object will not necessarily force you to refactor the tests
 
-Disadvantages:
+Disadvantage:
 
-+ If a test is failing, we have to debug to know which component needs to be fixed
++ If a test is failing, we might have to debug to know which part of the code needs to be fixed
 
-Here, a balance has to be found, unit-testing some of the key components can be beneficial.
+Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
 ### Create new tests for every defect
 
@@ -806,10 +786,10 @@ Whenever a bug is found, create a test that replicates the problem **before touc
 Examples of complex user interactions:
 
 + Filling a form, drag and dropping some items then submitting the form
-+ Clicking a tab, clicking an image thumbnail then navigating through a gallery of images
++ Clicking a tab, clicking an image thumbnail then navigating through a gallery of images previously loaded from a database
 + (...)
 
-These interactions might involve many units of work and should be handled at a higher level by **functional tests**.
+These interactions might involve many units of work and should be handled at a higher level by **functional tests**. They will take more time to execute. They could be flaky (false negatives) and they need debugging whenever a failure is reported.
 
 For functional testing, consider using a test automation framework ([Selenium](http://docs.seleniumhq.org/), ...) or QA manual testing.
 
@@ -821,29 +801,31 @@ Example of simple user actions:
 + Submitting a form that triggers the form validation
 + (...)
 
-These actions can be tested **by simulating DOM events**, for example:
+These actions can be easily tested **by simulating DOM events**, for example:
 
 ```js
 describe( 'When clicking on the "Preview profile" link', function ()
 {
 	it( 'should show the profile preview if it is hidden', function ()
 	{
-		var profileModule = createProfileModule( { previewLink : document.createElement( 'a' ), previewIsVisible: false } );
+		var previewLink = document.createElement( 'a' ),
+			profileModule = createProfileModule( { previewLink : previewLink, previewIsVisible: false } );
 
 		spyOn( profileModule, 'showPreview' );
 
-		$( profileModule.previewLink ).click();
+		$( previewLink ).click();
 
 		expect( profileModule.showPreview ).toHaveBeenCalled();
 	} );
 
 	it( 'should hide the profile preview if it is displayed', function ()
 	{
-		var profileModule = createProfileModule( { previewLink : document.createElement( 'a' ), previewIsVisible: true } );
+		var previewLink = document.createElement( 'a' ),
+			profileModule = createProfileModule( { previewLink : previewLink, previewIsVisible: true } );
 
 		spyOn( profileModule, 'hidePreview' );
 
-		$( profileModule.previewLink ).click();
+		$( previewLink ).click();
 
 		expect( profileModule.hidePreview ).toHaveBeenCalled();
 	} );
@@ -868,4 +850,9 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + Rebecca Murphy - "Writing Testable JavaScript" : http://alistapart.com/article/writing-testable-javascript
 + YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test" : http://yuiblog.com/blog/2009/01/05/effective-tests/
 + Colin Snover - "Testable code best practices" : http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
++ Miško Hevery - "The Clean Code Talks -- Unit Testing" : https://www.youtube.com/watch?v=wEhu57pih5w
 + Robert C: Martin - "Design principles and design patterns" : http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf
+
+## Contributors
+
+Ruben Norte: https://github.com/rubennorte
