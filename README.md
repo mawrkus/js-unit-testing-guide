@@ -4,9 +4,9 @@
 
 ```
 This guide is a work-in-progress.
-All the information provided has been compiled and adapted from the references cited at the end of the document.
+All the information provided has been compiled & adapted from the references cited at the end of the document.
 The guidelines are illustrated by my own examples.
-Many thanks to all of the sources of information and contributors.
+Many thanks to all of the sources of information & contributors.
 ```
 
 ## Table of content
@@ -50,7 +50,7 @@ This could involve **multiple methods and classes** invoked by some public API t
 
 A unit test should test the behaviour of a unit of work: for a given input, it expects an end result that can be any of the above.
 
-**Unit tests are isolated and  independent of each other**
+**Unit tests are isolated and independent of each other**
 
 + Any given behaviour should be specified in **one and only one test**
 + The execution/order of execution of one test **cannot affect the others**
