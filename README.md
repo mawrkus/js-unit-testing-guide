@@ -610,7 +610,7 @@ it( 'should update the profile view properly', function ()
 } );
 ```
 
-Beware that writing "AND" or "OR" in test names smell bad...
+Beware that writing "AND" or "OR" when naming your test smells bad...
 
 ### Cover the general case and the edge cases
 
