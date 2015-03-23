@@ -1,13 +1,12 @@
 # A guide to unit testing in JavaScript
 
+## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request.
+
 ### Disclaimer
 
-```
-This guide is a work-in-progress.
-All the information provided has been compiled & adapted from the references cited at the end of the document.
-The guidelines are illustrated by my own examples.
-Many thanks to all of the sources of information & contributors.
-```
+> All the information provided has been compiled & adapted from the references cited at the end of the document.
+> The guidelines are illustrated by my own examples.
+> Many thanks to all of the sources of information & contributors.
 
 ## Table of content
 
@@ -884,6 +883,7 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test" : http://yuiblog.com/blog/2009/01/05/effective-tests/
 + Colin Snover - "Testable code best practices" : http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
 + Miško Hevery - "The Clean Code Talks -- Unit Testing" : https://www.youtube.com/watch?v=wEhu57pih5w
++ Addy Osmani - "Learning JavaScript Design Patterns" : http://addyosmani.com/resources/essentialjsdesignpatterns/book/
 + Robert C: Martin - "Design principles and design patterns" : http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf
 + José Armesto - "Unit Testing sucks (and it’s our fault) " : https://www.youtube.com/watch?v=GZ9iZsMAZFQ
 
