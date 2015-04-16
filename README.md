@@ -226,7 +226,7 @@ Or whenever you have many tests that follow the same scenario:
 ```js
 describe( '[unit of work]', function ()
 {
-	describe( '[scenario]', function ()
+	describe( 'when [scenario]', function ()
 	{
 		it( 'should [expected behaviour]', function ()
 		{
@@ -243,7 +243,7 @@ For example:
 ```js
 describe( 'The Gallery instance', function ()
 {
-	describe( 'When initialized', function ()
+	describe( 'when initialized', function ()
 	{
 		it( 'should properly calculate the thumb size', function ()
 		{
