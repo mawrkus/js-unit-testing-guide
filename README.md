@@ -845,7 +845,7 @@ describe( 'When clicking on the "Preview profile" link', function ()
 
 		spyOn( profileModule, 'showPreview' );
 
-		$( previewLink ).click();
+		click( previewLink );
 
 		expect( profileModule.showPreview ).toHaveBeenCalled();
 	} );
@@ -857,7 +857,7 @@ describe( 'When clicking on the "Preview profile" link', function ()
 
 		spyOn( profileModule, 'hidePreview' );
 
-		$( previewLink ).click();
+		click( previewLink );
 
 		expect( profileModule.hidePreview ).toHaveBeenCalled();
 	} );
