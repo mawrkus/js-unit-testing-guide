@@ -28,6 +28,7 @@
 	+ [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
 	+ [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
 	+ [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
+	+ [Consider using fake objects](#consider-using-fake-objects)
 	+ [Create new tests for every defect](#create-new-tests-for-every-defect)
 	+ [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
 	+ [Test simple user actions](#test-simple-user-actions)
@@ -808,6 +809,84 @@ Disadvantage:
 + If a test is failing, we might have to debug to know which part of the code needs to be fixed
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
+
+### Consider using fake objects
+
+**:(**
+
+```js
+describe( 'when the survey is not disabled', function ()
+{
+	it( 'should show the survey if the user has already visited the page', function ()
+	{
+		var storage = jasmine.createSpyObj( 'storage', ['setItem', 'getItem'] );
+		var surveyManager = new SurveyManager( storage );
+
+		spyOn( surveyManager, 'display' );
+		storage.getItem.and.returnValue( '1' ); // ouch.
+
+		surveyManager.start();
+
+		expect( surveyManager.display ).toHaveBeenCalled();
+	} );
+} );
+```
+
+**:)**
+
+```js
+describe( 'when the survey is not disabled', function ()
+{
+	it( 'should show the survey if the user has already visited the page', function ()
+	{
+		var storage = jasmine.createSpyObj( 'storage', ['setItem', 'getItem'] );
+		var surveyManager = new SurveyManager( storage );
+
+		spyOn( surveyManager, 'display' );
+
+		storage.getItem.and.callFake( function ( key )
+		{
+			var result = null;
+
+			if ( key === 'page-visited' )
+			{
+				result = '1';
+			}
+			else if ( key === 'disable-survey' ) // correct.
+			{
+				result = null;
+			}
+
+			return result;
+		} );
+
+		surveyManager.start();
+
+		expect( surveyManager.display ).toHaveBeenCalled();
+	} );
+} );
+```
+
+**:) :)**
+
+```js
+describe( 'when the survey is not disabled', function ()
+{
+	it( 'should show the survey if the user has already visited the page', function ()
+	{
+		// Note: have a look at https://github.com/tatsuyaoiw/webstorage
+		var storage = new MemoryStorage();
+		var surveyManager = new SurveyManager( storage );
+
+		spyOn( surveyManager, 'display' );
+		storage.setItem( 'page-visited', '1' ); // correct.
+
+		surveyManager.start();
+
+		expect( surveyManager.display ).toHaveBeenCalled();
+	} );
+} );
+```
 
 ### Create new tests for every defect
 
