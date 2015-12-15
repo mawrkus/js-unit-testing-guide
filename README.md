@@ -11,29 +11,29 @@
 ## Table of content
 
 1. General principles
-	+ [Unit tests](#unit-tests)
-	+ [Design principles](#design-principles)
+  + [Unit tests](#unit-tests)
+  + [Design principles](#design-principles)
 2. Guidelines
-	+ [Whenever possible, use TDD](#whenever-possible-use-tdd)
-	+ [Structure your tests properly](#structure-your-tests-properly)
-	+ [Name your tests properly](#name-your-tests-properly)
-	+ [Don't comment tests](#dont-comment-tests)
-	+ [Avoid logic in your tests](#avoid-logic-in-your-tests)
-	+ [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
-	+ [Setup properly the actions that apply to all the tests involved](#setup-properly-the-actions-that-apply-to-all-the-tests-involved)
-	+ [Consider using factory functions in the tests](#consider-using-factory-functions-in-the-tests)
-	+ [Know your testing framework API](#know-your-testing-framework-api)
-	+ [Don't test multiple concerns in the same test](#dont-test-multiple-concerns-in-the-same-test)
-	+ [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
-	+ [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
-	+ [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
-	+ [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
-	+ [Consider using fake objects](#consider-using-fake-objects)
-	+ [Create new tests for every defect](#create-new-tests-for-every-defect)
-	+ [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
-	+ [Test simple user actions](#test-simple-user-actions)
-	+ [Review test code first](#review-test-code-first)
-	+ [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
+  + [Whenever possible, use TDD](#whenever-possible-use-tdd)
+  + [Structure your tests properly](#structure-your-tests-properly)
+  + [Name your tests properly](#name-your-tests-properly)
+  + [Don't comment tests](#dont-comment-tests)
+  + [Avoid logic in your tests](#avoid-logic-in-your-tests)
+  + [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
+  + [Setup properly the actions that apply to all the tests involved](#setup-properly-the-actions-that-apply-to-all-the-tests-involved)
+  + [Consider using factory functions in the tests](#consider-using-factory-functions-in-the-tests)
+  + [Know your testing framework API](#know-your-testing-framework-api)
+  + [Don't test multiple concerns in the same test](#dont-test-multiple-concerns-in-the-same-test)
+  + [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
+  + [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
+  + [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
+  + [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
+  + [Consider using fake objects](#consider-using-fake-objects)
+  + [Create new tests for every defect](#create-new-tests-for-every-defect)
+  + [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
+  + [Test simple user actions](#test-simple-user-actions)
+  + [Review test code first](#review-test-code-first)
+  + [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
 3. [References](#references)
 
 ## General principles
@@ -127,53 +127,53 @@ Don't hesitate to nest your suites to structure logically your tests in subsets.
 **:(**
 
 ```js
-describe( 'A set of functionalities', function ()
+describe('A set of functionalities', () =>
 {
-	it( 'a set of functionalities should do something nice', function ()
-	{
-	} );
+  it('a set of functionalities should do something nice', () =>
+  {
+  });
 
-	it( 'a subset of funtionalities should do something great', function ()
-	{
-	} );
+  it('a subset of functionalities should do something great', () =>
+  {
+  });
 
-	it( 'a subset of funtionalities should do something awesome', function ()
-	{
-	} );
+  it('a subset of functionalities should do something awesome', () =>
+  {
+  });
 
-	it( 'another subset of functionalities should also do something great', function ()
-	{
-	} );
-} );
+  it('another subset of functionalities should also do something great', () =>
+  {
+  });
+});
 ```
 
 **:)**
 
 ```js
-describe( 'A set of functionalities', function ()
+describe('A set of functionalities', () =>
 {
-	it( 'should do something nice', function ()
-	{
-	} );
+  it('should do something nice', () =>
+  {
+  });
 
-	describe( 'A subset of functionalities', function ()
-	{
-		it( 'should do something great', function ()
-		{
-		} );
+  describe('A subset of functionalities', () =>
+  {
+    it('should do something great', () =>
+    {
+    });
 
-		it( 'should do something awesome', function ()
-		{
-		} );
-	} );
+    it('should do something awesome', () =>
+    {
+    });
+  });
 
-	describe( 'Another subset of functionalities', function ()
-	{
-		it( 'should also do something great', function ()
-		{
-		} );
-	} );
-} );
+  describe('Another subset of functionalities', () =>
+  {
+    it('should also do something great', () =>
+    {
+    });
+  });
+});
 ```
 
 ### Name your tests properly
@@ -183,58 +183,56 @@ Tests names should be concise, explicit, descriptive and in correct English. Rea
 **:(**
 
 ```js
-describe( 'myGallery', function ()
+describe('myGallery', () =>
 {
-	it( 'init set correct property when called (thumb size, thumbs count)', function ()
-	{
-	} );
+  it('init set correct property when called (thumb size, thumbs count)', () =>
+  {
+  });
 
-	// (...)
-} );
+  // ...
+});
 ```
 
 **:)**
 
 ```js
-describe( 'The Gallery instance', function ()
+describe('The Gallery instance', () =>
 {
-	it( 'should properly calculate the thumb size when initialized', function ()
-	{
-	} );
+  it('should properly calculate the thumb size when initialized', () =>
+  {
+  });
 
-	it( 'should properly calculate the thumbs count when initialized', function ()
-	{
-	} );
+  it('should properly calculate the thumbs count when initialized', () =>
+  {
+  });
 
-	// (...)
-} );
+  // ...
+});
 ```
 
 In order to help you write tests names properly, you can use the **"unit of work - scenario - expected behaviour"** pattern:
 
 ```js
-describe( '[unit of work]', function ()
+describe('[unit of work]', () =>
 {
-	it( 'should [expected behaviour] when [scenario]', function ()
-	{
-
-	} );
-} );
+  it('should [expected behaviour] when [scenario]', () =>
+  {
+  });
+});
 ```
 
 Or whenever you have many tests that follow the same scenario:
 
 ```js
-describe( '[unit of work]', function ()
+describe('[unit of work]', () =>
 {
-	describe( 'when [scenario]', function ()
-	{
-		it( 'should [expected behaviour]', function ()
-		{
-
-		} );
-	} );
-} );
+  describe('when [scenario]', () =>
+  {
+    it('should [expected behaviour]', () =>
+    {
+    });
+  });
+});
 ```
 
 For example:
@@ -242,21 +240,21 @@ For example:
 **:) :)**
 
 ```js
-describe( 'The Gallery instance', function ()
+describe('The Gallery instance', () =>
 {
-	describe( 'when initialized', function ()
-	{
-		it( 'should properly calculate the thumb size', function ()
-		{
-		} );
+  describe('when initialized', () =>
+  {
+    it('should properly calculate the thumb size', () =>
+    {
+    });
 
-		it( 'should properly calculate the thumbs count', function ()
-		{
-		} );
-	} );
+    it('should properly calculate the thumbs count', () =>
+    {
+    });
+  });
 
-	// (...)
-} );
+  // ...
+});
 ```
 
 ### Don't comment tests
@@ -275,38 +273,35 @@ Always use simple statements. Loops and conditionals must not be used. If they d
 **:(**
 
 ```js
-it( 'should properly sanitize strings', function ()
+it('should properly sanitize strings', () =>
 {
-	var sResult,
-		oTestValues = {
-			'Avion'			: 'Avi' + String.fromCharCode(243) + 'n',
-			'The-space'		: 'The space',
-			'Weird-chars-'	: 'Weird chars!!',
-			'file-name.zip'	: 'file name.zip',
-			'my-name.zip'	: 'my.name.zip'
-		};
+  let result;
+  const testValues = {
+    'Avion'         : 'Avi' + String.fromCharCode(243) + 'n',
+    'The-space'     : 'The space',
+    'Weird-chars-'  : 'Weird chars!!',
+    'file-name.zip' : 'file name.zip',
+    'my-name.zip'   : 'my.name.zip'
+  };
 
-	for ( sResult in oTestValues )
-	{
-		if ( oTestValues.hasOwnProperty( sResult ) )
-		{
-			expect( sanitizeString( oTestValues[sResult], true ) ).toEqual( sResult );
-		}
-	}
-} );
+  for (result in testValues)
+  {
+    expect( sanitizeString(testValues[result]) ).toEqual(result);
+  }
+});
 ```
 
 **:)**
 
 ```js
-it( 'should properly sanitize strings', function ()
+it('should properly sanitize strings', () =>
 {
-	expect( sanitizeString( 'Avi' + String.fromCharCode(243) + 'n', true ) ).toEqual( 'Avion' );
-	expect( sanitizeString( 'The space', true ).toEqual( 'The-space'	);
-	expect( sanitizeString( 'Weird chars!!', true ).toEqual( 'Weird-chars-' );
-	expect( sanitizeString( 'file name.zip', true ).toEqual( 'file-name.zip' );
-	expect( sanitizeString( 'my.name.zip, 'true ).toEqual( 'my-name.zip' );
-} );
+  expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
+  expect( sanitizeString('The space') ).toEqual('The-space');
+  expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
+  expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
+  expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
+});
 ```
 
 Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving readability and maintainability.
@@ -314,30 +309,30 @@ Better: write a test for each type of sanitization. It will give a nice output o
 **:) :)**
 
 ```js
-it( 'should sanitize a string containing non-ASCII chars', function ()
+it('should sanitize a string containing non-ASCII chars', () =>
 {
-	expect( sanitizeString( 'Avi' + String.fromCharCode(243) + 'n', true ) ).toEqual( 'Avion' );
-} );
+  expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
+});
 
-it( 'should sanitize a string containing spaces', function ()
+it('should sanitize a string containing spaces', () =>
 {
-	expect( sanitizeString( 'The space', true ).toEqual( 'The-space'	);
-} );
+  expect( sanitizeString('The space') ).toEqual('The-space');
+});
 
-it( 'should sanitize a string containing exclamation signs', function ()
+it('should sanitize a string containing exclamation signs', () =>
 {
-	expect( sanitizeString( 'Weird chars!!', true ).toEqual( 'Weird-chars-' );
-} );
+  expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
+});
 
-it( 'should sanitize a filename containing spaces', function ()
+it('should sanitize a filename containing spaces', () =>
 {
-	expect( sanitizeString( 'file name.zip', true ).toEqual( 'file-name.zip' );
-} );
+  expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
+});
 
-it( 'should sanitize a filename containing more than one dot', function ()
+it('should sanitize a filename containing more than one dot', () =>
 {
-	expect( sanitizeString( 'my.name.zip, 'true ).toEqual( 'my-name.zip' );
-} );
+  expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
+});
 ```
 
 ### Don't write unnecessary expectations
@@ -347,27 +342,27 @@ Remember, unit tests are a design specification of how a certain behaviour shoul
 **:(**
 
 ```js
-it( 'should multiply the number passed as parameter and subtract one', function ()
+it('should multiply the number passed as parameter and subtract one', () =>
 {
-	var multiplySpy = spyOn( Calculator, 'multiple' ).and.callThrough(),
-		subtractSpy = spyOn( Calculator, 'subtract' ).and.callThrough();
+  const multiplySpy = spyOn(Calculator, 'multiple').and.callThrough();
+  const subtractSpy = spyOn(Calculator, 'subtract').and.callThrough();
 
-	var result = Calculator.compute( 21.5 );
+  const result = Calculator.compute(21.5);
 
-	expect( multiplySpy ).toHaveBeenCalledWith( 21.5 );
-	expect( subtractSpy ).toHaveBeenCalledWith( 43, 1 );
-	expect( result ).toBe( 42 );
-} );
+  expect(multiplySpy).toHaveBeenCalledWith(21.5);
+  expect(subtractSpy).toHaveBeenCalledWith(43, 1);
+  expect(result).toBe(42);
+});
 ```
 
 **:)**
 
 ```js
-it( 'should multiply the number passed as parameter and subtract one', function ()
+it('should multiply the number passed as parameter and subtract one', () =>
 {
-	var result = Calculator.compute( 21.5 );
-	expect( result ).toBe( 42 );
-} );
+  const result = Calculator.compute(21.5);
+  expect(result).toBe(42);
+});
 ```
 
 This will improve maintainability. Your test is no more tight to implementation details.
@@ -377,56 +372,56 @@ This will improve maintainability. Your test is no more tight to implementation 
 **:(**
 
 ```js
-describe( 'Saving the user profile', function ()
+describe('Saving the user profile', () =>
 {
-	var profileModule,
-		notifyUserSpy,
-		onCompleteSpy;
+  let profileModule;
+  let notifyUserSpy;
+  let onCompleteSpy;
 
-	beforeEach( function ()
-	{
-		profileModule = new ProfileModule();
-		notifyUserSpy = spyOn( profileModule, 'notifyUser' );
-		onCompleteSpy = jasmine.createSpy();
-	} );
+  beforeEach(() =>
+  {
+    profileModule = new ProfileModule();
+    notifyUserSpy = spyOn(profileModule, 'notifyUser');
+    onCompleteSpy = jasmine.createSpy();
+  });
 
-	it( 'should send the updated profile data to the server', function ()
-	{
-		jasmine.Ajax.install();
+  it('should send the updated profile data to the server', () =>
+  {
+    jasmine.Ajax.install();
 
-		profileModule.save();
+    profileModule.save();
 
-		var request = jasmine.Ajax.requests.mostRecent();
+    const request = jasmine.Ajax.requests.mostRecent();
 
-		expect( request.url ).toBe( '/profiles/1' );
-		expect( request.method ).toBe( 'POST' );
-		expect( request.data() ).toEqual( { username: 'mawrkus' } );
+    expect(request.url).toBe('/profiles/1');
+    expect(request.method).toBe('POST');
+    expect(request.data()).toEqual({ username: 'mawrkus' });
 
-		jasmine.Ajax.uninstall();
-	} );
+    jasmine.Ajax.uninstall();
+  });
 
-	it( 'should notify the user', function ()
-	{
-		jasmine.Ajax.install();
+  it('should notify the user', () =>
+  {
+    jasmine.Ajax.install();
 
-		profileModule.save();
+    profileModule.save();
 
-		expect( notifyUserSpy ).toHaveBeenCalled();
+    expect(notifyUserSpy).toHaveBeenCalled();
 
-		jasmine.Ajax.uninstall();
-	} );
+    jasmine.Ajax.uninstall();
+  });
 
-	it( 'should properly execute the callback passed as parameter', function ()
-	{
-		jasmine.Ajax.install();
+  it('should properly execute the callback passed as parameter', () =>
+  {
+    jasmine.Ajax.install();
 
-		profileModule.save( onCompleteSpy );
+    profileModule.save(onCompleteSpy);
 
-		jasmine.Ajax.uninstall();
+    jasmine.Ajax.uninstall();
 
-		expect( onCompleteSpy ).toHaveBeenCalled();
-	} );
-} );
+    expect(onCompleteSpy).toHaveBeenCalled();
+  });
+});
 ```
 
 The setup code should apply to all the tests:
@@ -434,50 +429,50 @@ The setup code should apply to all the tests:
 **:)**
 
 ```js
-describe( 'Saving the user profile', function ()
+describe('Saving the user profile', () =>
 {
-	var profileModule;
+  let profileModule;
 
-	beforeEach( function ()
-	{
-		jasmine.Ajax.install();
-		profileModule = new ProfileModule();
-	} );
+  beforeEach(() =>
+  {
+    jasmine.Ajax.install();
+    profileModule = new ProfileModule();
+  });
 
-	afterEach( function ()
-	{
-		jasmine.Ajax.uninstall();
-	} );
+  afterEach( () =>
+  {
+    jasmine.Ajax.uninstall();
+  });
 
-	it( 'should send the updated profile data to the server', function ()
-	{
-		profileModule.save();
+  it('should send the updated profile data to the server', () =>
+  {
+    profileModule.save();
 
-		var request = jasmine.Ajax.requests.mostRecent();
+    const request = jasmine.Ajax.requests.mostRecent();
 
-		expect( request.url ).toBe( '/profiles/1' );
-		expect( request.method ).toBe( 'POST' );
+    expect(request.url).toBe('/profiles/1');
+    expect(request.method).toBe('POST');
 
-	} );
+  });
 
-	it( 'should notify the user', function ()
-	{
-		spyOn( profileModule, 'notifyUser' );
+  it('should notify the user', () =>
+  {
+    spyOn(profileModule, 'notifyUser');
 
-		profileModule.save();
+    profileModule.save();
 
-		expect( profileModule.notifyUser ).toHaveBeenCalled();
-	} );
+    expect(profileModule.notifyUser).toHaveBeenCalled();
+  });
 
-	it( 'should properly execute the callback passed as parameter', function ()
-	{
-		var onCompleteSpy = jasmine.createSpy();
+  it('should properly execute the callback passed as parameter', () =>
+  {
+    const onCompleteSpy = jasmine.createSpy();
 
-		profileModule.save( onCompleteSpy );
+    profileModule.save(onCompleteSpy);
 
-		expect( onCompleteSpy ).toHaveBeenCalled();
-	} );
-} );
+    expect(onCompleteSpy).toHaveBeenCalled();
+  });
+});
 ```
 
 Consider keeping the setup code minimal to preserve readability and maintainability.
@@ -489,65 +484,65 @@ It will help reducing the setup code and make each test more readable. The reade
 **:(**
 
 ```js
-describe( 'User profile module', function ()
+describe('User profile module', () =>
 {
-	var profileModule;
+  let profileModule;
 
-	beforeEach( function ()
-	{
-		profileModule = new ProfileModule( { views : 0 } );
-	} );
+  beforeEach(() =>
+  {
+    profileModule = new ProfileModule({ views: 0 });
+  });
 
-	it( 'should return the current views count', function ()
-	{
-		var viewsCount = profileModule.getViewsCount();
-		expect( profileModule.getViewsCount() ).toBe( 0 );
-	} );
+  it('should return the current views count', () =>
+  {
+    const viewsCount = profileModule.getViewsCount();
+    expect(profileModule.getViewsCount()).toBe(0);
+  });
 
-	it( 'should increase the views count properly', function ()
-	{
-		profileModule.incViewsCount();
-		expect( profileModule.getViewsCount() ).toBe( 1 );
-	} );
+  it('should increase the views count properly', () =>
+  {
+    profileModule.incViewsCount();
+    expect(profileModule.getViewsCount()).toBe(1);
+  });
 
-	it( 'should set the views count properly', function ()
-	{
-		profileModule.setViewsCount( 42 );
-		expect( profileModule.getViewsCount() ).toBe( 42 );
-	} );
-} );
+  it('should set the views count properly', () =>
+  {
+    profileModule.setViewsCount(42);
+    expect(profileModule.getViewsCount()).toBe(42);
+  });
+});
 ```
 
 **:)**
 
 ```js
-function createProfileModule( options )
+function createProfileModule({ views = 0 } = {})
 {
-	return new ProfileModule( options || { views: 0 } );
+  return new ProfileModule({ views });
 }
 
-describe( 'User profile module', function ()
+describe('User profile module', () =>
 {
-	it( 'should return the current views count', function ()
-	{
-		var profileModule = createProfileModule( { views: 3 } );
-		expect( profileModule.getViewsCount() ).toBe( 3 );
-	} );
+  it('should return the current views count', () =>
+  {
+    const profileModule = createProfileModule({ views: 3 });
+    expect(profileModule.getViewsCount()).toBe(3);
+  });
 
-	it( 'should increase the views count properly', function ()
-	{
-		var profileModule = createProfileModule( { views: 41 } );
-		profileModule.incViewsCount();
-		expect( profileModule.getViewsCount() ).toBe( 42 );
-	} );
+  it('should increase the views count properly', () =>
+  {
+    const profileModule = createProfileModule({ views: 41 });
+    profileModule.incViewsCount();
+    expect(profileModule.getViewsCount()).toBe(42);
+  });
 
-	it( 'should set the views count properly', function ()
-	{
-		var profileModule = createProfileModule();
-		profileModule.setViewsCount( 14 );
-		expect( profileModule.getViewsCount() ).toBe( 14 );
-	} );
-} );
+  it('should set the views count properly', () =>
+  {
+    const profileModule = createProfileModule();
+    profileModule.setViewsCount(14);
+    expect(profileModule.getViewsCount()).toBe(14);
+  });
+});
 ```
 
 ### Know your testing framework API
@@ -559,48 +554,48 @@ Having a good knowledge of the testing framework API can help you reducing the s
 **:(**
 
 ```js
-it( 'should call a method with the proper arguments', function ()
+it('should call a method with the proper arguments', () =>
 {
-	var foo = {
-		bar: jasmine.createSpy()
-	};
+  const foo = {
+    bar: jasmine.createSpy()
+  };
 
-	foo.bar( 'baz' );
+  foo.bar('baz');
 
-	expect( foo.bar ).toHaveBeenCalled();
-	expect( foo.bar.calls.argsFor(0) ).toEqual( ['baz'] );
-} );
+  expect(foo.bar).toHaveBeenCalled();
+  expect(foo.bar.calls.argsFor(0)).toEqual(['baz']);
+});
 
-/*it( 'should do more but not now', function ()
+/*it('should do more but not now', () =>
 {
-} );
+});
 
-it( 'should do much more but not now', function ()
+it('should do much more but not now', () =>
 {
-} );*/
+});*/
 ```
 
 **:)**
 
 ```js
-fit( 'should call once a method with the proper arguments', function ()
+fit('should call once a method with the proper arguments', () =>
 {
-	var foo = {
-		bar: jasmine.createSpy()
-	};
+  const foo = {
+    bar: jasmine.createSpy()
+  };
 
-	foo.bar( 'baz' );
+  foo.bar('baz');
 
-	expect( foo.bar ).toHaveBeenCalledWith( 'baz' );
-} );
+  expect(foo.bar).toHaveBeenCalledWith('baz');
+});
 
-it( 'should do something else but not now', function ()
+it('should do something else but not now', () =>
 {
-} );
+});
 
-it( 'should do something else but not now', function ()
+it('should do something else but not now', () =>
 {
-} );
+});
 ```
 
 Note: the handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
@@ -614,25 +609,25 @@ If a method has several end results, each one should be tested separately. Whene
 **:(**
 
 ```js
-it( 'should send the profile data to the server and update the profile view properly', function ()
+it('should send the profile data to the server and update the profile view properly', () =>
 {
-	// expect(...)to(...);
-	// expect(...)to(...);
-} );
+  // expect(...)to(...);
+  // expect(...)to(...);
+});
 ```
 
 **:)**
 
 ```js
-it( 'should send the profile data to the server', function ()
+it('should send the profile data to the server', () =>
 {
-	// expect(...)to(...);
-} );
+  // expect(...)to(...);
+});
 
-it( 'should update the profile view properly', function ()
+it('should update the profile view properly', () =>
 {
-	// expect(...)to(...);
-} );
+  // expect(...)to(...);
+});
 ```
 
 Beware that writing "AND" or "OR" when naming your test smells bad...
@@ -644,46 +639,42 @@ Beware that writing "AND" or "OR" when naming your test smells bad...
 **:(**
 
 ```js
-it( 'should properly calculate a RPN expression', function ()
+it('should properly calculate a RPN expression', () =>
 {
-	var result = RPN( '5 1 2 + 4 * - 10 /' );
-	expect( result ).toBe( -0.7 );
-} );
+  const result = RPN('5 1 2 + 4 * - 10 /');
+  expect(result).toBe(-0.7);
+});
 ```
 
 **:)**
 
 ```js
-describe( 'The RPN expression evaluator', function ()
+describe('The RPN expression evaluator', () =>
 {
-	it( 'should return null when the expression is an empty string', function ()
-	{
-		var result = RPN( '' );
-		expect( result ).toBeNull();
-	} );
+  it('should return null when the expression is an empty string', () =>
+  {
+    const result = RPN('');
+    expect(result).toBeNull();
+  });
 
-	it( 'should return the same value when the expression holds a single value', function ()
-	{
-		var result = RPN( '42' );
-		expect( result ).toBe( 42 );
-	} );
+  it('should return the same value when the expression holds a single value', () =>
+  {
+    const result = RPN('42');
+    expect(result).toBe(42);
+  });
 
-	it( 'should properly calculate an expression', function ()
-	{
-		var result = RPN( '5 1 2 + 4 * - 10 /' );
-		expect( result ).toBe( -0.7 );
-	} );
+  it('should properly calculate an expression', () =>
+  {
+    const result = RPN('5 1 2 + 4 * - 10 /');
+    expect(result).toBe(-0.7);
+  });
 
-	it( 'should throw an error whenever an invalid expression is passed', function ()
-	{
-		var compute = function ()
-		{
-			RPN( '1 + - 1' );
-		};
-
-		expect( compute ).toThrow();
-	} );
-} );
+  it('should throw an error whenever an invalid expression is passed', () =>
+  {
+    const compute = () => RPN('1 + - 1');
+    expect(compute).toThrow();
+  });
+});
 ```
 
 ### When applying TDD, always start by writing the simplest failing test
@@ -691,19 +682,19 @@ describe( 'The RPN expression evaluator', function ()
 **:(**
 
 ```js
-it( 'should suppress all chars that appear multiple times', function ()
+it('should suppress all chars that appear multiple times', () =>
 {
-	expect( keepUniqueChars( 'Hello Fostonic !!' ) ).toBe( 'HeFstnic' );
-} );
+  expect(keepUniqueChars('Hello Fostonic !!')).toBe('HeFstnic');
+});
 ```
 
 **:)**
 
 ```js
-it( 'should return an empty string when passed an empty string', function ()
+it('should return an empty string when passed an empty string', () =>
 {
-	expect( keepUniqueChars( '' ) ).toBe( '' );
-} );
+  expect(keepUniqueChars('')).toBe('');
+});
 ```
 
 From there, start building the functionalities incrementally.
@@ -715,62 +706,62 @@ Build your tests suite from the simple case to the more complex ones. Keep in mi
 **:(**
 
 ```js
-it( 'should return null when the expression is an empty string', function ()
+it('should return null when the expression is an empty string', () =>
 {
-	var result = RPN( '' );
-	expect( result ).toBeNull();
-} );
+  const result = RPN('');
+  expect(result).toBeNull();
+});
 
-it( 'should properly calculate a RPN expression', function ()
+it('should properly calculate a RPN expression', () =>
 {
-	var result = RPN( '5 1 2 + 4 * - 10 /' );
-	expect( result ).toBe( -0.7 );
-} );
+  const result = RPN('5 1 2 + 4 * - 10 /');
+  expect(result).toBe(-0.7);
+});
 ```
 
 **:)**
 
 ```js
-describe( 'The RPN expression evaluator', function ()
+describe('The RPN expression evaluator', () =>
 {
-	it( 'should return null when the expression is an empty string', function ()
-	{
-		var result = RPN( '' );
-		expect( result ).toBeNull();
-	} );
+  it('should return null when the expression is an empty string', () =>
+  {
+    const result = RPN('');
+    expect(result).toBeNull();
+  });
 
-	it( 'should return the same value when the expression holds a single value', function ()
-	{
-		var result = RPN( '42' );
-		expect( result ).toBe( 42 );
-	} );
+  it('should return the same value when the expression holds a single value', () =>
+  {
+    const result = RPN('42');
+    expect(result).toBe(42);
+  });
 
-	describe( 'Additions-only expressions', function ()
-	{
-		it( 'should properly calculate a simple addition', function ()
-		{
-			var result = RPN( '41 1 +' );
-			expect( result ).toBe( 42 );
-		} );
+  describe('Additions-only expressions', () =>
+  {
+    it('should properly calculate a simple addition', () =>
+    {
+      const result = RPN('41 1 +');
+      expect(result).toBe(42);
+    });
 
-		it( 'should properly calculate a complex addition', function ()
-		{
-			var result = RPN( '2 9 + 15 3 + + 7 6 + +' );
-			expect( result ).toBe( 42 );
-		} );
-	} );
+    it('should properly calculate a complex addition', () =>
+    {
+      const result = RPN('2 9 + 15 3 + + 7 6 + +');
+      expect(result).toBe(42);
+    });
+  });
 
-	// (...)
+  // ...
 
-	describe( 'Complex expressions', function ()
-	{
-		it( 'should properly calculate an expression containing all 4 operators', function ()
-		{
-			var result = RPN( '5 1 2 + 4 * - 10 /' );
-			expect( result ).toBe( -0.7 );
-		} );
-	} );
-} );
+  describe('Complex expressions', () =>
+  {
+    it('should properly calculate an expression containing all 4 operators', () =>
+    {
+      const result = RPN('5 1 2 + 4 * - 10 /');
+      expect(result).toBe(-0.7);
+    });
+  });
+});
 ```
 
 ### Test the behaviour, not the internal implementation
@@ -778,13 +769,13 @@ describe( 'The RPN expression evaluator', function ()
 **:(**
 
 ```js
-it( 'should add a user in memory', function ()
+it('should add a user in memory', () =>
 {
-	userManager.addUser( 'Dr. Falker', 'Joshua' );
+  userManager.addUser('Dr. Falker', 'Joshua');
 
-	expect( userManager._users[0].name ).toBe( 'Dr. Falker' );
-	expect( userManager._users[0].password ).toBe( 'Joshua' );
-} );
+  expect(userManager._users[0].name).toBe('Dr. Falker');
+  expect(userManager._users[0].password).toBe('Joshua');
+});
 ```
 
 A better approach is to test at the same level of the API:
@@ -792,12 +783,12 @@ A better approach is to test at the same level of the API:
 **:)**
 
 ```js
-it( 'should add a user in memory', function ()
+it('should add a user in memory', () =>
 {
-	userManager.addUser( 'Dr. Falker', 'Joshua' );
+  userManager.addUser('Dr. Falker', 'Joshua');
 
-	expect( userManager.loginUser( 'Dr. Falker', 'Joshua' ) ).toBe( true );
-} );
+  expect(userManager.loginUser('Dr. Falker', 'Joshua')).toBe(true);
+});
 ```
 
 Advantage:
@@ -815,77 +806,77 @@ Here, a balance has to be found, unit-testing some key parts can be beneficial.
 **:(**
 
 ```js
-describe( 'when the survey is not disabled', function ()
+describe('when the survey is not disabled', () =>
 {
-	it( 'should show the survey if the user has already visited the page', function ()
-	{
-		var storage = jasmine.createSpyObj( 'storage', ['setItem', 'getItem'] );
-		var surveyManager = new SurveyManager( storage );
+  it('should show the survey if the user has already visited the page', () =>
+  {
+    const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
+    const surveyManager = new SurveyManager(storage);
 
-		spyOn( surveyManager, 'display' );
-		storage.getItem.and.returnValue( '1' ); // ouch.
+    spyOn(surveyManager, 'display');
+    storage.getItem.and.returnValue('1'); // ouch.
 
-		surveyManager.start();
+    surveyManager.start();
 
-		expect( surveyManager.display ).toHaveBeenCalled();
-	} );
-} );
+    expect(surveyManager.display).toHaveBeenCalled();
+  });
+});
 ```
 
 **:)**
 
 ```js
-describe( 'when the survey is not disabled', function ()
+describe('when the survey is not disabled', () =>
 {
-	it( 'should show the survey if the user has already visited the page', function ()
-	{
-		var storage = jasmine.createSpyObj( 'storage', ['setItem', 'getItem'] );
-		var surveyManager = new SurveyManager( storage );
+  it('should show the survey if the user has already visited the page', () =>
+  {
+    const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
+    const surveyManager = new SurveyManager(storage);
 
-		spyOn( surveyManager, 'display' );
+    spyOn(surveyManager, 'display');
 
-		storage.getItem.and.callFake( function ( key )
-		{
-			var result = null;
+    storage.getItem.and.callFake(key =>
+    {
+      let result = null;
 
-			if ( key === 'page-visited' )
-			{
-				result = '1';
-			}
-			else if ( key === 'disable-survey' ) // correct.
-			{
-				result = null;
-			}
+      if (key === 'page-visited')
+      {
+        result = '1';
+      }
+      else if (key === 'disable-survey') // correct.
+      {
+        result = null;
+      }
 
-			return result;
-		} );
+      return result;
+    });
 
-		surveyManager.start();
+    surveyManager.start();
 
-		expect( surveyManager.display ).toHaveBeenCalled();
-	} );
-} );
+    expect(surveyManager.display).toHaveBeenCalled();
+  });
+});
 ```
 
 **:) :)**
 
 ```js
-describe( 'when the survey is not disabled', function ()
+describe('when the survey is not disabled', () =>
 {
-	it( 'should show the survey if the user has already visited the page', function ()
-	{
-		// Note: have a look at https://github.com/tatsuyaoiw/webstorage
-		var storage = new MemoryStorage();
-		var surveyManager = new SurveyManager( storage );
+  it('should show the survey if the user has already visited the page', () =>
+  {
+    // Note: have a look at https://github.com/tatsuyaoiw/webstorage
+    const storage = new MemoryStorage();
+    const surveyManager = new SurveyManager(storage);
 
-		spyOn( surveyManager, 'display' );
-		storage.setItem( 'page-visited', '1' ); // correct.
+    spyOn(surveyManager, 'display');
+    storage.setItem('page-visited', '1'); // correct.
 
-		surveyManager.start();
+    surveyManager.start();
 
-		expect( surveyManager.display ).toHaveBeenCalled();
-	} );
-} );
+    expect(surveyManager.display).toHaveBeenCalled();
+  });
+});
 ```
 
 ### Create new tests for every defect
@@ -915,32 +906,32 @@ Example of simple user actions:
 These actions can be easily tested **by simulating DOM events**, for example:
 
 ```js
-describe( 'When clicking on the "Preview profile" link', function ()
+describe('When clicking on the "Preview profile" link', () =>
 {
-	it( 'should show the profile preview if it is hidden', function ()
-	{
-		var previewLink = document.createElement( 'a' ),
-			profileModule = createProfileModule( { previewLink : previewLink, previewIsVisible: false } );
+  it('should show the profile preview if it is hidden', () =>
+  {
+    const previewLink = document.createElement('a');
+    const profileModule = createProfileModule({ previewLink, previewIsVisible: false });
 
-		spyOn( profileModule, 'showPreview' );
+    spyOn(profileModule, 'showPreview');
 
-		click( previewLink );
+    click(previewLink);
 
-		expect( profileModule.showPreview ).toHaveBeenCalled();
-	} );
+    expect(profileModule.showPreview).toHaveBeenCalled();
+  });
 
-	it( 'should hide the profile preview if it is displayed', function ()
-	{
-		var previewLink = document.createElement( 'a' ),
-			profileModule = createProfileModule( { previewLink : previewLink, previewIsVisible: true } );
+  it('should hide the profile preview if it is displayed', () =>
+  {
+    const previewLink = document.createElement('a');
+    const profileModule = createProfileModule({ previewLink, previewIsVisible: true });
 
-		spyOn( profileModule, 'hidePreview' );
+    spyOn(profileModule, 'hidePreview');
 
-		click( previewLink );
+    click(previewLink);
 
-		expect( profileModule.hidePreview ).toHaveBeenCalled();
-	} );
-} );
+    expect(profileModule.hidePreview).toHaveBeenCalled();
+  });
+});
 ```
 
 ### Review test code first
