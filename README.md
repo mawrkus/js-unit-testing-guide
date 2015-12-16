@@ -178,7 +178,7 @@ describe('A set of functionalities', () =>
 
 ### Name your tests properly
 
-Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner from times to times. Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
+Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner and verify that it is understandable! Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
 
 **:(**
 
@@ -210,23 +210,23 @@ describe('The Gallery instance', () =>
 });
 ```
 
-In order to help you write tests names properly, you can use the **"unit of work - scenario - expected behaviour"** pattern:
+In order to help you write test names properly, you can use the **"unit of work - scenario/context - expected behaviour"** pattern:
 
 ```js
 describe('[unit of work]', () =>
 {
-  it('should [expected behaviour] when [scenario]', () =>
+  it('should [expected behaviour] when [scenario/context]', () =>
   {
   });
 });
 ```
 
-Or whenever you have many tests that follow the same scenario:
+Or whenever you have many tests that follow the same scenario or are related to the same context:
 
 ```js
 describe('[unit of work]', () =>
 {
-  describe('when [scenario]', () =>
+  describe('when [scenario/context]', () =>
   {
     it('should [expected behaviour]', () =>
     {
