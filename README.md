@@ -265,7 +265,7 @@ Don't comment them because they are too slow, too complex or produce false negat
 
 ### Avoid logic in your tests
 
-Always use simple statements. Loops and conditionals must not be used. If they do, you add a possible entry point for bugs in the test itself:
+Always use simple statements. Loops and conditionals must not be used. If they are, you add a possible entry point for bugs in the test itself:
 
 + Conditionals: you don't know which path the test will take
 + Loops: you could be sharing state between tests
