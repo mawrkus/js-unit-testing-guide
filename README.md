@@ -28,7 +28,7 @@
   + [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
   + [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
   + [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
-  + [Consider using fake objects](#consider-using-fake-objects)
+  + [Find the easiest way to use fake objects](#find-the-easiest-way-to-use-fake-objects)
   + [Create new tests for every defect](#create-new-tests-for-every-defect)
   + [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
   + [Test simple user actions](#test-simple-user-actions)
@@ -824,83 +824,145 @@ Disadvantage:
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
-### Consider using fake objects
+### Find the easiest way to use fake objects
 
 **:(**
 
 ```js
-describe('when the survey is not disabled', () =>
+describe('when the user has already visited the page', () =>
 {
-  it('should show the survey if the user has already visited the page', () =>
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
   {
-    const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
-    const surveyManager = new SurveyManager(storage);
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
+    {
+      const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
+      storage.getItem.and.returnValue('1'); // ouch.
 
-    spyOn(surveyManager, 'display');
-    storage.getItem.and.returnValue('1'); // ouch.
+      const surveyManager = new SurveyManager(storage);
+      spyOn(surveyManager, 'display');
 
-    surveyManager.start();
+      surveyManager.start();
 
-    expect(surveyManager.display).toHaveBeenCalled();
+      expect(surveyManager.display).toHaveBeenCalled();
+    });
   });
+
+  // ...
 });
 ```
+
+This test fails, because the survey is considered disabled. Let's fix this:
 
 **:)**
 
 ```js
-describe('when the survey is not disabled', () =>
+describe('when the user has already visited the page', () =>
 {
-  it('should show the survey if the user has already visited the page', () =>
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
   {
-    const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
-    const surveyManager = new SurveyManager(storage);
-
-    spyOn(surveyManager, 'display');
-
-    storage.getItem.and.callFake(key =>
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
     {
-      let result = null;
-
-      if (key === 'page-visited')
+      const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
+      storage.getItem.and.callFake(key =>
       {
-        result = '1';
-      }
-      else if (key === 'disable-survey') // correct.
-      {
-        result = null;
-      }
+        switch (key)
+        {
+          case 'page-visited':
+            return '1';
 
-      return result;
+          case 'survey-disabled':
+            return null;
+        }
+
+        return null;
+      }); // ouch.
+
+      const surveyManager = new SurveyManager(storage);
+      spyOn(surveyManager, 'display');
+
+      surveyManager.start();
+
+      expect(surveyManager.display).toHaveBeenCalled();
     });
-
-    surveyManager.start();
-
-    expect(surveyManager.display).toHaveBeenCalled();
   });
+
+  // ...
 });
 ```
+
+This will work... but needs a lot of code. Let's try a simpler approach:
+
+**:(**
+
+```js
+describe('when the user has already visited the page', () =>
+{
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
+  {
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
+    {
+      const storage = window.localStorage; // ouch.
+      storage.setItem('page-visited', '1');
+
+      const surveyManager = new SurveyManager();
+      spyOn(surveyManager, 'display');
+
+      surveyManager.start();
+
+      expect(surveyManager.display).toHaveBeenCalled();
+    });
+  });
+
+  // ...
+});
+```
+
+We created a permanent storage of data. What happens if we do not properly clean it?
+We might affect the other tests. Let's fix this:
 
 **:) :)**
 
 ```js
-describe('when the survey is not disabled', () =>
+describe('when the user has already visited the page', () =>
 {
-  it('should show the survey if the user has already visited the page', () =>
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
   {
-    // Note: have a look at https://github.com/tatsuyaoiw/webstorage
-    const storage = new MemoryStorage();
-    const surveyManager = new SurveyManager(storage);
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
+    {
+      // Note: have a look at https://github.com/tatsuyaoiw/webstorage
+      const storage = new MemoryStorage(); // yeah.
+      storage.setItem('page-visited', '1');
 
-    spyOn(surveyManager, 'display');
-    storage.setItem('page-visited', '1'); // correct.
+      const surveyManager = new SurveyManager(storage);
+      spyOn(surveyManager, 'display');
 
-    surveyManager.start();
+      surveyManager.start();
 
-    expect(surveyManager.display).toHaveBeenCalled();
+      expect(surveyManager.display).toHaveBeenCalled();
+    });
   });
 });
 ```
+
+The `MemoryStorage` used here does not persist data. Nice and easy. Minimal. No side effects.
+
+#### Takeaway
+
+The idea to keep in mind is that *dependencies can still be "real" objects*. Don't fake everything because you can.
+In particular, consider using the "real" version of the objects if:
+
+- it leads to a simple, nice and easy tests setup
+- it does not create a shared state between the tests, causing unexpected side effects
+- the code being tested does not make AJAX requests, API calls or browser page reloads
+- the speed of execution of the tests stays *within the limits you fixed*
 
 ### Create new tests for every defect
 
