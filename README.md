@@ -707,7 +707,7 @@ describe('The RPN expression evaluator', () =>
 ```js
 it('should suppress all chars that appear multiple times', () =>
 {
-  expect(keepUniqueChars('Hello Fostonic !!')).toBe('HeFstnic');
+  expect( keepUniqueChars('Hello Fostonic !!') ).toBe('HeFstnic');
 });
 ```
 
@@ -716,7 +716,7 @@ it('should suppress all chars that appear multiple times', () =>
 ```js
 it('should return an empty string when passed an empty string', () =>
 {
-  expect(keepUniqueChars('')).toBe('');
+  expect( keepUniqueChars('') ).toBe('');
 });
 ```
 
