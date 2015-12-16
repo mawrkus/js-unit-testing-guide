@@ -569,9 +569,9 @@ describe('User profile module', () =>
 
 ### Know your testing framework API
 
-The API documentation of the testing framework should be your bedside book!
+The API documentation of the testing framework/library should be your bedside book!
 
-Having a good knowledge of the testing framework API can help you reducing the size/complexity of your test code and, in general, help you during development. For example:
+Having a good knowledge of the API can help you reducing the size/complexity of your test code and, in general, help you during development. A simple example:
 
 **:(**
 
@@ -579,13 +579,14 @@ Having a good knowledge of the testing framework API can help you reducing the s
 it('should call a method with the proper arguments', () =>
 {
   const foo = {
-    bar: jasmine.createSpy()
+    bar: jasmine.createSpy(),
+    baz: jasmine.createSpy()
   };
 
-  foo.bar('baz');
+  foo.bar('qux');
 
   expect(foo.bar).toHaveBeenCalled();
-  expect(foo.bar.calls.argsFor(0)).toEqual(['baz']);
+  expect(foo.bar.calls.argsFor(0)).toEqual(['qux']);
 });
 
 /*it('should do more but not now', () =>
@@ -602,9 +603,7 @@ it('should do much more but not now', () =>
 ```js
 fit('should call once a method with the proper arguments', () =>
 {
-  const foo = {
-    bar: jasmine.createSpy()
-  };
+  const foo = jasmine.createSpyObj('foo', ['bar', 'baz']);
 
   foo.bar('baz');
 
@@ -620,7 +619,9 @@ it('should do something else but not now', () =>
 });
 ```
 
-Note: the handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
+#### Note
+
+The handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
 
 More information on the [Jasmine website](http://jasmine.github.io).
 
