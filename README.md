@@ -479,7 +479,13 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 
 ### Consider using factory functions in the tests
 
-It will help reducing the setup code and make each test more readable. The reader of the test does not have to look at multiple places to understand what's going on. In some cases, it will also provide some flexibility when creating new instances (setting an initial state, for example).
+It can:
+
+- help reducing the setup code, especially if you use dependency injection
+- make each test more readable, the creation is a single function call that can be in the test itself instead of the setup
+- provide flexibility when creating new instances (setting an initial state, for example)
+
+There's a trade-off to find here between applying the DRY principle and readability.
 
 **:(**
 
@@ -487,28 +493,36 @@ It will help reducing the setup code and make each test more readable. The reade
 describe('User profile module', () =>
 {
   let profileModule;
+  let pubSub;
 
   beforeEach(() =>
   {
-    profileModule = new ProfileModule({ views: 0 });
+    let element = document.getElementById('my-profile');
+    pubSub = new PubSub({ sync: true });
+
+    profileModule = new ProfileModule({
+      likes: 0,
+      element,
+      pubSub
+    });
   });
 
-  it('should return the current views count', () =>
+  // ...
+
+  it('should publish a topic when a new "like" is given', () =>
   {
-    const viewsCount = profileModule.getViewsCount();
-    expect(profileModule.getViewsCount()).toBe(0);
+    spyOn(pubSub, 'notify');
+    profileModule.incLikes();
+    expect(pubSub.notify).toHaveBeenCalledWith('likes:inc', { count: 1 });
   });
 
-  it('should increase the views count properly', () =>
-  {
-    profileModule.incViewsCount();
-    expect(profileModule.getViewsCount()).toBe(1);
-  });
+  // ...
 
-  it('should set the views count properly', () =>
+  it('should retrieve the correct number of likes', () =>
   {
-    profileModule.setViewsCount(42);
-    expect(profileModule.getViewsCount()).toBe(42);
+    profileModule.incLikes();
+    profileModule.incLikes();
+    expect(profileModule.getLikes()).toBe(2);
   });
 });
 ```
@@ -516,31 +530,39 @@ describe('User profile module', () =>
 **:)**
 
 ```js
-function createProfileModule({ views = 0 } = {})
+function createProfileModule({
+  likes = 0,
+  element = document.getElementById('my-profile'),
+  pubSub = new PubSub({ sync: true })
+} = {})
 {
-  return new ProfileModule({ views });
+  return new ProfileModule({ element, likes, pubSub });
 }
 
 describe('User profile module', () =>
-{
-  it('should return the current views count', () =>
+{  
+  // ...
+
+  it('should publish a topic when a new "like" is given', () =>
   {
-    const profileModule = createProfileModule({ views: 3 });
-    expect(profileModule.getViewsCount()).toBe(3);
+    const pubSub = { notify: jasmine.createSpy() };    
+    const profileModule = createProfileModule({ pubSub });
+
+    profileModule.incLikes();
+
+    expect(pubSub.notify).toHaveBeenCalledWith('likes:inc');
   });
 
-  it('should increase the views count properly', () =>
-  {
-    const profileModule = createProfileModule({ views: 41 });
-    profileModule.incViewsCount();
-    expect(profileModule.getViewsCount()).toBe(42);
-  });
+  // ...
 
-  it('should set the views count properly', () =>
+  it('should retrieve the correct number of likes', () =>
   {
-    const profileModule = createProfileModule();
-    profileModule.setViewsCount(14);
-    expect(profileModule.getViewsCount()).toBe(14);
+    const profileModule = createProfileModule({ likes: 40 });
+
+    profileModule.incLikes();
+    profileModule.incLikes();
+
+    expect(profileModule.getLikes()).toBe(42);
   });
 });
 ```
