@@ -5,7 +5,7 @@
 ### Disclaimer
 
 > All the information provided has been compiled & adapted from the references cited at the end of the document.
-> The guidelines are illustrated by my own examples.
+> The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
 > Many thanks to all of the sources of information & contributors.
 
 ## Table of content
