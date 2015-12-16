@@ -337,7 +337,7 @@ it('should sanitize a filename containing more than one dot', () =>
 
 ### Don't write unnecessary expectations
 
-Remember, unit tests are a design specification of how a certain behaviour should work, not a list of observations of everything the code happens to do.
+Remember, unit tests are a design specification of how a certain *behaviour* should work, not a list of observations of everything the code happens to do.
 
 **:(**
 
