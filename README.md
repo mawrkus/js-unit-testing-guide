@@ -28,7 +28,7 @@
   + [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
   + [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
   + [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
-  + [Consider using fake objects](#consider-using-fake-objects)
+  + [Find the easiest way to use fake objects](#find-the-easiest-way-to-use-fake-objects)
   + [Create new tests for every defect](#create-new-tests-for-every-defect)
   + [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
   + [Test simple user actions](#test-simple-user-actions)
@@ -178,7 +178,7 @@ describe('A set of functionalities', () =>
 
 ### Name your tests properly
 
-Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner from times to times. Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
+Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner and verify that it is understandable! Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
 
 **:(**
 
@@ -210,23 +210,23 @@ describe('The Gallery instance', () =>
 });
 ```
 
-In order to help you write tests names properly, you can use the **"unit of work - scenario - expected behaviour"** pattern:
+In order to help you write test names properly, you can use the **"unit of work - scenario/context - expected behaviour"** pattern:
 
 ```js
 describe('[unit of work]', () =>
 {
-  it('should [expected behaviour] when [scenario]', () =>
+  it('should [expected behaviour] when [scenario/context]', () =>
   {
   });
 });
 ```
 
-Or whenever you have many tests that follow the same scenario:
+Or whenever you have many tests that follow the same scenario or are related to the same context:
 
 ```js
 describe('[unit of work]', () =>
 {
-  describe('when [scenario]', () =>
+  describe('when [scenario/context]', () =>
   {
     it('should [expected behaviour]', () =>
     {
@@ -265,7 +265,7 @@ Don't comment them because they are too slow, too complex or produce false negat
 
 ### Avoid logic in your tests
 
-Always use simple statements. Loops and conditionals must not be used. If they do, you add a possible entry point for bugs in the test itself:
+Always use simple statements. Loops and conditionals must not be used. If they are, you add a possible entry point for bugs in the test itself:
 
 + Conditionals: you don't know which path the test will take
 + Loops: you could be sharing state between tests
@@ -337,7 +337,7 @@ it('should sanitize a filename containing more than one dot', () =>
 
 ### Don't write unnecessary expectations
 
-Remember, unit tests are a design specification of how a certain behaviour should work, not a list of observations of everything the code happens to do.
+Remember, unit tests are a design specification of how a certain *behaviour* should work, not a list of observations of everything the code happens to do.
 
 **:(**
 
@@ -479,7 +479,13 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 
 ### Consider using factory functions in the tests
 
-It will help reducing the setup code and make each test more readable. The reader of the test does not have to look at multiple places to understand what's going on. In some cases, it will also provide some flexibility when creating new instances (setting an initial state, for example).
+It can:
+
+- help reducing the setup code, especially if you use dependency injection
+- make each test more readable, the creation is a single function call that can be in the test itself instead of the setup
+- provide flexibility when creating new instances (setting an initial state, for example)
+
+There's a trade-off to find here between applying the DRY principle and readability.
 
 **:(**
 
@@ -487,28 +493,36 @@ It will help reducing the setup code and make each test more readable. The reade
 describe('User profile module', () =>
 {
   let profileModule;
+  let pubSub;
 
   beforeEach(() =>
   {
-    profileModule = new ProfileModule({ views: 0 });
+    let element = document.getElementById('my-profile');
+    pubSub = new PubSub({ sync: true });
+
+    profileModule = new ProfileModule({
+      likes: 0,
+      element,
+      pubSub
+    });
   });
 
-  it('should return the current views count', () =>
+  // ...
+
+  it('should publish a topic when a new "like" is given', () =>
   {
-    const viewsCount = profileModule.getViewsCount();
-    expect(profileModule.getViewsCount()).toBe(0);
+    spyOn(pubSub, 'notify');
+    profileModule.incLikes();
+    expect(pubSub.notify).toHaveBeenCalledWith('likes:inc', { count: 1 });
   });
 
-  it('should increase the views count properly', () =>
-  {
-    profileModule.incViewsCount();
-    expect(profileModule.getViewsCount()).toBe(1);
-  });
+  // ...
 
-  it('should set the views count properly', () =>
+  it('should retrieve the correct number of likes', () =>
   {
-    profileModule.setViewsCount(42);
-    expect(profileModule.getViewsCount()).toBe(42);
+    profileModule.incLikes();
+    profileModule.incLikes();
+    expect(profileModule.getLikes()).toBe(2);
   });
 });
 ```
@@ -516,40 +530,48 @@ describe('User profile module', () =>
 **:)**
 
 ```js
-function createProfileModule({ views = 0 } = {})
+function createProfileModule({
+  likes = 0,
+  element = document.getElementById('my-profile'),
+  pubSub = new PubSub({ sync: true })
+} = {})
 {
-  return new ProfileModule({ views });
+  return new ProfileModule({ element, likes, pubSub });
 }
 
 describe('User profile module', () =>
-{
-  it('should return the current views count', () =>
+{  
+  // ...
+
+  it('should publish a topic when a new "like" is given', () =>
   {
-    const profileModule = createProfileModule({ views: 3 });
-    expect(profileModule.getViewsCount()).toBe(3);
+    const pubSub = { notify: jasmine.createSpy() };    
+    const profileModule = createProfileModule({ pubSub });
+
+    profileModule.incLikes();
+
+    expect(pubSub.notify).toHaveBeenCalledWith('likes:inc');
   });
 
-  it('should increase the views count properly', () =>
-  {
-    const profileModule = createProfileModule({ views: 41 });
-    profileModule.incViewsCount();
-    expect(profileModule.getViewsCount()).toBe(42);
-  });
+  // ...
 
-  it('should set the views count properly', () =>
+  it('should retrieve the correct number of likes', () =>
   {
-    const profileModule = createProfileModule();
-    profileModule.setViewsCount(14);
-    expect(profileModule.getViewsCount()).toBe(14);
+    const profileModule = createProfileModule({ likes: 40 });
+
+    profileModule.incLikes();
+    profileModule.incLikes();
+
+    expect(profileModule.getLikes()).toBe(42);
   });
 });
 ```
 
 ### Know your testing framework API
 
-The API documentation of the testing framework should be your bedside book!
+The API documentation of the testing framework/library should be your bedside book!
 
-Having a good knowledge of the testing framework API can help you reducing the size/complexity of your test code and, in general, help you during development. For example:
+Having a good knowledge of the API can help you reducing the size/complexity of your test code and, in general, help you during development. A simple example:
 
 **:(**
 
@@ -557,13 +579,14 @@ Having a good knowledge of the testing framework API can help you reducing the s
 it('should call a method with the proper arguments', () =>
 {
   const foo = {
-    bar: jasmine.createSpy()
+    bar: jasmine.createSpy(),
+    baz: jasmine.createSpy()
   };
 
-  foo.bar('baz');
+  foo.bar('qux');
 
   expect(foo.bar).toHaveBeenCalled();
-  expect(foo.bar.calls.argsFor(0)).toEqual(['baz']);
+  expect(foo.bar.calls.argsFor(0)).toEqual(['qux']);
 });
 
 /*it('should do more but not now', () =>
@@ -580,9 +603,7 @@ it('should do much more but not now', () =>
 ```js
 fit('should call once a method with the proper arguments', () =>
 {
-  const foo = {
-    bar: jasmine.createSpy()
-  };
+  const foo = jasmine.createSpyObj('foo', ['bar', 'baz']);
 
   foo.bar('baz');
 
@@ -598,7 +619,9 @@ it('should do something else but not now', () =>
 });
 ```
 
-Note: the handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
+#### Note
+
+The handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
 
 More information on the [Jasmine website](http://jasmine.github.io).
 
@@ -684,7 +707,7 @@ describe('The RPN expression evaluator', () =>
 ```js
 it('should suppress all chars that appear multiple times', () =>
 {
-  expect(keepUniqueChars('Hello Fostonic !!')).toBe('HeFstnic');
+  expect( keepUniqueChars('Hello Fostonic !!') ).toBe('HeFstnic');
 });
 ```
 
@@ -693,7 +716,7 @@ it('should suppress all chars that appear multiple times', () =>
 ```js
 it('should return an empty string when passed an empty string', () =>
 {
-  expect(keepUniqueChars('')).toBe('');
+  expect( keepUniqueChars('') ).toBe('');
 });
 ```
 
@@ -801,83 +824,145 @@ Disadvantage:
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
-### Consider using fake objects
+### Find the easiest way to use fake objects
 
 **:(**
 
 ```js
-describe('when the survey is not disabled', () =>
+describe('when the user has already visited the page', () =>
 {
-  it('should show the survey if the user has already visited the page', () =>
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
   {
-    const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
-    const surveyManager = new SurveyManager(storage);
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
+    {
+      const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
+      storage.getItem.and.returnValue('1'); // ouch.
 
-    spyOn(surveyManager, 'display');
-    storage.getItem.and.returnValue('1'); // ouch.
+      const surveyManager = new SurveyManager(storage);
+      spyOn(surveyManager, 'display');
 
-    surveyManager.start();
+      surveyManager.start();
 
-    expect(surveyManager.display).toHaveBeenCalled();
+      expect(surveyManager.display).toHaveBeenCalled();
+    });
   });
+
+  // ...
 });
 ```
+
+This test fails, because the survey is considered disabled. Let's fix this:
 
 **:)**
 
 ```js
-describe('when the survey is not disabled', () =>
+describe('when the user has already visited the page', () =>
 {
-  it('should show the survey if the user has already visited the page', () =>
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
   {
-    const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
-    const surveyManager = new SurveyManager(storage);
-
-    spyOn(surveyManager, 'display');
-
-    storage.getItem.and.callFake(key =>
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
     {
-      let result = null;
-
-      if (key === 'page-visited')
+      const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
+      storage.getItem.and.callFake(key =>
       {
-        result = '1';
-      }
-      else if (key === 'disable-survey') // correct.
-      {
-        result = null;
-      }
+        switch (key)
+        {
+          case 'page-visited':
+            return '1';
 
-      return result;
+          case 'survey-disabled':
+            return null;
+        }
+
+        return null;
+      }); // ouch.
+
+      const surveyManager = new SurveyManager(storage);
+      spyOn(surveyManager, 'display');
+
+      surveyManager.start();
+
+      expect(surveyManager.display).toHaveBeenCalled();
     });
-
-    surveyManager.start();
-
-    expect(surveyManager.display).toHaveBeenCalled();
   });
+
+  // ...
 });
 ```
+
+This will work... but needs a lot of code. Let's try a simpler approach:
+
+**:(**
+
+```js
+describe('when the user has already visited the page', () =>
+{
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
+  {
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
+    {
+      const storage = window.localStorage; // ouch.
+      storage.setItem('page-visited', '1');
+
+      const surveyManager = new SurveyManager();
+      spyOn(surveyManager, 'display');
+
+      surveyManager.start();
+
+      expect(surveyManager.display).toHaveBeenCalled();
+    });
+  });
+
+  // ...
+});
+```
+
+We created a permanent storage of data. What happens if we do not properly clean it?
+We might affect the other tests. Let's fix this:
 
 **:) :)**
 
 ```js
-describe('when the survey is not disabled', () =>
+describe('when the user has already visited the page', () =>
 {
-  it('should show the survey if the user has already visited the page', () =>
+  // storage.getItem('page-visited', '1') === '1'
+  describe('when the survey is not disabled', () =>
   {
-    // Note: have a look at https://github.com/tatsuyaoiw/webstorage
-    const storage = new MemoryStorage();
-    const surveyManager = new SurveyManager(storage);
+    // storage.getItem('survey-disabled') === null
+    it('should display the survey', () =>
+    {
+      // Note: have a look at https://github.com/tatsuyaoiw/webstorage
+      const storage = new MemoryStorage(); // yeah.
+      storage.setItem('page-visited', '1');
 
-    spyOn(surveyManager, 'display');
-    storage.setItem('page-visited', '1'); // correct.
+      const surveyManager = new SurveyManager(storage);
+      spyOn(surveyManager, 'display');
 
-    surveyManager.start();
+      surveyManager.start();
 
-    expect(surveyManager.display).toHaveBeenCalled();
+      expect(surveyManager.display).toHaveBeenCalled();
+    });
   });
 });
 ```
+
+The `MemoryStorage` used here does not persist data. Nice and easy. Minimal. No side effects.
+
+#### Takeaway
+
+The idea to keep in mind is that *dependencies can still be "real" objects*. Don't fake everything because you can.
+In particular, consider using the "real" version of the objects if:
+
+- it leads to a simple, nice and easy tests setup
+- it does not create a shared state between the tests, causing unexpected side effects
+- the code being tested does not make AJAX requests, API calls or browser page reloads
+- the speed of execution of the tests stays *within the limits you fixed*
 
 ### Create new tests for every defect
 
