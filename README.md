@@ -499,7 +499,7 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 
 ### Consider using factory functions in the tests
 
-It can:
+Factories can:
 
 - help reducing the setup code, especially if you use dependency injection
 - make each test more readable, the creation is a single function call that can be in the test itself instead of the setup
@@ -521,13 +521,11 @@ describe('User profile module', () =>
     pubSub = new PubSub({ sync: true });
 
     profileModule = new ProfileModule({
-      likes: 0,
       element,
-      pubSub
+      pubSub,
+      likes: 0
     });
   });
-
-  // ...
 
   it('should publish a topic when a new "like" is given', () =>
   {
@@ -535,8 +533,6 @@ describe('User profile module', () =>
     profileModule.incLikes();
     expect(pubSub.notify).toHaveBeenCalledWith('likes:inc', { count: 1 });
   });
-
-  // ...
 
   it('should retrieve the correct number of likes', () =>
   {
@@ -550,30 +546,26 @@ describe('User profile module', () =>
 **:)**
 
 ```js
-function createProfileModule({
-  likes = 0,
-  element = document.getElementById('my-profile'),
-  pubSub = new PubSub({ sync: true })
-} = {})
-{
-  return new ProfileModule({ element, likes, pubSub });
-}
-
 describe('User profile module', () =>
 {  
-  // ...
+  function createProfileModule({
+    element = document.getElementById('my-profile'),
+    likes = 0,
+    pubSub = new PubSub({ sync: true })
+  })
+  {
+    return new ProfileModule({ element, likes, pubSub });
+  }
 
   it('should publish a topic when a new "like" is given', () =>
   {
-    const pubSub = { notify: jasmine.createSpy() };    
+    const pubSub = jasmine.createSpyObj('pubSub', ['notify']);
     const profileModule = createProfileModule({ pubSub });
 
     profileModule.incLikes();
 
     expect(pubSub.notify).toHaveBeenCalledWith('likes:inc');
   });
-
-  // ...
 
   it('should retrieve the correct number of likes', () =>
   {
@@ -583,6 +575,100 @@ describe('User profile module', () =>
     profileModule.incLikes();
 
     expect(profileModule.getLikes()).toBe(42);
+  });
+});
+```
+
+Factories are particularly useful when dealing with the DOM:
+
+**:(**
+
+```js
+describe('The search component', () =>
+{
+  describe('when the search button is clicked', () =>
+  {
+    let container;
+    let form;
+    let searchInput;
+    let submitInput;
+
+    beforeEach(() =>
+    {
+      fixtures.inject(`<div id="container">
+        <form class="js-form" action="/search">
+          <input type="search">
+          <input type="submit" value="Search">
+        </form>
+      </div>`);
+
+      container = document.getElementById('container');
+      form = container.getElementsByClassName('js-form')[0];
+      searchInput = form.querySelector('input[type=search]');
+      submitInput = form.querySelector('input[type=submith]');
+    });
+
+    it('should validate the text entered', () =>
+    {
+      const search = new Search({ container });
+      spyOn(search, 'validate');
+
+      search.init();
+
+      input(searchInput, 'peace');
+      click(submitInput);
+
+      expect(search.validate).toHaveBeenCalledWith('peace');
+    });
+
+    // ...
+  });
+});
+```
+
+**:)**
+
+```js
+function createHTMLFixture() {
+  fixtures.inject(`<div id="container">
+    <form class="js-form" action="/search">
+      <input type="search">
+      <input type="submit" value="Search">
+    </form>
+  </div>`);
+
+  const container = document.getElementById('container');
+  const form = container.getElementsByClassName('js-form')[0];
+  const searchInput = form.querySelector('input[type=search]');
+  const submitInput = form.querySelector('input[type=submith]');
+
+  return {
+    container,
+    form,
+    searchInput,
+    submitInput
+  };
+}
+
+describe('The search component', () =>
+{
+  describe('when the search button is clicked', () =>
+  {
+    it('should validate the text entered', () =>
+    {
+      const { container, form, searchInput, submitInput } = createHTMLFixture();
+      const search = new Search({ container });
+      spyOn(search, 'validate');
+
+      search.init();
+
+      input(searchInput, 'peace');
+      click(submitInput);
+
+      expect(search.validate).toHaveBeenCalledWith('peace');
+    });
+
+    // ...
   });
 });
 ```
