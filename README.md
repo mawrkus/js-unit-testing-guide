@@ -28,7 +28,7 @@
   + [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
   + [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
   + [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
-  + [Find the easiest way to use fake objects](#find-the-easiest-way-to-use-fake-objects)
+  + [Don't mock everything](#dont-mock-everything)
   + [Create new tests for every defect](#create-new-tests-for-every-defect)
   + [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
   + [Test simple user actions](#test-simple-user-actions)
@@ -944,7 +944,7 @@ Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
 • [Back to ToC](#user-content-table-of-content) •
 
-### Find the easiest way to use fake objects
+### Don't mock everything
 
 **:(**
 
@@ -1076,7 +1076,7 @@ The `MemoryStorage` used here does not persist data. Nice and easy. Minimal. No 
 
 #### Takeaway
 
-The idea to keep in mind is that *dependencies can still be "real" objects*. Don't fake everything because you can.
+The idea to keep in mind is that *dependencies can still be "real" objects*. Don't mock everything because you can.
 In particular, consider using the "real" version of the objects if:
 
 - it leads to a simple, nice and easy tests setup
