@@ -135,22 +135,17 @@ Don't hesitate to nest your suites to structure logically your tests in subsets.
 **:(**
 
 ```js
-describe('A set of functionalities', () =>
-{
-  it('a set of functionalities should do something nice', () =>
-  {
+describe('A set of functionalities', () => {
+  it('a set of functionalities should do something nice', () => {
   });
 
-  it('a subset of functionalities should do something great', () =>
-  {
+  it('a subset of functionalities should do something great', () => {
   });
 
-  it('a subset of functionalities should do something awesome', () =>
-  {
+  it('a subset of functionalities should do something awesome', () => {
   });
 
-  it('another subset of functionalities should also do something great', () =>
-  {
+  it('another subset of functionalities should also do something great', () => {
   });
 });
 ```
@@ -158,27 +153,20 @@ describe('A set of functionalities', () =>
 **:)**
 
 ```js
-describe('A set of functionalities', () =>
-{
-  it('should do something nice', () =>
-  {
+describe('A set of functionalities', () => {
+  it('should do something nice', () => {
   });
 
-  describe('A subset of functionalities', () =>
-  {
-    it('should do something great', () =>
-    {
+  describe('A subset of functionalities', () => {
+    it('should do something great', () => {
     });
 
-    it('should do something awesome', () =>
-    {
+    it('should do something awesome', () => {
     });
   });
 
-  describe('Another subset of functionalities', () =>
-  {
-    it('should also do something great', () =>
-    {
+  describe('Another subset of functionalities', () => {
+    it('should also do something great', () => {
     });
   });
 });
@@ -193,10 +181,8 @@ Tests names should be concise, explicit, descriptive and in correct English. Rea
 **:(**
 
 ```js
-describe('myGallery', () =>
-{
-  it('init set correct property when called (thumb size, thumbs count)', () =>
-  {
+describe('myGallery', () => {
+  it('init set correct property when called (thumb size, thumbs count)', () => {
   });
 
   // ...
@@ -206,14 +192,11 @@ describe('myGallery', () =>
 **:)**
 
 ```js
-describe('The Gallery instance', () =>
-{
-  it('should properly calculate the thumb size when initialized', () =>
-  {
+describe('The Gallery instance', () => {
+  it('should properly calculate the thumb size when initialized', () => {
   });
 
-  it('should properly calculate the thumbs count when initialized', () =>
-  {
+  it('should properly calculate the thumbs count when initialized', () => {
   });
 
   // ...
@@ -223,10 +206,8 @@ describe('The Gallery instance', () =>
 In order to help you write test names properly, you can use the **"unit of work - scenario/context - expected behaviour"** pattern:
 
 ```js
-describe('[unit of work]', () =>
-{
-  it('should [expected behaviour] when [scenario/context]', () =>
-  {
+describe('[unit of work]', () => {
+  it('should [expected behaviour] when [scenario/context]', () => {
   });
 });
 ```
@@ -234,12 +215,9 @@ describe('[unit of work]', () =>
 Or whenever you have many tests that follow the same scenario or are related to the same context:
 
 ```js
-describe('[unit of work]', () =>
-{
-  describe('when [scenario/context]', () =>
-  {
-    it('should [expected behaviour]', () =>
-    {
+describe('[unit of work]', () => {
+  describe('when [scenario/context]', () => {
+    it('should [expected behaviour]', () => {
     });
   });
 });
@@ -250,16 +228,12 @@ For example:
 **:) :)**
 
 ```js
-describe('The Gallery instance', () =>
-{
-  describe('when initialized', () =>
-  {
-    it('should properly calculate the thumb size', () =>
-    {
+describe('The Gallery instance', () => {
+  describe('when initialized', () => {
+    it('should properly calculate the thumb size', () => {
     });
 
-    it('should properly calculate the thumbs count', () =>
-    {
+    it('should properly calculate the thumbs count', () => {
     });
   });
 
@@ -287,8 +261,7 @@ Always use simple statements. Loops and conditionals must not be used. If they a
 **:(**
 
 ```js
-it('should properly sanitize strings', () =>
-{
+it('should properly sanitize strings', () => {
   let result;
   const testValues = {
     'Avion'         : 'Avi' + String.fromCharCode(243) + 'n',
@@ -298,8 +271,7 @@ it('should properly sanitize strings', () =>
     'my-name.zip'   : 'my.name.zip'
   };
 
-  for (result in testValues)
-  {
+  for (result in testValues) {
     expect( sanitizeString(testValues[result]) ).toEqual(result);
   }
 });
@@ -308,8 +280,7 @@ it('should properly sanitize strings', () =>
 **:)**
 
 ```js
-it('should properly sanitize strings', () =>
-{
+it('should properly sanitize strings', () => {
   expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
   expect( sanitizeString('The space') ).toEqual('The-space');
   expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
@@ -323,28 +294,23 @@ Better: write a test for each type of sanitization. It will give a nice output o
 **:) :)**
 
 ```js
-it('should sanitize a string containing non-ASCII chars', () =>
-{
+it('should sanitize a string containing non-ASCII chars', () => {
   expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
 });
 
-it('should sanitize a string containing spaces', () =>
-{
+it('should sanitize a string containing spaces', () => {
   expect( sanitizeString('The space') ).toEqual('The-space');
 });
 
-it('should sanitize a string containing exclamation signs', () =>
-{
+it('should sanitize a string containing exclamation signs', () => {
   expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
 });
 
-it('should sanitize a filename containing spaces', () =>
-{
+it('should sanitize a filename containing spaces', () => {
   expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
 });
 
-it('should sanitize a filename containing more than one dot', () =>
-{
+it('should sanitize a filename containing more than one dot', () => {
   expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
 });
 ```
@@ -358,8 +324,7 @@ Remember, unit tests are a design specification of how a certain *behaviour* sho
 **:(**
 
 ```js
-it('should multiply the number passed as parameter and subtract one', () =>
-{
+it('should multiply the number passed as parameter and subtract one', () => {
   const multiplySpy = spyOn(Calculator, 'multiple').and.callThrough();
   const subtractSpy = spyOn(Calculator, 'subtract').and.callThrough();
 
@@ -374,8 +339,7 @@ it('should multiply the number passed as parameter and subtract one', () =>
 **:)**
 
 ```js
-it('should multiply the number passed as parameter and subtract one', () =>
-{
+it('should multiply the number passed as parameter and subtract one', () => {
   const result = Calculator.compute(21.5);
   expect(result).toBe(42);
 });
@@ -390,21 +354,18 @@ This will improve maintainability. Your test is no more tight to implementation 
 **:(**
 
 ```js
-describe('Saving the user profile', () =>
-{
+describe('Saving the user profile', () => {
   let profileModule;
   let notifyUserSpy;
   let onCompleteSpy;
 
-  beforeEach(() =>
-  {
+  beforeEach(() => {
     profileModule = new ProfileModule();
     notifyUserSpy = spyOn(profileModule, 'notifyUser');
     onCompleteSpy = jasmine.createSpy();
   });
 
-  it('should send the updated profile data to the server', () =>
-  {
+  it('should send the updated profile data to the server', () => {
     jasmine.Ajax.install();
 
     profileModule.save();
@@ -418,8 +379,7 @@ describe('Saving the user profile', () =>
     jasmine.Ajax.uninstall();
   });
 
-  it('should notify the user', () =>
-  {
+  it('should notify the user', () => {
     jasmine.Ajax.install();
 
     profileModule.save();
@@ -429,8 +389,7 @@ describe('Saving the user profile', () =>
     jasmine.Ajax.uninstall();
   });
 
-  it('should properly execute the callback passed as parameter', () =>
-  {
+  it('should properly execute the callback passed as parameter', () => {
     jasmine.Ajax.install();
 
     profileModule.save(onCompleteSpy);
@@ -447,23 +406,19 @@ The setup code should apply to all the tests:
 **:)**
 
 ```js
-describe('Saving the user profile', () =>
-{
+describe('Saving the user profile', () => {
   let profileModule;
 
-  beforeEach(() =>
-  {
+  beforeEach(() => {
     jasmine.Ajax.install();
     profileModule = new ProfileModule();
   });
 
-  afterEach( () =>
-  {
+  afterEach( () => {
     jasmine.Ajax.uninstall();
   });
 
-  it('should send the updated profile data to the server', () =>
-  {
+  it('should send the updated profile data to the server', () => {
     profileModule.save();
 
     const request = jasmine.Ajax.requests.mostRecent();
@@ -473,8 +428,7 @@ describe('Saving the user profile', () =>
 
   });
 
-  it('should notify the user', () =>
-  {
+  it('should notify the user', () => {
     spyOn(profileModule, 'notifyUser');
 
     profileModule.save();
@@ -482,8 +436,7 @@ describe('Saving the user profile', () =>
     expect(profileModule.notifyUser).toHaveBeenCalled();
   });
 
-  it('should properly execute the callback passed as parameter', () =>
-  {
+  it('should properly execute the callback passed as parameter', () => {
     const onCompleteSpy = jasmine.createSpy();
 
     profileModule.save(onCompleteSpy);
@@ -510,13 +463,11 @@ There's a trade-off to find here between applying the DRY principle and readabil
 **:(**
 
 ```js
-describe('User profile module', () =>
-{
+describe('User profile module', () => {
   let profileModule;
   let pubSub;
 
-  beforeEach(() =>
-  {
+  beforeEach(() => {
     let element = document.getElementById('my-profile');
     pubSub = new PubSub({ sync: true });
 
@@ -527,15 +478,13 @@ describe('User profile module', () =>
     });
   });
 
-  it('should publish a topic when a new "like" is given', () =>
-  {
+  it('should publish a topic when a new "like" is given', () => {
     spyOn(pubSub, 'notify');
     profileModule.incLikes();
     expect(pubSub.notify).toHaveBeenCalledWith('likes:inc', { count: 1 });
   });
 
-  it('should retrieve the correct number of likes', () =>
-  {
+  it('should retrieve the correct number of likes', () => {
     profileModule.incLikes();
     profileModule.incLikes();
     expect(profileModule.getLikes()).toBe(2);
@@ -546,8 +495,7 @@ describe('User profile module', () =>
 **:)**
 
 ```js
-describe('User profile module', () =>
-{  
+describe('User profile module', () => {  
   function createProfileModule({
     element = document.getElementById('my-profile'),
     likes = 0,
@@ -557,8 +505,7 @@ describe('User profile module', () =>
     return new ProfileModule({ element, likes, pubSub });
   }
 
-  it('should publish a topic when a new "like" is given', () =>
-  {
+  it('should publish a topic when a new "like" is given', () => {
     const pubSub = jasmine.createSpyObj('pubSub', ['notify']);
     const profileModule = createProfileModule({ pubSub });
 
@@ -567,8 +514,7 @@ describe('User profile module', () =>
     expect(pubSub.notify).toHaveBeenCalledWith('likes:inc');
   });
 
-  it('should retrieve the correct number of likes', () =>
-  {
+  it('should retrieve the correct number of likes', () => {
     const profileModule = createProfileModule({ likes: 40 });
 
     profileModule.incLikes();
@@ -584,17 +530,14 @@ Factories are particularly useful when dealing with the DOM:
 **:(**
 
 ```js
-describe('The search component', () =>
-{
-  describe('when the search button is clicked', () =>
-  {
+describe('The search component', () => {
+  describe('when the search button is clicked', () => {
     let container;
     let form;
     let searchInput;
     let submitInput;
 
-    beforeEach(() =>
-    {
+    beforeEach(() => {
       fixtures.inject(`<div id="container">
         <form class="js-form" action="/search">
           <input type="search">
@@ -608,8 +551,7 @@ describe('The search component', () =>
       submitInput = form.querySelector('input[type=submith]');
     });
 
-    it('should validate the text entered', () =>
-    {
+    it('should validate the text entered', () => {
       const search = new Search({ container });
       spyOn(search, 'validate');
 
@@ -650,12 +592,9 @@ function createHTMLFixture() {
   };
 }
 
-describe('The search component', () =>
-{
-  describe('when the search button is clicked', () =>
-  {
-    it('should validate the text entered', () =>
-    {
+describe('The search component', () => {
+  describe('when the search button is clicked', () => {
+    it('should validate the text entered', () => {
       const { container, form, searchInput, submitInput } = createHTMLFixture();
       const search = new Search({ container });
       spyOn(search, 'validate');
@@ -684,8 +623,7 @@ Having a good knowledge of the API can help you reducing the size/complexity of 
 **:(**
 
 ```js
-it('should call a method with the proper arguments', () =>
-{
+it('should call a method with the proper arguments', () => {
   const foo = {
     bar: jasmine.createSpy(),
     baz: jasmine.createSpy()
@@ -697,20 +635,17 @@ it('should call a method with the proper arguments', () =>
   expect(foo.bar.calls.argsFor(0)).toEqual(['qux']);
 });
 
-/*it('should do more but not now', () =>
-{
+/*it('should do more but not now', () => {
 });
 
-it('should do much more but not now', () =>
-{
+it('should do much more but not now', () => {
 });*/
 ```
 
 **:)**
 
 ```js
-fit('should call once a method with the proper arguments', () =>
-{
+fit('should call once a method with the proper arguments', () => {
   const foo = jasmine.createSpyObj('foo', ['bar', 'baz']);
 
   foo.bar('baz');
@@ -718,12 +653,10 @@ fit('should call once a method with the proper arguments', () =>
   expect(foo.bar).toHaveBeenCalledWith('baz');
 });
 
-it('should do something else but not now', () =>
-{
+it('should do something else but not now', () => {
 });
 
-it('should do something else but not now', () =>
-{
+it('should do something else but not now', () => {
 });
 ```
 
@@ -742,8 +675,7 @@ If a method has several end results, each one should be tested separately. Whene
 **:(**
 
 ```js
-it('should send the profile data to the server and update the profile view properly', () =>
-{
+it('should send the profile data to the server and update the profile view properly', () => {
   // expect(...)to(...);
   // expect(...)to(...);
 });
@@ -752,13 +684,11 @@ it('should send the profile data to the server and update the profile view prope
 **:)**
 
 ```js
-it('should send the profile data to the server', () =>
-{
+it('should send the profile data to the server', () => {
   // expect(...)to(...);
 });
 
-it('should update the profile view properly', () =>
-{
+it('should update the profile view properly', () => {
   // expect(...)to(...);
 });
 ```
@@ -774,8 +704,7 @@ Beware that writing "AND" or "OR" when naming your test smells bad...
 **:(**
 
 ```js
-it('should properly calculate a RPN expression', () =>
-{
+it('should properly calculate a RPN expression', () => {
   const result = RPN('5 1 2 + 4 * - 10 /');
   expect(result).toBe(-0.7);
 });
@@ -784,28 +713,23 @@ it('should properly calculate a RPN expression', () =>
 **:)**
 
 ```js
-describe('The RPN expression evaluator', () =>
-{
-  it('should return null when the expression is an empty string', () =>
-  {
+describe('The RPN expression evaluator', () => {
+  it('should return null when the expression is an empty string', () => {
     const result = RPN('');
     expect(result).toBeNull();
   });
 
-  it('should return the same value when the expression holds a single value', () =>
-  {
+  it('should return the same value when the expression holds a single value', () => {
     const result = RPN('42');
     expect(result).toBe(42);
   });
 
-  it('should properly calculate an expression', () =>
-  {
+  it('should properly calculate an expression', () => {
     const result = RPN('5 1 2 + 4 * - 10 /');
     expect(result).toBe(-0.7);
   });
 
-  it('should throw an error whenever an invalid expression is passed', () =>
-  {
+  it('should throw an error whenever an invalid expression is passed', () => {
     const compute = () => RPN('1 + - 1');
     expect(compute).toThrow();
   });
@@ -819,8 +743,7 @@ describe('The RPN expression evaluator', () =>
 **:(**
 
 ```js
-it('should suppress all chars that appear multiple times', () =>
-{
+it('should suppress all chars that appear multiple times', () => {
   expect( keepUniqueChars('Hello Fostonic !!') ).toBe('HeFstnic');
 });
 ```
@@ -828,8 +751,7 @@ it('should suppress all chars that appear multiple times', () =>
 **:)**
 
 ```js
-it('should return an empty string when passed an empty string', () =>
-{
+it('should return an empty string when passed an empty string', () => {
   expect( keepUniqueChars('') ).toBe('');
 });
 ```
@@ -845,14 +767,12 @@ Build your tests suite from the simple case to the more complex ones. Keep in mi
 **:(**
 
 ```js
-it('should return null when the expression is an empty string', () =>
-{
+it('should return null when the expression is an empty string', () => {
   const result = RPN('');
   expect(result).toBeNull();
 });
 
-it('should properly calculate a RPN expression', () =>
-{
+it('should properly calculate a RPN expression', () => {
   const result = RPN('5 1 2 + 4 * - 10 /');
   expect(result).toBe(-0.7);
 });
@@ -861,30 +781,24 @@ it('should properly calculate a RPN expression', () =>
 **:)**
 
 ```js
-describe('The RPN expression evaluator', () =>
-{
-  it('should return null when the expression is an empty string', () =>
-  {
+describe('The RPN expression evaluator', () => {
+  it('should return null when the expression is an empty string', () => {
     const result = RPN('');
     expect(result).toBeNull();
   });
 
-  it('should return the same value when the expression holds a single value', () =>
-  {
+  it('should return the same value when the expression holds a single value', () => {
     const result = RPN('42');
     expect(result).toBe(42);
   });
 
-  describe('Additions-only expressions', () =>
-  {
-    it('should properly calculate a simple addition', () =>
-    {
+  describe('Additions-only expressions', () => {
+    it('should properly calculate a simple addition', () => {
       const result = RPN('41 1 +');
       expect(result).toBe(42);
     });
 
-    it('should properly calculate a complex addition', () =>
-    {
+    it('should properly calculate a complex addition', () => {
       const result = RPN('2 9 + 15 3 + + 7 6 + +');
       expect(result).toBe(42);
     });
@@ -892,10 +806,8 @@ describe('The RPN expression evaluator', () =>
 
   // ...
 
-  describe('Complex expressions', () =>
-  {
-    it('should properly calculate an expression containing all 4 operators', () =>
-    {
+  describe('Complex expressions', () => {
+    it('should properly calculate an expression containing all 4 operators', () => {
       const result = RPN('5 1 2 + 4 * - 10 /');
       expect(result).toBe(-0.7);
     });
@@ -910,8 +822,7 @@ describe('The RPN expression evaluator', () =>
 **:(**
 
 ```js
-it('should add a user in memory', () =>
-{
+it('should add a user in memory', () => {
   userManager.addUser('Dr. Falker', 'Joshua');
 
   expect(userManager._users[0].name).toBe('Dr. Falker');
@@ -924,8 +835,7 @@ A better approach is to test at the same level of the API:
 **:)**
 
 ```js
-it('should add a user in memory', () =>
-{
+it('should add a user in memory', () => {
   userManager.addUser('Dr. Falker', 'Joshua');
 
   expect(userManager.loginUser('Dr. Falker', 'Joshua')).toBe(true);
@@ -949,14 +859,11 @@ Here, a balance has to be found, unit-testing some key parts can be beneficial.
 **:(**
 
 ```js
-describe('when the user has already visited the page', () =>
-{
+describe('when the user has already visited the page', () => {
   // storage.getItem('page-visited', '1') === '1'
-  describe('when the survey is not disabled', () =>
-  {
+  describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
-    it('should display the survey', () =>
-    {
+    it('should display the survey', () => {
       const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
       storage.getItem.and.returnValue('1'); // ouch.
 
@@ -978,19 +885,14 @@ This test fails, because the survey is considered disabled. Let's fix this:
 **:)**
 
 ```js
-describe('when the user has already visited the page', () =>
-{
+describe('when the user has already visited the page', () => {
   // storage.getItem('page-visited', '1') === '1'
-  describe('when the survey is not disabled', () =>
-  {
+  describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
-    it('should display the survey', () =>
-    {
+    it('should display the survey', () => {
       const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
-      storage.getItem.and.callFake(key =>
-      {
-        switch (key)
-        {
+      storage.getItem.and.callFake(key => {
+        switch (key) {
           case 'page-visited':
             return '1';
 
@@ -1019,14 +921,11 @@ This will work... but needs a lot of code. Let's try a simpler approach:
 **:(**
 
 ```js
-describe('when the user has already visited the page', () =>
-{
+describe('when the user has already visited the page', () => {
   // storage.getItem('page-visited', '1') === '1'
-  describe('when the survey is not disabled', () =>
-  {
+  describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
-    it('should display the survey', () =>
-    {
+    it('should display the survey', () => {
       const storage = window.localStorage; // ouch.
       storage.setItem('page-visited', '1');
 
@@ -1049,14 +948,11 @@ We might affect the other tests. Let's fix this:
 **:) :)**
 
 ```js
-describe('when the user has already visited the page', () =>
-{
+describe('when the user has already visited the page', () => {
   // storage.getItem('page-visited', '1') === '1'
-  describe('when the survey is not disabled', () =>
-  {
+  describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
-    it('should display the survey', () =>
-    {
+    it('should display the survey', () => {
       // Note: have a look at https://github.com/tatsuyaoiw/webstorage
       const storage = new MemoryStorage(); // yeah.
       storage.setItem('page-visited', '1');
@@ -1117,10 +1013,8 @@ Example of simple user actions:
 These actions can be easily tested **by simulating DOM events**, for example:
 
 ```js
-describe('When clicking on the "Preview profile" link', () =>
-{
-  it('should show the profile preview if it is hidden', () =>
-  {
+describe('When clicking on the "Preview profile" link', () => {
+  it('should show the profile preview if it is hidden', () => {
     const previewLink = document.createElement('a');
     const profileModule = createProfileModule({ previewLink, previewIsVisible: false });
 
@@ -1131,8 +1025,7 @@ describe('When clicking on the "Preview profile" link', () =>
     expect(profileModule.showPreview).toHaveBeenCalled();
   });
 
-  it('should hide the profile preview if it is displayed', () =>
-  {
+  it('should hide the profile preview if it is displayed', () => {
     const previewLink = document.createElement('a');
     const profileModule = createProfileModule({ previewLink, previewIsVisible: true });
 
