@@ -8,7 +8,7 @@
 > The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
 > Many thanks to all of the sources of information & contributors.
 
-## Table of content
+## Table of contents
 
 1. General principles
   + [Unit tests](#unit-tests)
@@ -20,7 +20,7 @@
   + [Don't comment tests](#dont-comment-tests)
   + [Avoid logic in your tests](#avoid-logic-in-your-tests)
   + [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
-  + [Setup properly the actions that apply to all the tests involved](#setup-properly-the-actions-that-apply-to-all-the-tests-involved)
+  + [Properly setup the actions that apply to all the tests involved](#properly-setup-the-actions-that-apply-to-all-the-tests-involved)
   + [Consider using factory functions in the tests](#consider-using-factory-functions-in-the-tests)
   + [Know your testing framework API](#know-your-testing-framework-api)
   + [Don't test multiple concerns in the same test](#dont-test-multiple-concerns-in-the-same-test)
@@ -68,22 +68,22 @@ The code is designed to support this independence (see "Design principles" below
 
 They must meet the same level of quality as the code being tested. They can be refactored as well to make them more maintainable and/or readable.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Design principles
 
 The key to good unit testing is to write **testable code**. Applying simple design principles can help, in particular:
 
-+ Use a **good naming** and **comment** your code (the "why?" not the "how"), keep in mind that comments are not a substitute for bad naming or bad design
++ Use a **good naming** convention and **comment** your code (the "why?" not the "how"), keep in mind that comments are not a substitute for bad naming or bad design
 + **DRY**: Don't Repeat Yourself, avoid code duplication
 + **Single responsibility**: each object/function must focus on a single task
 + Keep a **single level of abstraction** in the same component (for example, do not mix business logic with lower-level technical details in the same method)
 + **Minimize dependencies** between components: encapsulate, interchange less information between components
-+ **Support configurability** rather than hard-coding, this prevents from having to replicate the exact same environment when testing (e.g.: markup)
-+ Apply adequate **design patterns**, especially **dependency injection** that allows to separate objects creation responsibility from business logic
++ **Support configurability** rather than hard-coding, this prevents having to replicate the exact same environment when testing (e.g.: markup)
++ Apply adequate **design patterns**, especially **dependency injection** that allows separating an object's creation responsibility from business logic
 + Avoid global mutable state
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ## Guidelines
 
@@ -97,7 +97,7 @@ These are the 3 pillars of good unit testing.
 
 All the following examples assume the usage of the [Jasmine](http://jasmine.github.io) framework.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ---------------------------------------
 
@@ -126,7 +126,7 @@ During phase 2, don't bother with quality.
 
 Note that code written without a test-first approach is often very hard to test!
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Structure your tests properly
 
@@ -172,7 +172,7 @@ describe('A set of functionalities', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Name your tests properly
 
@@ -241,7 +241,7 @@ describe('The Gallery instance', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Don't comment tests
 
@@ -249,7 +249,7 @@ Never. Ever. Tests have a reason to be or not.
 
 Don't comment them because they are too slow, too complex or produce false negatives. Instead, make them fast, simple and trustworthy. If not, remove them completely.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Avoid logic in your tests
 
@@ -315,7 +315,7 @@ it('should sanitize a filename containing more than one dot', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Don't write unnecessary expectations
 
@@ -345,11 +345,11 @@ it('should multiply the number passed as parameter and subtract one', () => {
 });
 ```
 
-This will improve maintainability. Your test is no more tight to implementation details.
+This will improve maintainability. Your test is no longer tied to implementation details.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
-### Setup properly the actions that apply to all the tests involved
+### Properly setup the actions that apply to all the tests involved
 
 **:(**
 
@@ -448,14 +448,14 @@ describe('Saving the user profile', () => {
 
 Consider keeping the setup code minimal to preserve readability and maintainability.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Consider using factory functions in the tests
 
 Factories can:
 
-- help reducing the setup code, especially if you use dependency injection
-- make each test more readable, the creation is a single function call that can be in the test itself instead of the setup
+- help reduce the setup code, especially if you use dependency injection
+- make each test more readable, since the creation is a single function call that can be in the test itself instead of the setup
 - provide flexibility when creating new instances (setting an initial state, for example)
 
 There's a trade-off to find here between applying the DRY principle and readability.
@@ -612,13 +612,13 @@ describe('The search component', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Know your testing framework API
 
 The API documentation of the testing framework/library should be your bedside book!
 
-Having a good knowledge of the API can help you reducing the size/complexity of your test code and, in general, help you during development. A simple example:
+Having a good knowledge of the API can help you in reducing the size/complexity of your test code and, in general, help you during development. A simple example:
 
 **:(**
 
@@ -662,11 +662,11 @@ it('should do something else but not now', () => {
 
 #### Note
 
-The handy `fit` function used in the example above allows you to execute only one test without having to comment all the tests below. `fdescribe` does the same for test suites. This could help saving a lot of time when developing.
+The handy `fit` function used in the example above allows you to execute only one test without having to comment out all the tests below. `fdescribe` does the same for test suites. This could help save a lot of time when developing.
 
 More information on the [Jasmine website](http://jasmine.github.io).
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Don't test multiple concerns in the same test
 
@@ -695,7 +695,7 @@ it('should update the profile view properly', () => {
 
 Beware that writing "AND" or "OR" when naming your test smells bad...
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Cover the general case and the edge cases
 
@@ -736,7 +736,7 @@ describe('The RPN expression evaluator', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### When applying TDD, always start by writing the simplest failing test
 
@@ -758,7 +758,7 @@ it('should return an empty string when passed an empty string', () => {
 
 From there, start building the functionalities incrementally.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### When applying TDD, always make small steps in each test-first cycle
 
@@ -815,7 +815,7 @@ describe('The RPN expression evaluator', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Test the behaviour, not the internal implementation
 
@@ -852,7 +852,7 @@ Disadvantage:
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Don't mock everything
 
@@ -980,13 +980,13 @@ In particular, consider using the "real" version of the objects if:
 - the code being tested does not make AJAX requests, API calls or browser page reloads
 - the speed of execution of the tests stays *within the limits you fixed*
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Create new tests for every defect
 
 Whenever a bug is found, create a test that replicates the problem **before touching any code**. From there, you can apply TDD as usual to fix it.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Don't write unit tests for complex user interactions
 
@@ -1000,7 +1000,7 @@ These interactions might involve many units of work and should be handled at a h
 
 For functional testing, consider using a test automation framework ([Selenium](http://docs.seleniumhq.org/), ...) or QA manual testing.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Test simple user actions
 
@@ -1038,21 +1038,21 @@ describe('When clicking on the "Preview profile" link', () => {
 });
 ```
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Review test code first
 
 When reviewing code, always start by reading the code of the tests. Tests are mini use cases of the code that you can drill into.
 
-It will help you understand the intent of the developer very quickly (could be just by looking at the name of the tests).
+It will help you understand the intent of the developer very quickly (could be just by looking at the names of the tests).
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ### Practice code katas, learn with pair programming
 
-Because experience is the _only_ teacher. Ultimately, greatness comes from practicing ; applying the theory over and over again, using feedback to get better every time.
+Because experience is the _only_ teacher. Ultimately, greatness comes from practicing; applying the theory over and over again, using feedback to get better every time.
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ## References
 
@@ -1067,10 +1067,10 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + José Armesto - "Unit Testing sucks (and it’s our fault) " : https://www.youtube.com/watch?v=GZ9iZsMAZFQ
 + Clean code cheat sheet: http://www.planetgeek.ch/2014/11/18/clean-code-cheat-sheet-v-2-4/
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
 
 ## Contributors
 
 Ruben Norte: https://github.com/rubennorte
 
-• [Back to ToC](#user-content-table-of-content) •
+• [Back to ToC](#user-content-table-of-contents) •
