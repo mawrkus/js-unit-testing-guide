@@ -17,7 +17,7 @@
   + [Whenever possible, use TDD](#whenever-possible-use-tdd)
   + [Structure your tests properly](#structure-your-tests-properly)
   + [Name your tests properly](#name-your-tests-properly)
-  + [Don't comment tests](#dont-comment-tests)
+  + [Don't comment out tests](#dont-comment-out-tests)
   + [Avoid logic in your tests](#avoid-logic-in-your-tests)
   + [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
   + [Properly setup the actions that apply to all the tests involved](#properly-setup-the-actions-that-apply-to-all-the-tests-involved)
@@ -243,11 +243,11 @@ describe('The Gallery instance', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Don't comment tests
+### Don't comment out tests
 
 Never. Ever. Tests have a reason to be or not.
 
-Don't comment them because they are too slow, too complex or produce false negatives. Instead, make them fast, simple and trustworthy. If not, remove them completely.
+Don't comment them out because they are too slow, too complex or produce false negatives. Instead, make them fast, simple and trustworthy. If not, remove them completely.
 
 • [Back to ToC](#user-content-table-of-contents) •
 
