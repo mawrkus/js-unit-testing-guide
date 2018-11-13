@@ -1,6 +1,6 @@
 # A guide to unit testing in JavaScript
 
-## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request.
+## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request
 
 ### Disclaimer
 
@@ -454,9 +454,9 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 
 Factories can:
 
-- help reduce the setup code, especially if you use dependency injection
-- make each test more readable, since the creation is a single function call that can be in the test itself instead of the setup
-- provide flexibility when creating new instances (setting an initial state, for example)
++ help reduce the setup code, especially if you use dependency injection
++ make each test more readable, since the creation is a single function call that can be in the test itself instead of the setup
++ provide flexibility when creating new instances (setting an initial state, for example)
 
 There's a trade-off to find here between applying the DRY principle and readability.
 
@@ -975,10 +975,10 @@ The `MemoryStorage` used here does not persist data. Nice and easy. Minimal. No 
 The idea to keep in mind is that *dependencies can still be "real" objects*. Don't mock everything because you can.
 In particular, consider using the "real" version of the objects if:
 
-- it leads to a simple, nice and easy tests setup
-- it does not create a shared state between the tests, causing unexpected side effects
-- the code being tested does not make AJAX requests, API calls or browser page reloads
-- the speed of execution of the tests stays *within the limits you fixed*
++ it leads to a simple, nice and easy tests setup
++ it does not create a shared state between the tests, causing unexpected side effects
++ the code being tested does not make AJAX requests, API calls or browser page reloads
++ the speed of execution of the tests stays *within the limits you fixed*
 
 • [Back to ToC](#user-content-table-of-contents) •
 
