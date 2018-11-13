@@ -181,7 +181,7 @@ Tests names should be concise, explicit, descriptive and in correct English. Rea
 **:(**
 
 ```js
-describe('myGallery', () => {
+describe('MyGallery', () => {
   it('init set correct property when called (thumb size, thumbs count)', () => {
   });
 
@@ -253,7 +253,7 @@ Don't comment them out because they are too slow, too complex or produce false n
 
 ### Avoid logic in your tests
 
-Always use simple statements. Loops and conditionals must not be used. If they are, you add a possible entry point for bugs in the test itself:
+Always use simple statements. Don't use loops and/or conditionals. If you do, you add a possible entry point for bugs in the test itself:
 
 + Conditionals: you don't know which path the test will take
 + Loops: you could be sharing state between tests
@@ -272,7 +272,7 @@ it('should properly sanitize strings', () => {
   };
 
   for (result in testValues) {
-    expect( sanitizeString(testValues[result]) ).toEqual(result);
+    expect(sanitizeString(testValues[result])).toBe(result);
   }
 });
 ```
@@ -281,37 +281,37 @@ it('should properly sanitize strings', () => {
 
 ```js
 it('should properly sanitize strings', () => {
-  expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
-  expect( sanitizeString('The space') ).toEqual('The-space');
-  expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
-  expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
-  expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
+  expect(sanitizeString('Avi'+String.fromCharCode(243)+'n')).toBe('Avion');
+  expect(sanitizeString('The space')).toBe('The-space');
+  expect(sanitizeString('Weird chars!!')).toBe('Weird-chars-');
+  expect(sanitizeString('file name.zip')).toBe('file-name.zip');
+  expect(sanitizeString('my.name.zip')).toBe('my-name.zip');
 });
 ```
 
-Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving readability and maintainability.
+Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability.
 
 **:) :)**
 
 ```js
 it('should sanitize a string containing non-ASCII chars', () => {
-  expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
+  expect(sanitizeString('Avi'+String.fromCharCode(243)+'n')).toBe('Avion');
 });
 
 it('should sanitize a string containing spaces', () => {
-  expect( sanitizeString('The space') ).toEqual('The-space');
+  expect(sanitizeString('The space')).toBe('The-space');
 });
 
 it('should sanitize a string containing exclamation signs', () => {
-  expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
+  expect(sanitizeString('Weird chars!!')).toBe('Weird-chars-');
 });
 
 it('should sanitize a filename containing spaces', () => {
-  expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
+  expect(sanitizeString('file name.zip')).toBe('file-name.zip');
 });
 
 it('should sanitize a filename containing more than one dot', () => {
-  expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
+  expect(sanitizeString('my.name.zip')).toBe('my-name.zip');
 });
 ```
 
@@ -744,7 +744,7 @@ describe('The RPN expression evaluator', () => {
 
 ```js
 it('should suppress all chars that appear multiple times', () => {
-  expect( keepUniqueChars('Hello Fostonic !!') ).toBe('HeFstnic');
+  expect(keepUniqueChars('Hello Fostonic !!')).toBe('HeFstnic');
 });
 ```
 
@@ -752,7 +752,7 @@ it('should suppress all chars that appear multiple times', () => {
 
 ```js
 it('should return an empty string when passed an empty string', () => {
-  expect( keepUniqueChars('') ).toBe('');
+  expect(keepUniqueChars('')).toBe('');
 });
 ```
 
@@ -842,11 +842,11 @@ it('should add a user in memory', () => {
 });
 ```
 
-Advantage:
+Pro:
 
 + Changing the internal implementation of a class/object will not necessarily force you to refactor the tests
 
-Disadvantage:
+Con:
 
 + If a test is failing, we might have to debug to know which part of the code needs to be fixed
 
@@ -1013,7 +1013,7 @@ Example of simple user actions:
 These actions can be easily tested **by simulating DOM events**, for example:
 
 ```js
-describe('When clicking on the "Preview profile" link', () => {
+describe('clicking on the "Preview profile" link', () => {
   it('should show the profile preview if it is hidden', () => {
     const previewLink = document.createElement('a');
     const profileModule = createProfileModule({ previewLink, previewIsVisible: false });
@@ -1037,6 +1037,13 @@ describe('When clicking on the "Preview profile" link', () => {
   });
 });
 ```
+
+Note how simple the test is because the UI (DOM) layer does not mix with the business logic layer:
+
++ a "click" event occurs
++ a public method is called
+
+The next test could be to test the business logic implemented in "showPreview()" or "hidePreview()".
 
 • [Back to ToC](#user-content-table-of-contents) •
 
