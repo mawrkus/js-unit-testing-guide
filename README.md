@@ -1,6 +1,6 @@
 # A guide to unit testing in JavaScript
 
-## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request.
+## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request
 
 ### Disclaimer
 
@@ -181,7 +181,7 @@ Tests names should be concise, explicit, descriptive and in correct English. Rea
 **:(**
 
 ```js
-describe('myGallery', () => {
+describe('MyGallery', () => {
   it('init set correct property when called (thumb size, thumbs count)', () => {
   });
 
@@ -253,7 +253,7 @@ Don't comment them out because they are too slow, too complex or produce false n
 
 ### Avoid logic in your tests
 
-Always use simple statements. Loops and conditionals must not be used. If they are, you add a possible entry point for bugs in the test itself:
+Always use simple statements. Don't use loops and/or conditionals. If you do, you add a possible entry point for bugs in the test itself:
 
 + Conditionals: you don't know which path the test will take
 + Loops: you could be sharing state between tests
@@ -272,7 +272,7 @@ it('should properly sanitize strings', () => {
   };
 
   for (result in testValues) {
-    expect( sanitizeString(testValues[result]) ).toEqual(result);
+    expect(sanitizeString(testValues[result])).toBe(result);
   }
 });
 ```
@@ -281,37 +281,37 @@ it('should properly sanitize strings', () => {
 
 ```js
 it('should properly sanitize strings', () => {
-  expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
-  expect( sanitizeString('The space') ).toEqual('The-space');
-  expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
-  expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
-  expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
+  expect(sanitizeString('Avi'+String.fromCharCode(243)+'n')).toBe('Avion');
+  expect(sanitizeString('The space')).toBe('The-space');
+  expect(sanitizeString('Weird chars!!')).toBe('Weird-chars-');
+  expect(sanitizeString('file name.zip')).toBe('file-name.zip');
+  expect(sanitizeString('my.name.zip')).toBe('my-name.zip');
 });
 ```
 
-Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving readability and maintainability.
+Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability.
 
 **:) :)**
 
 ```js
 it('should sanitize a string containing non-ASCII chars', () => {
-  expect( sanitizeString('Avi'+String.fromCharCode(243)+'n') ).toEqual('Avion');
+  expect(sanitizeString('Avi'+String.fromCharCode(243)+'n')).toBe('Avion');
 });
 
 it('should sanitize a string containing spaces', () => {
-  expect( sanitizeString('The space') ).toEqual('The-space');
+  expect(sanitizeString('The space')).toBe('The-space');
 });
 
 it('should sanitize a string containing exclamation signs', () => {
-  expect( sanitizeString('Weird chars!!') ).toEqual('Weird-chars-');
+  expect(sanitizeString('Weird chars!!')).toBe('Weird-chars-');
 });
 
 it('should sanitize a filename containing spaces', () => {
-  expect( sanitizeString('file name.zip') ).toEqual('file-name.zip');
+  expect(sanitizeString('file name.zip')).toBe('file-name.zip');
 });
 
 it('should sanitize a filename containing more than one dot', () => {
-  expect( sanitizeString('my.name.zip') ).toEqual('my-name.zip');
+  expect(sanitizeString('my.name.zip')).toBe('my-name.zip');
 });
 ```
 
@@ -454,9 +454,9 @@ Consider keeping the setup code minimal to preserve readability and maintainabil
 
 Factories can:
 
-- help reduce the setup code, especially if you use dependency injection
-- make each test more readable, since the creation is a single function call that can be in the test itself instead of the setup
-- provide flexibility when creating new instances (setting an initial state, for example)
++ help reduce the setup code, especially if you use dependency injection
++ make each test more readable, since the creation is a single function call that can be in the test itself instead of the setup
++ provide flexibility when creating new instances (setting an initial state, for example)
 
 There's a trade-off to find here between applying the DRY principle and readability.
 
@@ -495,7 +495,7 @@ describe('User profile module', () => {
 **:)**
 
 ```js
-describe('User profile module', () => {  
+describe('User profile module', () => {
   function createProfileModule({
     element = document.getElementById('my-profile'),
     likes = 0,
@@ -744,7 +744,7 @@ describe('The RPN expression evaluator', () => {
 
 ```js
 it('should suppress all chars that appear multiple times', () => {
-  expect( keepUniqueChars('Hello Fostonic !!') ).toBe('HeFstnic');
+  expect(keepUniqueChars('Hello Fostonic !!')).toBe('HeFstnic');
 });
 ```
 
@@ -752,7 +752,7 @@ it('should suppress all chars that appear multiple times', () => {
 
 ```js
 it('should return an empty string when passed an empty string', () => {
-  expect( keepUniqueChars('') ).toBe('');
+  expect(keepUniqueChars('')).toBe('');
 });
 ```
 
@@ -842,11 +842,11 @@ it('should add a user in memory', () => {
 });
 ```
 
-Advantage:
+Pro:
 
 + Changing the internal implementation of a class/object will not necessarily force you to refactor the tests
 
-Disadvantage:
+Con:
 
 + If a test is failing, we might have to debug to know which part of the code needs to be fixed
 
@@ -975,10 +975,10 @@ The `MemoryStorage` used here does not persist data. Nice and easy. Minimal. No 
 The idea to keep in mind is that *dependencies can still be "real" objects*. Don't mock everything because you can.
 In particular, consider using the "real" version of the objects if:
 
-- it leads to a simple, nice and easy tests setup
-- it does not create a shared state between the tests, causing unexpected side effects
-- the code being tested does not make AJAX requests, API calls or browser page reloads
-- the speed of execution of the tests stays *within the limits you fixed*
++ it leads to a simple, nice and easy tests setup
++ it does not create a shared state between the tests, causing unexpected side effects
++ the code being tested does not make AJAX requests, API calls or browser page reloads
++ the speed of execution of the tests stays *within the limits you fixed*
 
 • [Back to ToC](#user-content-table-of-contents) •
 
@@ -1013,7 +1013,7 @@ Example of simple user actions:
 These actions can be easily tested **by simulating DOM events**, for example:
 
 ```js
-describe('When clicking on the "Preview profile" link', () => {
+describe('clicking on the "Preview profile" link', () => {
   it('should show the profile preview if it is hidden', () => {
     const previewLink = document.createElement('a');
     const profileModule = createProfileModule({ previewLink, previewIsVisible: false });
@@ -1038,6 +1038,13 @@ describe('When clicking on the "Preview profile" link', () => {
 });
 ```
 
+Note how simple the test is because the UI (DOM) layer does not mix with the business logic layer:
+
++ a "click" event occurs
++ a public method is called
+
+The next step could be to test the business logic implemented in "showPreview()" or "hidePreview()".
+
 • [Back to ToC](#user-content-table-of-contents) •
 
 ### Review test code first
@@ -1056,21 +1063,35 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 
 ## References
 
-+ Roy Osherove - "JS Unit Testing Good Practices and Horrible Mistakes" : https://www.youtube.com/watch?v=iP0Vl-vU3XM
-+ Enrique Amodeo - "Learning Behavior-driven Development with JavaScript" : https://www.packtpub.com/application-development/learning-behavior-driven-development-javascript
-+ Steven Sanderson - "Writing Great Unit Tests: Best and Worst Practices" : http://blog.stevensanderson.com/2009/08/24/writing-great-unit-tests-best-and-worst-practises/
-+ Rebecca Murphy - "Writing Testable JavaScript" : http://alistapart.com/article/writing-testable-javascript
-+ YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test" : http://yuiblog.com/blog/2009/01/05/effective-tests/
-+ Colin Snover - "Testable code best practices" : http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
-+ Miško Hevery - "The Clean Code Talks -- Unit Testing" : https://www.youtube.com/watch?v=wEhu57pih5w
-+ Addy Osmani - "Learning JavaScript Design Patterns" : http://addyosmani.com/resources/essentialjsdesignpatterns/book/
-+ José Armesto - "Unit Testing sucks (and it’s our fault) " : https://www.youtube.com/watch?v=GZ9iZsMAZFQ
+## Best practices
+
++ Roy Osherove - "JS Unit Testing Good Practices and Horrible Mistakes": https://www.youtube.com/watch?v=iP0Vl-vU3XM
++ Steven Sanderson - "Writing Great Unit Tests: Best and Worst Practices": http://blog.stevensanderson.com/2009/08/24/writing-great-unit-tests-best-and-worst-practises/
++ Rebecca Murphy - "Writing Testable JavaScript": http://alistapart.com/article/writing-testable-javascript
++ YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test": http://yuiblog.com/blog/2009/01/05/effective-tests/
++ Colin Snover - "Testable code best practices": http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
++ Miško Hevery - "The Clean Code Talks -- Unit Testing": https://www.youtube.com/watch?v=wEhu57pih5w
++ José Armesto - "Unit Testing sucks (and it’s our fault)": https://www.youtube.com/watch?v=GZ9iZsMAZFQ
++ TDD - From the Inside Out or the Outside In?: https://8thlight.com/blog/georgina-mcfadyen/2016/06/27/inside-out-tdd-vs-outside-in.html
+
+### Clean code
+
 + Clean code cheat sheet: http://www.planetgeek.ch/2014/11/18/clean-code-cheat-sheet-v-2-4/
++ Addy Osmani - "Learning JavaScript Design Patterns": http://addyosmani.com/resources/essentialjsdesignpatterns/book/
 
-• [Back to ToC](#user-content-table-of-contents) •
+### BDD
 
-## Contributors
++ Enrique Amodeo - "Learning Behavior-driven Development with JavaScript": https://www.packtpub.com/application-development/learning-behavior-driven-development-javascript
 
-Ruben Norte: https://github.com/rubennorte
+### Events
+
++ Assert(js) Testing Conference 2018: https://www.youtube.com/playlist?list=PLZ66c9_z3umNSrKSb5cmpxdXZcIPNvKGw
+
+### Libraries
+
++ Jasmine: https://jasmine.github.io/
++ Jest: https://jestjs.io/
++ Mocha: https://mochajs.org/
++ Tape: https://github.com/substack/tape
 
 • [Back to ToC](#user-content-table-of-contents) •
