@@ -495,7 +495,7 @@ describe('User profile module', () => {
 **:)**
 
 ```js
-describe('User profile module', () => {  
+describe('User profile module', () => {
   function createProfileModule({
     element = document.getElementById('my-profile'),
     likes = 0,
@@ -1056,21 +1056,35 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 
 ## References
 
-+ Roy Osherove - "JS Unit Testing Good Practices and Horrible Mistakes" : https://www.youtube.com/watch?v=iP0Vl-vU3XM
-+ Enrique Amodeo - "Learning Behavior-driven Development with JavaScript" : https://www.packtpub.com/application-development/learning-behavior-driven-development-javascript
-+ Steven Sanderson - "Writing Great Unit Tests: Best and Worst Practices" : http://blog.stevensanderson.com/2009/08/24/writing-great-unit-tests-best-and-worst-practises/
-+ Rebecca Murphy - "Writing Testable JavaScript" : http://alistapart.com/article/writing-testable-javascript
-+ YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test" : http://yuiblog.com/blog/2009/01/05/effective-tests/
-+ Colin Snover - "Testable code best practices" : http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
-+ Miško Hevery - "The Clean Code Talks -- Unit Testing" : https://www.youtube.com/watch?v=wEhu57pih5w
-+ Addy Osmani - "Learning JavaScript Design Patterns" : http://addyosmani.com/resources/essentialjsdesignpatterns/book/
-+ José Armesto - "Unit Testing sucks (and it’s our fault) " : https://www.youtube.com/watch?v=GZ9iZsMAZFQ
+## Best practices
+
++ Roy Osherove - "JS Unit Testing Good Practices and Horrible Mistakes": https://www.youtube.com/watch?v=iP0Vl-vU3XM
++ Steven Sanderson - "Writing Great Unit Tests: Best and Worst Practices": http://blog.stevensanderson.com/2009/08/24/writing-great-unit-tests-best-and-worst-practises/
++ Rebecca Murphy - "Writing Testable JavaScript": http://alistapart.com/article/writing-testable-javascript
++ YUI Team - "Writing Effective JavaScript Unit Tests with YUI Test": http://yuiblog.com/blog/2009/01/05/effective-tests/
++ Colin Snover - "Testable code best practices": http://www.sitepen.com/blog/2014/07/11/testable-code-best-practices/
++ Miško Hevery - "The Clean Code Talks -- Unit Testing": https://www.youtube.com/watch?v=wEhu57pih5w
++ José Armesto - "Unit Testing sucks (and it’s our fault)": https://www.youtube.com/watch?v=GZ9iZsMAZFQ
++ TDD - From the Inside Out or the Outside In?: https://8thlight.com/blog/georgina-mcfadyen/2016/06/27/inside-out-tdd-vs-outside-in.html
+
+### Clean code
+
 + Clean code cheat sheet: http://www.planetgeek.ch/2014/11/18/clean-code-cheat-sheet-v-2-4/
++ Addy Osmani - "Learning JavaScript Design Patterns": http://addyosmani.com/resources/essentialjsdesignpatterns/book/
 
-• [Back to ToC](#user-content-table-of-contents) •
+### BDD
 
-## Contributors
++ Enrique Amodeo - "Learning Behavior-driven Development with JavaScript": https://www.packtpub.com/application-development/learning-behavior-driven-development-javascript
 
-Ruben Norte: https://github.com/rubennorte
+### Events
+
++ Assert(js) Testing Conference 2018: https://www.youtube.com/playlist?list=PLZ66c9_z3umNSrKSb5cmpxdXZcIPNvKGw
+
+### Libraries
+
++ Jasmine: https://jasmine.github.io/
++ Jest: https://jestjs.io/
++ Mocha: https://mochajs.org/
++ Tape: https://github.com/substack/tape
 
 • [Back to ToC](#user-content-table-of-contents) •
