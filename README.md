@@ -1043,7 +1043,7 @@ Note how simple the test is because the UI (DOM) layer does not mix with the bus
 + a "click" event occurs
 + a public method is called
 
-The next test could be to test the business logic implemented in "showPreview()" or "hidePreview()".
+The next step could be to test the business logic implemented in "showPreview()" or "hidePreview()".
 
 • [Back to ToC](#user-content-table-of-contents) •
 
