@@ -1063,7 +1063,7 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 
 ## References
 
-## Best practices
+### Best practices
 
 + Roy Osherove - "JS Unit Testing Good Practices and Horrible Mistakes": https://www.youtube.com/watch?v=iP0Vl-vU3XM
 + Steven Sanderson - "Writing Great Unit Tests: Best and Worst Practices": http://blog.stevensanderson.com/2009/08/24/writing-great-unit-tests-best-and-worst-practises/
