@@ -953,8 +953,7 @@ describe('when the user has already visited the page', () => {
   describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
     it('should display the survey', () => {
-      // See https://github.com/tatsuyaoiw/webstorage
-      const storage = new MemoryStorage(); // yeah.
+      const storage = new MemoryStorage(); // see https://github.com/tatsuyaoiw/webstorage
       storage.setItem('page-visited', '1');
 
       const surveyManager = new SurveyManager(storage);
