@@ -953,7 +953,7 @@ describe('when the user has already visited the page', () => {
   describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
     it('should display the survey', () => {
-      // Note: have a look at https://github.com/tatsuyaoiw/webstorage
+      // See https://github.com/tatsuyaoiw/webstorage
       const storage = new MemoryStorage(); // yeah.
       storage.setItem('page-visited', '1');
 
@@ -968,7 +968,7 @@ describe('when the user has already visited the page', () => {
 });
 ```
 
-The `MemoryStorage` used here does not persist data. Nice and easy. Minimal. No side effects.
+The `MemoryStorage` used here does not persist data. Nice and easy, with no side effects.
 
 #### Takeaway
 
