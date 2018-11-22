@@ -330,7 +330,7 @@ it('should multiply the number passed as parameter and subtract one', () => {
 
   const result = Calculator.compute(21.5);
 
-  expect(multiplySpy).toHaveBeenCalledWith(21.5);
+  expect(multiplySpy).toHaveBeenCalledWith(21.5, 2);
   expect(subtractSpy).toHaveBeenCalledWith(43, 1);
   expect(result).toBe(42);
 });
