@@ -468,7 +468,7 @@ describe('User profile module', () => {
   let pubSub;
 
   beforeEach(() => {
-    let element = document.getElementById('my-profile');
+    const element = document.getElementById('my-profile');
     pubSub = new PubSub({ sync: true });
 
     profileModule = new ProfileModule({
