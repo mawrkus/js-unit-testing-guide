@@ -1061,7 +1061,7 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-## References
+## 📙 Resources
 
 ### Best practices
 
