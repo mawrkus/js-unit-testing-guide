@@ -8,7 +8,7 @@
 > The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
 > Many thanks to all of the sources of information & contributors.
 
-## Table of contents
+## 📖 Table of contents
 
 1. General principles
   + [Unit tests](#unit-tests)
@@ -34,7 +34,7 @@
   + [Test simple user actions](#test-simple-user-actions)
   + [Review test code first](#review-test-code-first)
   + [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
-3. [References](#references)
+3. [Resources](#-resources)
 
 ## General principles
 
@@ -46,7 +46,7 @@ This could involve **multiple methods and classes** invoked by some public API t
 
 + Return a value or throw an exception
 + Change the state of the system
-+ Make 3rd party calls
++ Make 3rd party calls (API, database, ...)
 
 A unit test should test the behaviour of a unit of work: for a given input, it expects an end result that can be any of the above.
 
@@ -66,7 +66,7 @@ The code is designed to support this independence (see "Design principles" below
 
 **Unit tests are code too**
 
-They must meet the same level of quality as the code being tested. They can be refactored as well to make them more maintainable and/or readable.
+They should meet the same level of quality as the code being tested. They can be refactored as well to make them more maintainable and/or readable.
 
 • [Back to ToC](#user-content-table-of-contents) •
 
@@ -110,21 +110,19 @@ How? Why?
 #### Test-first cycle
 
 1. Write a simple failing test
-2. Make the test pass by writing the minimum amount of code
+2. Make the test pass by writing the minimum amount of code, don't bother with code quality
 3. Refactor the code by applying design principles/patterns
-
-During phase 2, don't bother with quality.
 
 #### Consequences of the test-first cycle
 
-+ Writing a test first makes the code design more testable
++ Writing a test first makes the code design testable de facto
 + Writing just the amount of code needed to implement the required functionality makes the resulting codebase minimal, thus more maintainable
 + The codebase can be enhanced using refactoring mechanisms, the tests give you confidence that the new code is not modifying the existing functionalities
 + Cleaning the code in each cycle makes the codebase more maintainable, it is much cheaper to change the code frequently and in small increments
 + Fast feedback for the developers, you know that you don't break anything and that you are evolving the system in a good direction
 + Generates confidence to add features, fix bugs, or explore new designs
 
-Note that code written without a test-first approach is often very hard to test!
+Note that code written without a test-first approach is often very hard to test.
 
 • [Back to ToC](#user-content-table-of-contents) •
 
@@ -500,8 +498,7 @@ describe('User profile module', () => {
     element = document.getElementById('my-profile'),
     likes = 0,
     pubSub = new PubSub({ sync: true })
-  })
-  {
+  }) {
     return new ProfileModule({ element, likes, pubSub });
   }
 
