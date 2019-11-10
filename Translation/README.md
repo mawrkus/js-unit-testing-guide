@@ -1,148 +1,165 @@
-# A guide to unit testing in JavaScript
+# 使用JavaScript进行单元测试的指南
 
-## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request
+## 这是一个持续维护的文件。新思想总是受欢迎的。贡献:fork, clone, branch, commit, push, pull request
 
 ### Disclaimer
 
-> All the information provided has been compiled & adapted from the references cited at the end of the document.
-> The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
-> Many thanks to all of the sources of information & contributors.
+> 所提供的所有信息均已根据文件末尾引用的参考文献进行编辑和改编。
+> 这些指导原则通过我自己的例子、我个人编写和审查单元测试的经验成果来说明。
+> 非常感谢所有的信息来源和贡献者。
 
-## 📖 Table of contents
+## 📖 目录
 
-1. General principles
-  + [Unit tests](#unit-tests)
-  + [Design principles](#design-principles)
-2. Guidelines
-  + [Whenever possible, use TDD](#whenever-possible-use-tdd)
-  + [Structure your tests properly](#structure-your-tests-properly)
-  + [Name your tests properly](#name-your-tests-properly)
-  + [Don't comment out tests](#dont-comment-out-tests)
-  + [Avoid logic in your tests](#avoid-logic-in-your-tests)
-  + [Don't write unnecessary expectations](#dont-write-unnecessary-expectations)
-  + [Properly setup the actions that apply to all the tests involved](#properly-setup-the-actions-that-apply-to-all-the-tests-involved)
-  + [Consider using factory functions in the tests](#consider-using-factory-functions-in-the-tests)
-  + [Know your testing framework API](#know-your-testing-framework-api)
-  + [Don't test multiple concerns in the same test](#dont-test-multiple-concerns-in-the-same-test)
-  + [Cover the general case and the edge cases](#cover-the-general-case-and-the-edge-cases)
-  + [When applying TDD, always start by writing the simplest failing test](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
-  + [When applying TDD, always make small steps in each test-first cycle](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
-  + [Test the behaviour, not the internal implementation](#test-the-behaviour-not-the-internal-implementation)
-  + [Don't mock everything](#dont-mock-everything)
-  + [Create new tests for every defect](#create-new-tests-for-every-defect)
-  + [Don't write unit tests for complex user interactions](#dont-write-unit-tests-for-complex-user-interactions)
-  + [Test simple user actions](#test-simple-user-actions)
-  + [Review test code first](#review-test-code-first)
-  + [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
-3. [Resources](#-resources)
+1. 一般原则
 
-## General principles
+  + [单元测试](#unit-tests)
+  + [设计原则](#design-principles)
+2. 规范
 
-### Unit tests
+  + [只要可能，就使用TDD](#whenever-possible-use-tdd)
+  + [正确地组织测试](#structure-your-tests-properly)
+  + [正确地命名您的测试](#name-your-tests-properly)
+  + [不要注释掉测试](#dont-comment-out-tests)
+  + [在测试中避免逻辑](#avoid-logic-in-your-tests)
+  + [不要写不必要的测试期望](#dont-write-unnecessary-expectations)
+  + [正确地设置应用于所有相关测试的操作](#properly-setup-the-actions-that-apply-to-all-the-tests-involved)
+  + [考虑在测试中使用工厂模式](#consider-using-factory-functions-in-the-tests)
+  + [了解你的测试框架API](#know-your-testing-framework-api)
+  + [不要在同一个测试中测试多个功能点](#dont-test-multiple-concerns-in-the-same-test)
+  + [涵盖一般情况和边缘情况](#cover-the-general-case-and-the-edge-cases)
+  + [在应用TDD时，总是从编写最简单的失败测试开始](#when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
+  + [在应用TDD时，总是在每个测试优先的周期中执行一些小步骤](#when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
+  + [测试行为，而不是内部实现](#test-the-behaviour-not-the-internal-implementation)
+  + [不要模拟所有东西](#dont-mock-everything)
+  + [为每个缺陷创建新的测试](#create-new-tests-for-every-defect)
+  + [不要为复杂的用户交互编写单元测试](#dont-write-unit-tests-for-complex-user-interactions)
+  + [测试简单的用户操作](#test-simple-user-actions)
+  + [首先检查测试代码](#review-test-code-first)
+  + [练习代码，学习结对编程](#practice-code-katas-learn-with-pair-programming)
+
+3. [资源](#-resources)
+
+
+## 一般原则
+
+### 单元测试
 
 **Unit = Unit of work**
 
-This could involve **multiple methods and classes** invoked by some public API that can:
+这可能涉及**多个方法和类**调用一些公共API，可以:
 
-+ Return a value or throw an exception
-+ Change the state of the system
-+ Make 3rd party calls (API, database, ...)
++ 返回一个值或抛出一个异常
++ 改变系统的状态
++ 进行第三方调用(API，数据库，…)
 
-A unit test should test the behaviour of a unit of work: for a given input, it expects an end result that can be any of the above.
+单元测试应该测试工作单元的行为:对于给定的输入，它期望的最终结果可以是上面的任意一个。
 
-**Unit tests are isolated and independent of each other**
+**单元测试是相互独立的**
 
-+ Any given behaviour should be specified in **one and only one test**
-+ The execution/order of execution of one test **cannot affect the others**
++ 任何给定的行为都应该在**一个且只有一个测试**中指定
 
-The code is designed to support this independence (see "Design principles" below).
++ 一个测试的执行/执行顺序**不会影响其他**
 
-**Unit tests are lightweight tests**
+代码的设计目的就是支持这种独立性(参见下面的“设计原则”)。
 
-+ Repeatable
-+ Fast
-+ Consistent
-+ Easy to write and read
+**单元测试是轻量级测试**
 
-**Unit tests are code too**
++ 可重复的
++ 快速的
++ 一致的
++ 容易读写的
 
-They should meet the same level of quality as the code being tested. They can be refactored as well to make them more maintainable and/or readable.
+**单元测试也是代码**
 
-• [Back to ToC](#user-content-table-of-contents) •
-
-### Design principles
-
-The key to good unit testing is to write **testable code**. Applying simple design principles can help, in particular:
-
-+ Use a **good naming** convention and **comment** your code (the "why?" not the "how"), keep in mind that comments are not a substitute for bad naming or bad design
-+ **DRY**: Don't Repeat Yourself, avoid code duplication
-+ **Single responsibility**: each object/function must focus on a single task
-+ Keep a **single level of abstraction** in the same component (for example, do not mix business logic with lower-level technical details in the same method)
-+ **Minimize dependencies** between components: encapsulate, interchange less information between components
-+ **Support configurability** rather than hard-coding, this prevents having to replicate the exact same environment when testing (e.g.: markup)
-+ Apply adequate **design patterns**, especially **dependency injection** that allows separating an object's creation responsibility from business logic
-+ Avoid global mutable state
+它们应该达到与正在测试的代码相同的质量级别。还可以对它们进行重构，使它们更易于维护和可读。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-## Guidelines
+### 设计原则
 
-The goal of these guidelines is to make your tests:
+好的单元测试的关键是编写**可测试代码**。应用简单的设计原则会有所帮助，特别是:
 
-+ **Readable**
-+ **Maintainable**
-+ **Trustworthy**
++ 使用**良好的命名**约定和**注释**您的代码(表明“为什么”这样写而不是“如何”这样写)，请记住，注释不能代替糟糕的命名或糟糕的设计
 
-These are the 3 pillars of good unit testing.
++ **DRY**:不要重复自己，避免代码重复
 
-All the following examples assume the usage of the [Jasmine](http://jasmine.github.io) framework.
++ **单一职责**每个对象/函数必须专注于一个任务
+
++ 在同一组件中保持**单一抽象级别**(例如，不要在同一方法中混合业务逻辑和较低级别的技术细节)
+
++ 在组件之间使用**最小依赖**:封装组件之间的信息，减少组件之间的信息交换
+
++ **支持可配置性**而不是硬编码，这避免了在测试时必须复制完全相同的环境(例如:标记)。
+
++ 应用适当的**设计模式**，特别是**依赖项注入**，它允许将对象的创建职责与业务逻辑分离
+
++ 避免全局可变状态
+
+• [Back to ToC](#user-content-table-of-contents) •
+
+## 指南
+
+这些指南的目的是让你的测试:
+
++ **可读**
++ **可维护**
++ **可信赖**
+
+这是好的单元测试的三大支柱。
+
+以下所有示例都假设使用了[Jasmine](http://jasmine.github.io)框架。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
 ---------------------------------------
 
-### Whenever possible, use TDD
+### 只要可能，就使用TDD
 
-TDD is a _design process_, not a testing process. TDD is a robust way of designing software components ("units") interactively so that their behaviour is specified through unit tests.
+TDD是一个设计过程，而不是一个测试过程。TDD是一种健壮的交互设计软件组件(“单元”)的方法，以便通过单元测试指定它们的行为。
 
-How? Why?
+怎么做？为什么这样做
 
-#### Test-first cycle
+#### 测试优先的周期
 
-1. Write a simple failing test
-2. Make the test pass by writing the minimum amount of code, don't bother with code quality
-3. Refactor the code by applying design principles/patterns
+1. 编写一个简单的失败测试
 
-#### Consequences of the test-first cycle
+2. 通过编写最少数量的代码来通过测试，而不必担心代码质量
 
-+ Writing a test first makes the code design testable de facto
-+ Writing just the amount of code needed to implement the required functionality makes the resulting codebase minimal, thus more maintainable
-+ The codebase can be enhanced using refactoring mechanisms, the tests give you confidence that the new code is not modifying the existing functionalities
-+ Cleaning the code in each cycle makes the codebase more maintainable, it is much cheaper to change the code frequently and in small increments
-+ Fast feedback for the developers, you know that you don't break anything and that you are evolving the system in a good direction
-+ Generates confidence to add features, fix bugs, or explore new designs
+3. 通过应用设计原则/设计模式重构代码
 
-Note that code written without a test-first approach is often very hard to test.
+#### 测试优先周期的结果
+
++ 首先编写测试用例使代码设计实际上是可测试的
++ 只需编写实现所需功能所需的代码量就可以使生成的代码库最小化，从而提高可维护性
++ 可以使用重构机制来增强代码库，测试使您确信新代码不会修改现有功能
++ 在每个周期中清理代码使代码库更容易维护，频繁地、小幅度地更改代码要简单得多
++ 对开发人员的快速反馈，您知道您没有破坏任何东西，并且您正在朝着一个好的方向发展系统
++ 拥有添加特性、修复bug或探索新设计的信心
+
+注意，不使用测试优先方法编写的代码通常很难测试。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Structure your tests properly
+### 正确地组织测试
 
-Don't hesitate to nest your suites to structure logically your tests in subsets.
+不要犹豫将您的套件嵌套在子集中，以便在逻辑上构造您的测试。
 
 **:(**
 
 ```js
+// 不好的示范
+// 一组功能
 describe('A set of functionalities', () => {
+  // 一组功能的测试
   it('a set of functionalities should do something nice', () => {
   });
-
+  // 一组功能子集的测试
   it('a subset of functionalities should do something great', () => {
   });
 
   it('a subset of functionalities should do something awesome', () => {
   });
-
+  // 一组功能另一子集的测试
   it('another subset of functionalities should also do something great', () => {
   });
 });
@@ -151,10 +168,12 @@ describe('A set of functionalities', () => {
 **:)**
 
 ```js
+// 正确的示范
+// 一组功能的测试
 describe('A set of functionalities', () => {
   it('should do something nice', () => {
   });
-
+  // 一组功能子集的测试
   describe('A subset of functionalities', () => {
     it('should do something great', () => {
     });
@@ -162,7 +181,7 @@ describe('A set of functionalities', () => {
     it('should do something awesome', () => {
     });
   });
-
+  // 一组功能另一子集的测试
   describe('Another subset of functionalities', () => {
     it('should also do something great', () => {
     });
@@ -172,13 +191,14 @@ describe('A set of functionalities', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Name your tests properly
+### 正确地命名您的测试
 
-Tests names should be concise, explicit, descriptive and in correct English. Read the output of the spec runner and verify that it is understandable! Keep in mind that someone else will read it too. Tests can be the live documentation of the code.
+测试用例的名称应简洁、明确、描述性强，英文正确。阅读spec runner的输出并验证它是可理解的!记住，别人也会读它。测试可以是代码的实时文档。
 
 **:(**
 
 ```js
+// 不好的示范
 describe('MyGallery', () => {
   it('init set correct property when called (thumb size, thumbs count)', () => {
   });
@@ -190,6 +210,7 @@ describe('MyGallery', () => {
 **:)**
 
 ```js
+// 正确的示范
 describe('The Gallery instance', () => {
   it('should properly calculate the thumb size when initialized', () => {
   });
@@ -201,18 +222,20 @@ describe('The Gallery instance', () => {
 });
 ```
 
-In order to help you write test names properly, you can use the **"unit of work - scenario/context - expected behaviour"** pattern:
+为了帮助您正确地编写测试名称，您可以使用**“工作单元[unit of work]—场景/上下文[scenario/context]—期望行为[expected behaviour]”**模式:
 
 ```js
+// 不好的示范
 describe('[unit of work]', () => {
   it('should [expected behaviour] when [scenario/context]', () => {
   });
 });
 ```
 
-Or whenever you have many tests that follow the same scenario or are related to the same context:
+或者当你有很多测试遵循相同的场景或与相同的上下文相关:
 
 ```js
+// 正确的示范
 describe('[unit of work]', () => {
   describe('when [scenario/context]', () => {
     it('should [expected behaviour]', () => {
@@ -221,11 +244,12 @@ describe('[unit of work]', () => {
 });
 ```
 
-For example:
+例如:
 
 **:) :)**
 
 ```js
+// 优秀的示范
 describe('The Gallery instance', () => {
   describe('when initialized', () => {
     it('should properly calculate the thumb size', () => {
@@ -241,20 +265,20 @@ describe('The Gallery instance', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Don't comment out tests
+### 不要注释掉测试
 
-Never. Ever. Tests have a reason to be or not.
+永不，绝不！测试是有原因的。
 
-Don't comment them out because they are too slow, too complex or produce false negatives. Instead, make them fast, simple and trustworthy. If not, remove them completely.
+不要因为它们太慢、太复杂或产生错误的结果而把它们注释掉。相反，让他们快速，简单和值得信赖。如果没有，就把它们完全移除。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Avoid logic in your tests
+### 在测试中避免逻辑
 
-Always use simple statements. Don't use loops and/or conditionals. If you do, you add a possible entry point for bugs in the test itself:
+使用简单的语句。不要使用循环或条件语句。如果你这样做了，你就为测试本身添加了一个可能的bug点:
 
-+ Conditionals: you don't know which path the test will take
-+ Loops: you could be sharing state between tests
++ 条件:您不知道测试将采用哪条路径
++ 循环:你可能在测试之间共享状态
 
 **:(**
 
@@ -287,7 +311,7 @@ it('should properly sanitize strings', () => {
 });
 ```
 
-Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability.
+更好的做法是:为每种sanitizeString方法写一个测试。它将输出所有可能的情况，提高可维护性。
 
 **:) :)**
 
@@ -315,9 +339,9 @@ it('should sanitize a filename containing more than one dot', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Don't write unnecessary expectations
+### 不要写不必要的测试期望
 
-Remember, unit tests are a design specification of how a certain *behaviour* should work, not a list of observations of everything the code happens to do.
+请记住，单元测试是某个“行为”应该如何工作的设计规范，而不是代码碰巧要做的所有事情的观察列表。
 
 **:(**
 
@@ -343,11 +367,11 @@ it('should multiply the number passed as parameter and subtract one', () => {
 });
 ```
 
-This will improve maintainability. Your test is no longer tied to implementation details.
+这将提高可维护性。您的测试不再与实现细节绑定。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Properly setup the actions that apply to all the tests involved
+### 正确地设置应用于所有相关测试的操作
 
 **:(**
 
@@ -399,7 +423,7 @@ describe('Saving the user profile', () => {
 });
 ```
 
-The setup code should apply to all the tests:
+设置代码应该适用于所有的测试:
 
 **:)**
 
@@ -444,19 +468,19 @@ describe('Saving the user profile', () => {
 });
 ```
 
-Consider keeping the setup code minimal to preserve readability and maintainability.
+考虑将设置代码保持在最小以保持可读性和可维护性
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Consider using factory functions in the tests
+### 考虑在测试中使用工厂模式
 
-Factories can:
+工厂模式可以:
 
-+ help reduce the setup code, especially if you use dependency injection
-+ make each test more readable, since the creation is a single function call that can be in the test itself instead of the setup
-+ provide flexibility when creating new instances (setting an initial state, for example)
++ 帮助减少设置代码，特别是在使用依赖项注入时
++ 使每个测试更具可读性，因为创建是一个单独的函数调用，可以在测试本身中而不是在设置中
++ 在创建新实例时提供灵活性(例如，设置初始状态)
 
-There's a trade-off to find here between applying the DRY principle and readability.
+在应用DRY原则和可读性之间需要权衡。
 
 **:(**
 
@@ -522,7 +546,7 @@ describe('User profile module', () => {
 });
 ```
 
-Factories are particularly useful when dealing with the DOM:
+工厂模式在处理DOM时特别有用:
 
 **:(**
 
@@ -611,11 +635,11 @@ describe('The search component', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Know your testing framework API
+### 了解你的测试框架API
 
-The API documentation of the testing framework/library should be your bedside book!
+测试框架/库的API文档应该是你的枕边书!
 
-Having a good knowledge of the API can help you in reducing the size/complexity of your test code and, in general, help you during development. A simple example:
+对API有良好的了解可以帮助您减少测试代码的大小/复杂性，并且通常在开发过程中对您有帮助。一个简单的例子:
 
 **:(**
 
@@ -657,17 +681,17 @@ it('should do something else but not now', () => {
 });
 ```
 
-#### Note
+#### 注意
 
-The handy `fit` function used in the example above allows you to execute only one test without having to comment out all the tests below. `fdescribe` does the same for test suites. This could help save a lot of time when developing.
+上面示例中使用的方便的`fit`函数允许您只执行一个测试，而不必注释掉下面的所有测试。`fdescribe`也适用于测试套件。这有助于在开发时节省大量时间。
 
-More information on the [Jasmine website](http://jasmine.github.io).
+更多信息，请查看 [Jasmine website](http://jasmine.github.io).
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Don't test multiple concerns in the same test
+### 不要在同一个测试中测试多个功能点
 
-If a method has several end results, each one should be tested separately. Whenever a bug occurs, it will help you locate the source of the problem.
+如果一个方法有多个最终结果，那么应该分别测试每个结果。当bug发生时，它将帮助您定位问题的根源。
 
 **:(**
 
@@ -690,13 +714,13 @@ it('should update the profile view properly', () => {
 });
 ```
 
-Beware that writing "AND" or "OR" when naming your test smells bad...
+注意，当命名您的测试时写“AND”或“OR”，感觉很不好…
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Cover the general case and the edge cases
+### 涵盖一般情况和边缘情况
 
-"Strange behaviour" usually happens at the edges... Remember that your tests can be the live documentation of your code.
+“奇怪的行为”通常发生在边缘……请记住，测试可以是代码的实时文档。
 
 **:(**
 
@@ -735,7 +759,7 @@ describe('The RPN expression evaluator', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### When applying TDD, always start by writing the simplest failing test
+### 在应用TDD时，总是从编写最简单的失败测试开始
 
 **:(**
 
@@ -753,13 +777,13 @@ it('should return an empty string when passed an empty string', () => {
 });
 ```
 
-From there, start building the functionalities incrementally.
+在此基础上，开始逐步构建功能。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### When applying TDD, always make small steps in each test-first cycle
+### 在应用TDD时，总是在每个测试优先的周期中执行一些小步骤
 
-Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver software fast, incrementally, and in short iterations.
+构建您的测试套件，从简单的案例到更复杂的案例。记住增量式设计。快速、增量地、短迭代地交付软件。
 
 **:(**
 
@@ -814,7 +838,7 @@ describe('The RPN expression evaluator', () => {
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Test the behaviour, not the internal implementation
+### 测试行为，而不是内部实现
 
 **:(**
 
@@ -827,7 +851,7 @@ it('should add a user in memory', () => {
 });
 ```
 
-A better approach is to test at the same level of the API:
+一个更好的方法是在API的同一级别进行测试:
 
 **:)**
 
@@ -841,17 +865,17 @@ it('should add a user in memory', () => {
 
 Pro:
 
-+ Changing the internal implementation of a class/object will not necessarily force you to refactor the tests
++ 更改类/对象的内部实现并不一定会强制您重构测试
 
 Con:
 
-+ If a test is failing, we might have to debug to know which part of the code needs to be fixed
++ 如果测试失败，我们可能必须进行调试才能知道需要修复代码的哪一部分
 
-Here, a balance has to be found, unit-testing some key parts can be beneficial.
+在这里，必须找到一个平衡，单元测试的一些关键部分可能是有益的。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Don't mock everything
+### 不要模拟所有东西
 
 **:(**
 
@@ -877,7 +901,7 @@ describe('when the user has already visited the page', () => {
 });
 ```
 
-This test fails, because the survey is considered disabled. Let's fix this:
+此测试失败，因为调查被认为是禁用的。让我们解决这个问题:
 
 **:)**
 
@@ -913,7 +937,7 @@ describe('when the user has already visited the page', () => {
 });
 ```
 
-This will work... but needs a lot of code. Let's try a simpler approach:
+这样写可以……但是需要大量的代码。让我们尝试一个更简单的方法:
 
 **:(**
 
@@ -939,8 +963,8 @@ describe('when the user has already visited the page', () => {
 });
 ```
 
-We created a permanent storage of data. What happens if we do not properly clean it?
-We might affect the other tests. Let's fix this:
+我们创建了一个永久的数据存储。如果我们不好好清洁，会发生什么?
+我们可能会影响其他的测试。让我们解决这个问题:
 
 **:) :)**
 
@@ -964,49 +988,52 @@ describe('when the user has already visited the page', () => {
 });
 ```
 
-The `MemoryStorage` used here does not persist data. Nice and easy, with no side effects.
+这里使用的`MemoryStorage` 不持久化数据。又好又简单，没有副作用。
 
-#### Takeaway
+#### 请注意
 
-The idea to keep in mind is that *dependencies can still be "real" objects*. Don't mock everything because you can.
-In particular, consider using the "real" version of the objects if:
+需要记住的是，依赖项仍然可以是“真实的”对象。不要因为你可以mock所有东西而去mock一切东西。如果下列情况，请考虑使用对象的“真实”版本:
 
-+ it leads to a simple, nice and easy tests setup
-+ it does not create a shared state between the tests, causing unexpected side effects
-+ the code being tested does not make AJAX requests, API calls or browser page reloads
-+ the speed of execution of the tests stays *within the limits you fixed*
-
-• [Back to ToC](#user-content-table-of-contents) •
-
-### Create new tests for every defect
-
-Whenever a bug is found, create a test that replicates the problem **before touching any code**. From there, you can apply TDD as usual to fix it.
++ 它带来了一个简单、漂亮和容易的测试设置
++ 它不会在测试之间创建共享状态，从而导致意外的副作用
++ 正在测试的代码不会发出AJAX请求、API调用或重新加载浏览器页面
++ 测试的执行速度保持在您确定的范围内
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Don't write unit tests for complex user interactions
+### 为每个缺陷创建新的测试
 
-Examples of complex user interactions:
+当发现bug时，在**接触任何代码之前**创建一个复制问题的测试。然后，您可以像往常一样应用TDD来修复它。
 
-+ Filling a form, drag and dropping some items then submitting the form
-+ Clicking a tab, clicking an image thumbnail then navigating through a gallery of images previously loaded from a database
+• [Back to ToC](#user-content-table-of-contents) •
+
+### 不要为复杂的用户交互编写单元测试
+
+复杂用户交互的例子:
+
++ 填写表单，拖放一些项目，然后提交表单
+
++ 点击一个选项卡，点击一个图像缩略图，然后从在数据库预加载的图像库中导航
+
 + (...)
 
-These interactions might involve many units of work and should be handled at a higher level by **functional tests**. They will take more time to execute. They could be flaky (false negatives) and they need debugging whenever a failure is reported.
+这些交互可能涉及许多工作单元，应该通过**功能测试**在更高的级别上进行处理。他们需要更多的时间来执行。它们可能是不可靠的(假阴性)，并且在报告失败时需要进行调试。
 
-For functional testing, consider using a test automation framework ([Selenium](http://docs.seleniumhq.org/), ...) or QA manual testing.
+对于功能测试，可以考虑使用测试自动化框架([Selenium](http://docs.seleniumhq.org/)或QA手动测试。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Test simple user actions
+### 测试简单的用户操作
 
-Example of simple user actions:
+简单用户操作示例:
 
-+ Clicking on a link that toggles the visibility of a DOM element
-+ Submitting a form that triggers the form validation
++ 点击切换DOM元素可见性的链接
+
++ 提交触发表单验证的表单
+
 + (...)
 
-These actions can be easily tested **by simulating DOM events**, for example:
+这些动作可以通过模拟DOM事件**轻松测试**，例如:
 
 ```js
 describe('clicking on the "Preview profile" link', () => {
@@ -1034,26 +1061,27 @@ describe('clicking on the "Preview profile" link', () => {
 });
 ```
 
-Note how simple the test is because the UI (DOM) layer does not mix with the business logic layer:
+注意测试是多么简单，因为UI (DOM)层没有与业务逻辑层混合:
 
-+ a "click" event occurs
-+ a public method is called
++ 发生“单击”事件
++ 调用一个公共方法
 
-The next step could be to test the business logic implemented in "showPreview()" or "hidePreview()".
-
-• [Back to ToC](#user-content-table-of-contents) •
-
-### Review test code first
-
-When reviewing code, always start by reading the code of the tests. Tests are mini use cases of the code that you can drill into.
-
-It will help you understand the intent of the developer very quickly (could be just by looking at the names of the tests).
+下一步可能是测试在“showPreview()”或“hidePreview()”中实现的业务逻辑。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-### Practice code katas, learn with pair programming
+### 首先检查测试代码
 
-Because experience is the _only_ teacher. Ultimately, greatness comes from practicing; applying the theory over and over again, using feedback to get better every time.
+当评审代码时，总是从阅读测试代码开始。测试是可以深入研究的代码的迷你用例。
+
+它将帮助您非常快速地理解开发人员的意图(可能只是通过查看测试的名称)。
+
+• [Back to ToC](#user-content-table-of-contents) •
+
+
+### 练习代码，学习结对编程
+
+因为经验是唯一的老师。最终，伟大来自实践;一遍又一遍地应用这个理论，利用反馈每次都变得更好。
 
 • [Back to ToC](#user-content-table-of-contents) •
 
@@ -1091,9 +1119,3 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + Tape: https://github.com/substack/tape
 
 • [Back to ToC](#user-content-table-of-contents) •
-
-## Translation
-
-  This style guide is also available in other languages:
-
-  - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [GabrielchenCN/js-unit-testing-guide](https://github.com/GabrielchenCN/js-unit-testing-guide/blob/master/Translation/README.md)
