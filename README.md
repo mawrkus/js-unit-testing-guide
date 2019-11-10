@@ -1096,4 +1096,4 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 
   This style guide is also available in other languages:
 
-  - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [GabrielchenCN/js-unit-testing-guide](https://github.com/GabrielchenCN/js-unit-testing-guide/blob/master/Translation/README.md)
+  - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [GabrielchenCN/js-unit-testing-guide](https://github.com/GabrielchenCN/js-unit-testing-guide/blob/zh-cn/Translation/README.md)
