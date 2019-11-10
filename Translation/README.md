@@ -1,11 +1,13 @@
 # 使用JavaScript进行单元测试的指南
 
-## 这是一个持续维护的文件。新思想总是受欢迎的。贡献:fork, clone, branch, commit, push, pull request
+## 这是一个持续维护的文件。新思想总是受欢迎的。贡献可通过:fork, clone, branch, commit, push, pull request
 
-### Disclaimer
+### 免责声明
 
 > 所提供的所有信息均已根据文件末尾引用的参考文献进行编辑和改编。
+
 > 这些指导原则通过我自己的例子、我个人编写和审查单元测试的经验成果来说明。
+
 > 非常感谢所有的信息来源和贡献者。
 
 ## 📖 目录
