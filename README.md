@@ -1092,8 +1092,8 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 
 • [Back to ToC](#user-content-table-of-contents) •
 
-## Translation
+## Translations
 
   This style guide is also available in other languages:
 
-  - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [GabrielchenCN/js-unit-testing-guide](https://github.com/GabrielchenCN/js-unit-testing-guide/blob/zh-cn/Translation/README.md)
+  - 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) - Thanks to [GabrielchenCN](https://github.com/GabrielchenCN)
