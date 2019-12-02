@@ -35,6 +35,7 @@
   + [Review test code first](#review-test-code-first)
   + [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
 3. [Resources](#-resources)
+4. [Translations](#translations)
 
 ## General principles
 
@@ -1097,3 +1098,5 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
   This style guide is also available in other languages:
 
   - 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) - Thanks to [GabrielchenCN](https://github.com/GabrielchenCN)
+
+• [Back to ToC](#user-content-table-of-contents) •
