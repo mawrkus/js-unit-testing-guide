@@ -1,12 +1,10 @@
 # A guide to unit testing in JavaScript
 
-## This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request
+Translations: 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) (thanks to [GabrielchenCN](https://github.com/GabrielchenCN))
 
-### Disclaimer
+This is a living document, new ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request!
 
-> All the information provided has been compiled & adapted from the references cited at the end of the document.
-> The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
-> Many thanks to all of the sources of information & contributors.
+All the information provided has been compiled & adapted from the references cited at the end of the document. The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests. Many thanks to all of the sources of information & contributors!
 
 ## 📖 Table of contents
 
@@ -1090,13 +1088,5 @@ Because experience is the _only_ teacher. Ultimately, greatness comes from pract
 + Jest: https://jestjs.io/
 + Mocha: https://mochajs.org/
 + Tape: https://github.com/substack/tape
-
-• [Back to ToC](#-table-of-contents) •
-
-## Translations
-
-  This style guide is also available in other languages:
-
-  - 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) - Thanks to [GabrielchenCN](https://github.com/GabrielchenCN)
 
 • [Back to ToC](#-table-of-contents) •
