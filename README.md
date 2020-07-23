@@ -1,4 +1,4 @@
-# A guide to unit testing in JavaScript
+# 📙 A guide to unit testing in JavaScript
 
 Translations: 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) (thanks to [GabrielchenCN](https://github.com/GabrielchenCN))
 
