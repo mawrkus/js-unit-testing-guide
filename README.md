@@ -2,9 +2,9 @@
 
 Translations: 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) (thanks to [GabrielchenCN](https://github.com/GabrielchenCN))
 
-This is a living document, new ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request!
+This is a living document, **new ideas are always welcome**. **Contribute**: fork, clone, branch, commit, push, pull request!**
 
-All the information provided has been compiled & adapted from the references cited at the end of the document. The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests. Many thanks to all of the sources of information & contributors!
+*All the information provided has been compiled & adapted from the references cited at the end of the document. The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests. Many thanks to all of the sources of information & contributors!*
 
 ## 📖 Table of contents
 
@@ -33,7 +33,6 @@ All the information provided has been compiled & adapted from the references cit
   + [Review test code first](#review-test-code-first)
   + [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
 3. [Resources](#-resources)
-4. [Translations](#translations)
 
 ## General principles
 
