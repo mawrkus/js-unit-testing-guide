@@ -177,63 +177,20 @@ Tests names should be concise, explicit, descriptive and in correct English. Rea
 **:(**
 
 ```js
-describe('MyGallery', () => {
-  it('init set correct property when called (thumb size, thumbs count)', () => {
-  });
-
-  // ...
-});
-```
-
-**:)**
-
-```js
-describe('The Gallery instance', () => {
-  it('should properly calculate the thumb size when initialized', () => {
-  });
-
-  it('should properly calculate the thumbs count when initialized', () => {
-  });
-
-  // ...
-});
-```
-
-In order to help you write test names properly, you can use the **"unit of work - scenario/context - expected behaviour"** pattern:
-
-```js
-describe('[unit of work]', () => {
-  it('should [expected behaviour] when [scenario/context]', () => {
-  });
-});
-```
-
-Or whenever you have many tests that follow the same scenario or are related to the same context:
-
-```js
-describe('[unit of work]', () => {
-  describe('when [scenario/context]', () => {
-    it('should [expected behaviour]', () => {
-    });
-  });
-});
-```
-
-For example:
-
-**:) :)**
-
-```js
-describe('The Gallery instance', () => {
-  describe('when initialized', () => {
-    it('should properly calculate the thumb size', () => {
+// Classes are PascalCase
+describe('NameOfClass', () => {
+	// functions are camelCase
+	describe('nameOfFunction', () => {
+		// behavior is in the queen's english
+		it('it should do somethings with all of the success', () => {
+		});
     });
 
-    it('should properly calculate the thumbs count', () => {
-    });
-  });
-
-  // ...
+	// getters and setters are also camelCase
+	describe('nameOfGetterOrSetter', () => {
+		it('init set correct property when called', () => {
+		});
+	});
 });
 ```
 
@@ -256,7 +213,7 @@ Always use simple statements. Don't use loops and/or conditionals. If you do, yo
 
 **:(**
 
-```js
+```ts
 it('should properly sanitize strings', () => {
   let result;
   const testValues = {
@@ -275,7 +232,7 @@ it('should properly sanitize strings', () => {
 
 **:)**
 
-```js
+```ts
 it('should properly sanitize strings', () => {
   expect(sanitizeString('Avi'+String.fromCharCode(243)+'n')).toBe('Avion');
   expect(sanitizeString('The space')).toBe('The-space');
@@ -285,29 +242,20 @@ it('should properly sanitize strings', () => {
 });
 ```
 
-Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability.
+Better: Use  `it.each`
 
 **:) :)**
 
-```js
-it('should sanitize a string containing non-ASCII chars', () => {
-  expect(sanitizeString('Avi'+String.fromCharCode(243)+'n')).toBe('Avion');
-});
-
-it('should sanitize a string containing spaces', () => {
-  expect(sanitizeString('The space')).toBe('The-space');
-});
-
-it('should sanitize a string containing exclamation signs', () => {
-  expect(sanitizeString('Weird chars!!')).toBe('Weird-chars-');
-});
-
-it('should sanitize a filename containing spaces', () => {
-  expect(sanitizeString('file name.zip')).toBe('file-name.zip');
-});
-
-it('should sanitize a filename containing more than one dot', () => {
-  expect(sanitizeString('my.name.zip')).toBe('my-name.zip');
+```ts
+it.each`
+    stringInput         | expectedResult
+    ${'Avion'}          | ${'Avi'+String.fromCharCode(243)+'n'}
+    ${'The-space'}      | ${'The space'}
+    ${'Weird-chars-'}   | ${'Weird chars!!'}
+    ${'file-name.zip'}  | ${'file name.zip'}
+    ${'my-name.zip'}    | ${'my.name.zip'}
+`('should properly sanitize strings', ({ stringInput, expectedResult }) => {
+	expect(sanitizeString(stringInput)).toBe(expectedResult);
 });
 ```
 
