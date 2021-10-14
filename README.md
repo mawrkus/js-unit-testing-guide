@@ -254,7 +254,7 @@ it.each`
     ${'Weird-chars-'}   | ${'Weird chars!!'}
     ${'file-name.zip'}  | ${'file name.zip'}
     ${'my-name.zip'}    | ${'my.name.zip'}
-`('should properly sanitize strings', ({ stringInput, expectedResult }) => {
+`(`should properly sanitize '${stringInput}' to '${expectedResult}'`, ({ stringInput, expectedResult }) => {
 	expect(sanitizeString(stringInput)).toBe(expectedResult);
 });
 ```
