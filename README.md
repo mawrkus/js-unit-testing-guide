@@ -261,9 +261,13 @@ it.each`
 
 • [Back to ToC](#-table-of-contents) •
 
-### Don't write unnecessary expectations
+### Don't test implementation details
 
 Remember, unit tests are a design specification of how a certain *behaviour* should work, not a list of observations of everything the code happens to do.
+
+It is acceptable to test implementation details when we are "leaving" the system under test.
+That is to say, if we are making an ajax request or querying the database, it is acceptable to
+make sure that functions were invoked with specific parameters or called x number of times.
 
 **:(**
 
@@ -301,46 +305,34 @@ This will improve maintainability. Your test is no longer tied to implementation
 describe('Saving the user profile', () => {
   let profileModule;
   let notifyUserSpy;
-  let onCompleteSpy;
+  let mockOnComplete;
 
   beforeEach(() => {
     profileModule = new ProfileModule();
-    notifyUserSpy = spyOn(profileModule, 'notifyUser');
-    onCompleteSpy = jasmine.createSpy();
+    notifyUserSpy = jest.spyOn<any, any>(profileModule, 'notifyUser');
+    mockOnComplete = jest.fn();
   });
 
   it('should send the updated profile data to the server', () => {
-    jasmine.Ajax.install();
-
     profileModule.save();
 
-    const request = jasmine.Ajax.requests.mostRecent();
-
-    expect(request.url).toBe('/profiles/1');
-    expect(request.method).toBe('POST');
-    expect(request.data()).toEqual({ username: 'mawrkus' });
-
-    jasmine.Ajax.uninstall();
+    expect(notifyUserSpy).toHaveBeenCalledWith({
+        url: '/profiles/1',
+        method: 'POST',
+        data: {
+        	username: 'mawrkus',
+        }
+    });
   });
 
   it('should notify the user', () => {
-    jasmine.Ajax.install();
-
     profileModule.save();
-
-    expect(notifyUserSpy).toHaveBeenCalled();
-
-    jasmine.Ajax.uninstall();
+    expect(notifyUserSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should properly execute the callback passed as parameter', () => {
-    jasmine.Ajax.install();
-
     profileModule.save(onCompleteSpy);
-
-    jasmine.Ajax.uninstall();
-
-    expect(onCompleteSpy).toHaveBeenCalled();
+    expect(onCompleteSpy).toHaveBeenCalledTimes(1);
   });
 });
 ```
@@ -349,39 +341,30 @@ The setup code should apply to all the tests:
 
 **:)**
 
-```js
+```ts
 describe('Saving the user profile', () => {
   let profileModule;
 
   beforeEach(() => {
-    jasmine.Ajax.install();
     profileModule = new ProfileModule();
   });
 
-  afterEach( () => {
-    jasmine.Ajax.uninstall();
-  });
-
   it('should send the updated profile data to the server', () => {
-    profileModule.save();
-
-    const request = jasmine.Ajax.requests.mostRecent();
-
-    expect(request.url).toBe('/profiles/1');
-    expect(request.method).toBe('POST');
+    const result = profileModule.save();
+    expect(result.username).toBe('theUserName');
+    expect(result.description).toBe('this is a description');
 
   });
 
   it('should notify the user', () => {
-    spyOn(profileModule, 'notifyUser');
-
+    jest.spyOn(profileModule, 'notifyUser');
     profileModule.save();
 
     expect(profileModule.notifyUser).toHaveBeenCalled();
   });
 
   it('should properly execute the callback passed as parameter', () => {
-    const onCompleteSpy = jasmine.createSpy();
+    const onCompleteSpy = jest.fn();
 
     profileModule.save(onCompleteSpy);
 
@@ -423,7 +406,7 @@ describe('User profile module', () => {
   });
 
   it('should publish a topic when a new "like" is given', () => {
-    spyOn(pubSub, 'notify');
+    jest.spyOn(pubSub, 'notify');
     profileModule.incLikes();
     expect(pubSub.notify).toHaveBeenCalledWith('likes:inc', { count: 1 });
   });
@@ -449,7 +432,9 @@ describe('User profile module', () => {
   }
 
   it('should publish a topic when a new "like" is given', () => {
-    const pubSub = jasmine.createSpyObj('pubSub', ['notify']);
+    const pubSub = {
+    	notify: jest.fn(),
+    };
     const profileModule = createProfileModule({ pubSub });
 
     profileModule.incLikes();
@@ -468,93 +453,6 @@ describe('User profile module', () => {
 });
 ```
 
-Factories are particularly useful when dealing with the DOM:
-
-**:(**
-
-```js
-describe('The search component', () => {
-  describe('when the search button is clicked', () => {
-    let container;
-    let form;
-    let searchInput;
-    let submitInput;
-
-    beforeEach(() => {
-      fixtures.inject(`<div id="container">
-        <form class="js-form" action="/search">
-          <input type="search">
-          <input type="submit" value="Search">
-        </form>
-      </div>`);
-
-      container = document.getElementById('container');
-      form = container.getElementsByClassName('js-form')[0];
-      searchInput = form.querySelector('input[type=search]');
-      submitInput = form.querySelector('input[type=submith]');
-    });
-
-    it('should validate the text entered', () => {
-      const search = new Search({ container });
-      spyOn(search, 'validate');
-
-      search.init();
-
-      input(searchInput, 'peace');
-      click(submitInput);
-
-      expect(search.validate).toHaveBeenCalledWith('peace');
-    });
-
-    // ...
-  });
-});
-```
-
-**:)**
-
-```js
-function createHTMLFixture() {
-  fixtures.inject(`<div id="container">
-    <form class="js-form" action="/search">
-      <input type="search">
-      <input type="submit" value="Search">
-    </form>
-  </div>`);
-
-  const container = document.getElementById('container');
-  const form = container.getElementsByClassName('js-form')[0];
-  const searchInput = form.querySelector('input[type=search]');
-  const submitInput = form.querySelector('input[type=submith]');
-
-  return {
-    container,
-    form,
-    searchInput,
-    submitInput
-  };
-}
-
-describe('The search component', () => {
-  describe('when the search button is clicked', () => {
-    it('should validate the text entered', () => {
-      const { container, form, searchInput, submitInput } = createHTMLFixture();
-      const search = new Search({ container });
-      spyOn(search, 'validate');
-
-      search.init();
-
-      input(searchInput, 'peace');
-      click(submitInput);
-
-      expect(search.validate).toHaveBeenCalledWith('peace');
-    });
-
-    // ...
-  });
-});
-```
-
 • [Back to ToC](#-table-of-contents) •
 
 ### Know your testing framework API
@@ -568,14 +466,14 @@ Having a good knowledge of the API can help you in reducing the size/complexity 
 ```js
 it('should call a method with the proper arguments', () => {
   const foo = {
-    bar: jasmine.createSpy(),
-    baz: jasmine.createSpy()
+    bar: jest.fn(),
+    baz: jest.fn(),
   };
 
   foo.bar('qux');
 
   expect(foo.bar).toHaveBeenCalled();
-  expect(foo.bar.calls.argsFor(0)).toEqual(['qux']);
+  expect(foo.bar.calls[0][0]).toEqual('qux');
 });
 
 /*it('should do more but not now', () => {
@@ -588,8 +486,11 @@ it('should do much more but not now', () => {
 **:)**
 
 ```js
-fit('should call once a method with the proper arguments', () => {
-  const foo = jasmine.createSpyObj('foo', ['bar', 'baz']);
+it.only('should call once a method with the proper arguments', () => {
+	const foo = {
+		bar: jest.fn(),
+		baz: jest.fn(),
+	};
 
   foo.bar('baz');
 
@@ -605,9 +506,7 @@ it('should do something else but not now', () => {
 
 #### Note
 
-The handy `fit` function used in the example above allows you to execute only one test without having to comment out all the tests below. `fdescribe` does the same for test suites. This could help save a lot of time when developing.
-
-More information on the [Jasmine website](http://jasmine.github.io).
+The handy `.only` function used in the example above allows you to execute only one test without having to comment out all the tests below. `describe.only` does the same for test suites. This could help save a lot of time when developing.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -833,8 +732,12 @@ describe('when the user has already visited the page', () => {
   describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
     it('should display the survey', () => {
-      const storage = jasmine.createSpyObj('storage', ['setItem', 'getItem']);
-      storage.getItem.and.callFake(key => {
+      const storage = {
+      	setItem: jest.fn(),
+        getItem: jest.fn(),
+      };
+      
+      storage.getItem.mockImplementation((key) => {
         switch (key) {
           case 'page-visited':
             return '1';
@@ -844,7 +747,7 @@ describe('when the user has already visited the page', () => {
         }
 
         return null;
-      }); // ouch.
+      });
 
       const surveyManager = new SurveyManager(storage);
       spyOn(surveyManager, 'display');
