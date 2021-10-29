@@ -580,7 +580,7 @@ describe('The RPN expression evaluator', () => {
 
 • [Back to ToC](#-table-of-contents) •
 
-### When applying TDD, always start by writing the simplest failing test
+### When applying TDD (not required), always start by writing the simplest failing test
 
 **:(**
 
@@ -602,7 +602,7 @@ From there, start building the functionalities incrementally.
 
 • [Back to ToC](#-table-of-contents) •
 
-### When applying TDD, always make small steps in each test-first cycle
+### When applying TDD (not required), always make small steps in each test-first cycle
 
 Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver software fast, incrementally, and in short iterations.
 
@@ -791,6 +791,11 @@ describe('when the user has already visited the page', () => {
 We created a permanent storage of data. What happens if we do not properly clean it?
 We might affect the other tests. Let's fix this:
 
+Try to consider the effort involved in "cleaning up after yourself" and the ramifications if you don't.
+Sometimes there are better ways to achieve the same result.
+
+Also, whenever possible, avoid using/mutating global variables or setting anything globally.
+
 **:) :)**
 
 ```js
@@ -827,9 +832,11 @@ In particular, consider using the "real" version of the objects if:
 
 • [Back to ToC](#-table-of-contents) •
 
-### Create new tests for every defect
+### Create new tests for every defect (FOR REALSIES NOT KIDDING!!!!!)
 
-Whenever a bug is found, create a test that replicates the problem **before touching any code**. From there, you can apply TDD as usual to fix it.
+Whenever a bug is found, create a test that replicates the problem.
+
+When this is not possible (due to the defect being a sev / unrealistically large effort to test) you MUST enter a tech-debt ticket which should be immediately prioritized.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -892,7 +899,7 @@ The next step could be to test the business logic implemented in "showPreview()"
 
 • [Back to ToC](#-table-of-contents) •
 
-### Review test code first
+### Review test code first (strongly suggested, not required)
 
 When reviewing code, always start by reading the code of the tests. Tests are mini use cases of the code that you can drill into.
 
@@ -900,7 +907,7 @@ It will help you understand the intent of the developer very quickly (could be j
 
 • [Back to ToC](#-table-of-contents) •
 
-### Practice code katas, learn with pair programming
+### Practice code katas, learn with pair programming (suggested)
 
 Because experience is the _only_ teacher. Ultimately, greatness comes from practicing; applying the theory over and over again, using feedback to get better every time.
 
