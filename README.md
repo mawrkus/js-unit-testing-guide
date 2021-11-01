@@ -1,17 +1,15 @@
-# 📙 A guide to unit testing in JavaScript
-
-Translations: 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) (thanks to [GabrielchenCN](https://github.com/GabrielchenCN))
+# 📙 A guide to unit testing in JavaScript and Typescript
 
 This is a living document, **new ideas are always welcome**. Contribute: fork, clone, branch, commit, push, pull request!
 
-*All the information provided has been compiled & adapted from the references cited at the end of the document. The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests. Many thanks to all of the sources of information & contributors!*
+*All the information provided has been compiled & adapted from the references cited at the end of the document. The guidelines are illustrated by the [Original Source](https://github.com/mawrkus/js-unit-testing-guide) examples and Whitebox examples.*
 
 ## 📖 Table of contents
 
-1. General principles
+#### General principles
   + [Unit tests](#unit-tests)
   + [Design principles](#design-principles)
-2. Guidelines
+#### Guidelines
   + [Whenever possible, use TDD](#whenever-possible-use-tdd)
   + [Structure your tests properly](#structure-your-tests-properly)
   + [Name your tests properly](#name-your-tests-properly)
@@ -32,7 +30,10 @@ This is a living document, **new ideas are always welcome**. Contribute: fork, c
   + [Test simple user actions](#test-simple-user-actions)
   + [Review test code first](#review-test-code-first)
   + [Practice code katas, learn with pair programming](#practice-code-katas-learn-with-pair-programming)
-3. [Resources](#-resources)
+
+#### Typescript Specific Considerations
+  + [Setting up TS mocks](#setting-up-ts-mocks)
+#### [Resources](#-resources)
 
 ## General principles
 
@@ -910,6 +911,42 @@ It will help you understand the intent of the developer very quickly (could be j
 ### Practice code katas, learn with pair programming (suggested)
 
 Because experience is the _only_ teacher. Ultimately, greatness comes from practicing; applying the theory over and over again, using feedback to get better every time.
+
+• [Back to ToC](#-table-of-contents) •
+
+## Typescript Specific Considerations
+
+### Setting up TS mocks
+
+When mocking dependencies in Typescript you will need to use the `mocked` function from `ts-jest/utils` in order to tell TS that the function that is being mocked is an actual Jest mock.
+
+```typescript
+// function under test
+import { doCoolThing } from './do-cool-thing';
+
+// mocked dependencies
+import { coolify } from '@coolify';
+// mocking utils
+import { mocked } from 'ts-jest/utils';
+
+jest.fn('@coolify', () => ({
+  coolify: jest.fn(),
+}));
+
+const mockedCoolify = mocked(coolify);
+
+describe('do cool thing', () => {
+  const mockCoolThing = 'cool';
+
+  beforeEach(() => {
+    mockedCoolify.mockReturnValue(mockCoolThing);
+  });
+
+  it('should return a cool thing', () => {
+    expect(doCoolThing()).toBe(mockCoolThing);
+  });
+});
+```
 
 • [Back to ToC](#-table-of-contents) •
 
