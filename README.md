@@ -156,7 +156,7 @@ From there, start building the functionalities incrementally.
 
 ### ✨ When applying TDD, always make small steps in each test-first cycle
 
-Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver new code fast, incrementally, and in short iterations.
+Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver new code fast, incrementally, and in short iterations:
 
 **:(**
 
@@ -215,7 +215,7 @@ describe("The RPN expression evaluator", () => {
 
 ### ✨ Structure your tests properly
 
-Don't hesitate to nest your suites to structure logically your tests in subsets.
+Don't hesitate to nest your suites to structure logically your tests in subsets:
 
 **:(**
 
@@ -253,7 +253,9 @@ describe("A set of functionalities", () => {
 
 ### ✨ Name your tests properly
 
-Tests names should be concise, explicit, descriptive and in correct English. Read the output of the test runner and verify that it is understandable! Keep in mind that someone else will read it too and that tests can be the live documentation of the code.
+Tests names should be concise, explicit, descriptive and in correct English. Read the output of the test runner and verify that it is understandable!
+
+Keep in mind that someone else will read it too and that tests can be the live documentation of the code:
 
 **:(**
 
@@ -281,7 +283,7 @@ describe("[unit of work]", () => {
 });
 ```
 
-Or whenever you have many tests that follow the same scenario or are related to the same context:
+Or if there are many tests that follow the same scenario or are related to the same context:
 
 ```js
 describe("[unit of work]", () => {
@@ -388,7 +390,7 @@ it("should properly sanitize strings", () => {
 });
 ```
 
-Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability.
+Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability:
 
 **:) :)**
 
@@ -418,7 +420,7 @@ it("should sanitize a filename containing more than one dot", () => {
 
 ### ✨ Don't write unnecessary expectations
 
-Remember, unit tests are a design specification of how a certain _behaviour_ should work, not a list of observations of everything the code happens to do.
+Remember, unit tests are a design specification of how a certain _behaviour_ should work, not a list of observations of everything the code happens to do:
 
 **:(**
 
@@ -445,7 +447,7 @@ it("should compute the result properly", () => {
 });
 ```
 
-This will improve maintainability because your tests are no longer tied to implementation details.
+This will improve maintainability because your tests are no longer tied to implementation details. If the implementation changes, your tests will not fail.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -493,8 +495,6 @@ Factories can:
 - help reduce the setup code, especially if you use dependency injection
 - make each test more readable by favoring cohesion, since the creation is a single function call in the test itself instead of the setup
 - provide flexibility when creating new instances (setting an initial state, for example)
-
-There's a trade-off to find between applying the DRY principle and readability.
 
 **:(**
 
@@ -659,16 +659,18 @@ describe("The search component", () => {
 });
 ```
 
+Notice that there's a trade-off to find between applying the DRY principle and readability.
+
 • [Back to ToC](#-table-of-contents) •
 
 ### ✨ Don't test multiple concerns in the same test
 
-If a method has several end results, each one should be tested separately so that whenever a bug occurs, it will help you locate the source of the problem directly.
+If a method has several end results, each one should be tested separately so that whenever a bug occurs, it will help you locate the source of the problem directly:
 
 **:(**
 
 ```js
-it("should send the profile data to the server and update the profile view properly", () => {
+it("should send the profile data to the API and update the profile view properly", () => {
   // expect(...)to(...);
   // expect(...)to(...);
 });
@@ -677,7 +679,7 @@ it("should send the profile data to the server and update the profile view prope
 **:)**
 
 ```js
-it("should send the profile data to the server", () => {
+it("should send the profile data to the API", () => {
   // expect(...)to(...);
 });
 
@@ -686,13 +688,13 @@ it("should update the profile view properly", () => {
 });
 ```
 
-Pay attention when writing "and" or "or" in your test messages ;)
+Pay attention when writing "and" or "or" in your test names ;)
 
 • [Back to ToC](#-table-of-contents) •
 
 ### ✨ Cover the general case and the edge cases
 
-"Strange behaviour" usually happens at the edges. Also, remember that tests can be the live documentation of the code. Having edge cases covered will help the future reader fully understand what the code does.
+Because "strange behaviour" usually happens at the edges... And also because tests can be the live documentation of the code. Having edge cases covered will help the future reader fully understand what the code does:
 
 **:(**
 
@@ -756,7 +758,7 @@ describe("when the user has already visited the page", () => {
 });
 ```
 
-We created a permanent storage of data. What happens if we do not properly clean it between tests? We might affect the result of other tests.
+We created a permanent storage of data. What happens if we do not properly clean it between tests? We might affect the result of other tests. By using dependency injection, we can prevent this behaviour:
 
 **:)**
 
@@ -766,7 +768,8 @@ describe("when the user has already visited the page", () => {
   describe("when the survey is not disabled", () => {
     // storage.getItem('survey-disabled') === null
     it("should display the survey", () => {
-      const storage = new MemoryStorage(); // https://github.com/tatsuyaoiw/webstorage
+      // E.g. https://github.com/tatsuyaoiw/webstorage
+      const storage = new MemoryStorage();
       storage.setItem("page-visited", "1");
       storage.setItem("survey-disabled", "1");
 
@@ -780,8 +783,6 @@ describe("when the user has already visited the page", () => {
   });
 });
 ```
-
-The `MemoryStorage` class does not persist any data, which ensures that we don't create any side effects.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -801,7 +802,7 @@ _TODO: ADD AN EXAMPLE_
 
 ```
 
-The idea to keep in mind is that **dependencies can still be real objects**. Don't mock everything because you can. Consider using the real version of the objects if:
+The idea to keep in mind is that **dependencies can still be real objects**. Don't mock everything because you can. Consider using the real version if:
 
 - it leads to a simple, nice and easy tests setup,
 - it does not create a shared state between the tests, causing unexpected side effects,
@@ -815,11 +816,11 @@ The idea to keep in mind is that **dependencies can still be real objects**. Don
 Examples of complex user interactions:
 
 - Filling a form, drag and dropping some items then submitting the form.
-- Clicking a tab, clicking an image thumbnail then navigating through a gallery of images previously loaded from a database.
+- Clicking a tab, clicking an image thumbnail then navigating through a gallery of images loaded on-demand from an API.
 
-These interactions might involve many units of work and should be handled at a higher level by **end-to-end tests**. They will take more time to execute. They could be flaky (false negatives) and they will require debugging whenever a failure is reported.
+These interactions involve many units of work and should be handled at a higher level by **end-to-end tests**. They will usually take more time to execute, they could be flaky (false negatives) and they will require debugging whenever a failure is reported.
 
-For these complex user scenarios, consider using a test automation framework like the excellent [Cypress](https://www.cypress.io/) or manual QA testing.
+For these complex user scenarios, consider using a test automation framework like the excellent [Cypress](https://www.cypress.io/), or manual QA testing.
 
 • [Back to ToC](#-table-of-contents) •
 
