@@ -114,7 +114,7 @@ How? Why?
 #### Test-first cycle
 
 1. Write a simple failing test
-2. Make the test pass by writing the minimum amount of code, don't bother with code quality during this step, go as fast as you can to make the test pass
+2. Make the test pass by writing the minimum amount of code, don't bother with code quality, go as fast as you can to make the test pass
 3. Refactor the code by applying best practices and design patterns
 
 #### Consequences of the test-first cycle
@@ -126,7 +126,7 @@ How? Why?
 - Fast feedback for the developers, you know that you don't break anything and that you are evolving the system in a good direction
 - Having tests generates confidence to add features, fix bugs, or explore new designs
 
-Notice that code written without a test-first approach is often very hard to test.
+Notice how code written without a test-first approach is often very hard to test!
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -311,7 +311,11 @@ You might also want to use this pattern to describe a class and its methods:
 
 ```js
 describe("Gallery", () => {
-  describe("init()", () => {});
+  describe("init()", () => {
+    it("should properly calculate the thumb size", () => {});
+
+    it("should properly calculate the thumbs count", () => {});
+  });
 
   describe("goTo(index)", () => {});
 
@@ -328,8 +332,6 @@ This pattern is a good support to help you read and understand tests more easily
 - The **arrange** part is where you set up the objects to be tested: initializing input variables, setting up spies, etc.
 - The **act** part is where you act upon the code under test: calling a function or a class method, storing the result, ...
 - The **assert** part is where you test your expectations.
-
-This pattern is also named "Given-When-Then" or "Setup-Exercise-Verify".
 
 ```js
 describe("Gallery", () => {
@@ -348,6 +350,8 @@ describe("Gallery", () => {
   });
 });
 ```
+
+This pattern is also named "Given-When-Then" or "Setup-Exercise-Verify".
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -447,8 +451,6 @@ it("should compute the result properly", () => {
 });
 ```
 
-This will improve maintainability because your tests are no longer tied to implementation details. If the implementation changes, your tests will not fail.
-
 • [Back to ToC](#-table-of-contents) •
 
 ### ✨ Test the behaviour, not the internal implementation
@@ -478,11 +480,11 @@ it("should add a user in memory", () => {
 
 Pro:
 
-- Changing the internal implementation of a class/object will not necessarily force you to refactor the tests
+- Changing the internal implementation will not necessarily force you to refactor the tests
 
 Con:
 
-- If a test is failing, we might have to debug to know which part of the code needs to be fixed
+- If a test is failing, you might have to debug to know which part of the code needs to be fixed
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
@@ -917,6 +919,7 @@ There's a ton of resources available out there, here are just a few I've found u
 - Sandi Metz - "Make Everything The Same": https://sandimetz.com/blog/2016/6/9/make-everything-the-same
 - Varun Vachhar - "How to actually test UIs": https://storybook.js.org/blog/how-to-actually-test-uis/
 - Rebecca Murphy - "Writing Testable JavaScript": http://alistapart.com/article/writing-testable-javascript
+- Martin Fowler - "Refactoring": https://refactoring.com/
 
 ### Listening
 
