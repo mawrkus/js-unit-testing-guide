@@ -135,16 +135,18 @@ Notice that code written without a test-first approach is often very hard to tes
 **:(**
 
 ```js
-it("should suppress all chars that appear multiple times", () => {
-  expect(keepUniqueChars("Hello Fostonic !!")).toBe("HeFstnic");
+it("should properly calculate a RPN expression", () => {
+  const result = RPN("5 1 2 + 4 * - 10 /");
+  expect(result).toBe(-0.7);
 });
 ```
 
 **:)**
 
 ```js
-it("should return an empty string when passed an empty string", () => {
-  expect(keepUniqueChars("")).toBe("");
+it("should return null when the expression is an empty string", () => {
+  const result = RPN("");
+  expect(result).toBeNull();
 });
 ```
 
@@ -184,11 +186,13 @@ describe("The RPN expression evaluator", () => {
     expect(result).toBe(42);
   });
 
-  describe("Additions-only expressions", () => {
+  describe("Additions", () => {
     it("should properly calculate a simple addition", () => {
       const result = RPN("41 1 +");
       expect(result).toBe(42);
     });
+
+    // ...
 
     it("should properly calculate a complex addition", () => {
       const result = RPN("2 9 + 15 3 + + 7 6 + +");
@@ -254,7 +258,7 @@ Tests names should be concise, explicit, descriptive and in correct English. Rea
 **:(**
 
 ```js
-describe("MyGallery", () => {
+describe("myGallery", () => {
   it("init set correct property when called (thumb size, thumbs count)", () => {});
 });
 ```
@@ -301,15 +305,47 @@ describe("The Gallery instance", () => {
 });
 ```
 
+You might also want to use this pattern to describe a class and its methods:
+
+```js
+describe("Gallery", () => {
+  describe("init()", () => {});
+
+  describe("goTo(index)", () => {});
+
+  // ...
+});
+```
+
 • [Back to ToC](#-table-of-contents) •
 
 ### ✨ Use the Arrange-Act-Assert pattern
 
-_TODO_
+This pattern is a good support to help you read and understand tests more easily:
 
-Also named Given-When-Then or Setup-Exercise-Verify.
+- The **arrange** part is where you set up the objects to be tested: initializing input variables, setting up spies, etc.
+- The **act** part is where you act upon the code under test: calling a function or a class method, storing the result, ...
+- The **assert** part is where you test your expectations.
 
-Mention it goes against `beforeEach`?
+This pattern is also named "Given-When-Then" or "Setup-Exercise-Verify".
+
+```js
+describe("Gallery", () => {
+  describe("goTo(index)", () => {
+    it("should display the proper image", () => {
+      // arrange
+      const myGallery = new Gallery();
+      const index = 1;
+
+      // act
+      myGallery.goTo(index);
+
+      // assert
+      expect(document.getElementById("image-1")).toBeVisible();
+    });
+  });
+});
+```
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -874,6 +910,7 @@ There's a ton of resources available out there, here are just a few I've found u
 ### Reading
 
 - Yoni Goldberg - "Writing clean JavaScript tests with the BASIC principles": https://yonigoldberg.medium.com/fighting-javascript-tests-complexity-with-the-basic-principles-87b7622eac9a
+- Testim - "Unit Testing Best Practices: 9 to Ensure You Do It Right": https://www.testim.io/blog/unit-testing-best-practices/
 - Vladimir Khorikov - "DRY vs DAMP in Unit Tests": https://enterprisecraftsmanship.com/posts/dry-damp-unit-tests/
 - Georgina McFadyen - "TDD - From the Inside Out or the Outside In?": https://8thlight.com/blog/georgina-mcfadyen/2016/06/27/inside-out-tdd-vs-outside-in.html
 - Sandi Metz - "Make Everything The Same": https://sandimetz.com/blog/2016/6/9/make-everything-the-same
