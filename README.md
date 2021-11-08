@@ -19,7 +19,7 @@
 
 - [Whenever possible, use TDD](#-whenever-possible-use-tdd)
 - [When applying TDD, always start by writing the simplest failing test](#-when-applying-tdd-always-start-by-writing-the-simplest-failing-test)
-- [When applying TDD, always make small steps in each test-first cycle](#-when-applying-tdd-always-make-small-steps-in-each-test-first-cycle)
+- [When applying TDD, always make baby steps in each cycle](#-when-applying-tdd-always-make-baby-steps-in-each-cycle)
 - [Structure your tests properly](#-structure-your-tests-properly)
 - [Name your tests properly](#-name-your-tests-properly)
 - [Use the Arrange-Act-Assert pattern](#-use-the-arrange-act-assert-pattern)
@@ -148,7 +148,7 @@ From there, start building the functionalities incrementally.
 
 • [Back to ToC](#-table-of-contents) •
 
-### ✨ When applying TDD, always make small steps in each test-first cycle
+### ✨ When applying TDD, always make baby steps in each cycle
 
 Build your tests suite from the simple case to the more complex ones. Keep in mind the incremental design. Deliver new code fast, incrementally, and in short iterations:
 
