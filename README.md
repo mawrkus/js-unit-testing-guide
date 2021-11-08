@@ -107,7 +107,7 @@ All the following examples assume the usage of the [Jest testing framework](http
 
 ### ✨ Whenever possible, use TDD
 
-TDD is a _design process_, not a testing process. It's a highly-iterative process in which you design, test, and code more or less at the same time. It goes like this:
+**TDD is a design process, not a testing process.** It's a highly-iterative process in which you design, test, and code more or less at the same time. It goes like this:
 
 1. **Think:** Figure out what test will best move your code towards completion. (Take as much time as you need. This is the hardest step for beginners.)
 2. **Red:** Write a very small amount of test code. Only a few lines... Run the tests and watch the new test fail: the test bar should turn red.
