@@ -107,26 +107,20 @@ All the following examples assume the usage of the [Jest testing framework](http
 
 ### ✨ Whenever possible, use TDD
 
-TDD is a _design process_, not a testing process. TDD is a robust way of designing software components ("units") interactively so that their behaviour is specified through unit tests.
+TDD is a _design process_, not a testing process. It's a highly-iterative process in which you design, test, and code more or less at the same time. It goes like this:
 
-How? Why?
+1. **Think:** Figure out what test will best move your code towards completion. (Take as much time as you need. This is the hardest step for beginners.)
+2. **Red:** Write a very small amount of test code. Only a few lines... Run the tests and watch the new test fail: the test bar should turn red.
+3. **Green:** Write a very small amount of production code. Again, usually no more than a few lines of code. Don't worry about design purity or conceptual elegance. Sometimes you can just hardcode the answer. This is okay because you'll be refactoring in a moment. Run the tests and watch them pass: the test bar will turn green.
+4. **Refactor:** Now that your tests are passing, you can make changes without worrying about breaking anything. Pause for a moment, look at the code you've written, and ask yourself if you can improve it. Look for duplication and other "code smells." If you see something that doesn't look right, but you're not sure how to fix it, that's okay. Take a look at it again after you've gone through the cycle a few more times. (Take as much time as you need on this step.) After each little refactoring, run the tests and make sure they still pass.
+5. **Repeat:** Do it again. You'll repeat this cycle dozens of times in an hour. Typically, you'll run through several cycles (three to five) very quickly, then find yourself slowing down and spending more time on refactoring. Then you'll speed up again.
 
-#### Test-first cycle
+This process works well for two reasons:
 
-1. Write a simple failing test
-2. Make the test pass by writing the minimum amount of code, don't bother with code quality, go as fast as you can to make the test pass
-3. Refactor the code by applying best practices and design patterns
+1. You're working in baby steps, constantly forming hypotheses and checking them. Whenever you make a mistake, you catch it right away. It's only been a few lines of code since you made the mistake, which makes the mistake very easy to find and fix. We all know that finding mistakes, not fixing them, is the most expensive part of programming.
+2. You're always thinking about design. Either you're deciding which test you're going to write next, which is an interface design process, or you're deciding how to refactor, which is a code design process. All of this thought on design is immediately tested by turning it into code, which very quickly shows you if the design is good or bad.
 
-#### Consequences of the test-first cycle
-
-- Writing a test first makes the code design testable de facto
-- Writing just the amount of code needed to implement the required functionality makes the resulting codebase minimal, thus more maintainable
-- The codebase can be enhanced using refactoring mechanisms, the tests give you confidence that the new code is not modifying the existing functionalities
-- Cleaning the code in each cycle makes the codebase more maintainable, it is much cheaper to change the code frequently and in small increments
-- Fast feedback for the developers, you know that you don't break anything and that you are evolving the system in a good direction
-- Having tests generates confidence to add features, fix bugs, or explore new designs
-
-Notice how code written without a test-first approach is often very hard to test!
+Notice also how code written without a test-first approach is often very hard to test!
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -919,6 +913,8 @@ There's a ton of resources available out there, here are just a few I've found u
 - Sandi Metz - "Make Everything The Same": https://sandimetz.com/blog/2016/6/9/make-everything-the-same
 - Varun Vachhar - "How to actually test UIs": https://storybook.js.org/blog/how-to-actually-test-uis/
 - Rebecca Murphy - "Writing Testable JavaScript": http://alistapart.com/article/writing-testable-javascript
+- James Shore - "Red-Green-Refactor
+  ": https://www.jamesshore.com/v2/blog/2005/red-green-refactor
 - Martin Fowler - "Refactoring": https://refactoring.com/
 
 ### Listening
@@ -929,6 +925,8 @@ There's a ton of resources available out there, here are just a few I've found u
 
 - Assert(js) Conference (2019): https://www.youtube.com/watch?v=UOOuW5tqT8M&list=PLZ66c9_z3umMtAboEKsHXQWB0YMJje7Tl
 - Assert(js) Conference (2018): https://www.youtube.com/watch?v=zqdCM8zR6Mc&list=PLZ66c9_z3umNSrKSb5cmpxdXZcIPNvKGw
+- James Shore - "TDD Lunch & Learn
+  ": https://www.jamesshore.com/v2/projects/lunch-and-learn
 - Roy Osherove - "JS Unit Testing Good Practices and Horrible Mistakes": https://www.youtube.com/watch?v=iP0Vl-vU3XM
 - José Armesto - "Unit Testing sucks (and it’s our fault)": https://www.youtube.com/watch?v=GZ9iZsMAZFQ
 
