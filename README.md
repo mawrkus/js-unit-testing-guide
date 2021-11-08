@@ -351,68 +351,10 @@ This pattern is also named "Given-When-Then" or "Setup-Exercise-Verify".
 
 ### ✨ Avoid logic in your tests
 
-_TODO: FIND BETTER EXAMPLE_
-
 Always use simple statements. Don't use loops and/or conditionals. If you do, you add a possible entry point for bugs in the test itself:
 
 - Conditionals: you don't know which path the test will take
 - Loops: you could be sharing state between tests
-
-**:(**
-
-```js
-it("should properly sanitize strings", () => {
-  const testValues = {
-    Avion: "Avi" + String.fromCharCode(243) + "n",
-    "The-space": "The space",
-    "Weird-chars-": "Weird chars!!",
-    "file-name.zip": "file name.zip",
-    "my-name.zip": "my.name.zip",
-  };
-
-  for (let result in testValues) {
-    expect(sanitizeString(testValues[result])).toBe(result);
-  }
-});
-```
-
-**:)**
-
-```js
-it("should properly sanitize strings", () => {
-  expect(sanitizeString("Avi" + String.fromCharCode(243) + "n")).toBe("Avion");
-  expect(sanitizeString("The space")).toBe("The-space");
-  expect(sanitizeString("Weird chars!!")).toBe("Weird-chars-");
-  expect(sanitizeString("file name.zip")).toBe("file-name.zip");
-  expect(sanitizeString("my.name.zip")).toBe("my-name.zip");
-});
-```
-
-Better: write a test for each type of sanitization. It will give a nice output of all possible cases, improving maintainability:
-
-**:) :)**
-
-```js
-it("should sanitize a string containing non-ASCII chars", () => {
-  expect(sanitizeString("Avi" + String.fromCharCode(243) + "n")).toBe("Avion");
-});
-
-it("should sanitize a string containing spaces", () => {
-  expect(sanitizeString("The space")).toBe("The-space");
-});
-
-it("should sanitize a string containing exclamation signs", () => {
-  expect(sanitizeString("Weird chars!!")).toBe("Weird-chars-");
-});
-
-it("should sanitize a filename containing spaces", () => {
-  expect(sanitizeString("file name.zip")).toBe("file-name.zip");
-});
-
-it("should sanitize a filename containing more than one dot", () => {
-  expect(sanitizeString("my.name.zip")).toBe("my-name.zip");
-});
-```
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -783,20 +725,6 @@ describe("when the user has already visited the page", () => {
 • [Back to ToC](#-table-of-contents) •
 
 ### ✨ Don't mock everything
-
-_TODO: ADD AN EXAMPLE_
-
-**:(**
-
-```js
-
-```
-
-**:)**
-
-```js
-
-```
 
 The idea to keep in mind is that **dependencies can still be real objects**. Don't mock everything because you can. Consider using the real version if:
 
