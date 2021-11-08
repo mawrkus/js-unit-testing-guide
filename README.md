@@ -6,7 +6,7 @@
 > The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
 > Many thanks to all of the sources of information & contributors.
 
-_Last edit: November 2021._
+📅 _Last edit: November 2021._
 
 ## 📖 Table of contents
 
