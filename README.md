@@ -1,6 +1,6 @@
 # A guide to unit testing in JavaScript
 
-**This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request**
+**This is a living document. New ideas are always welcome. Contribute: fork, clone, branch, commit, push, pull request.**
 
 > All the information provided has been compiled & adapted from many references, some of them cited at the end of the document.
 > The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
@@ -297,6 +297,8 @@ describe("The Gallery instance", () => {
     it("should properly calculate the thumb size", () => {});
 
     it("should properly calculate the thumbs count", () => {});
+    
+    // ...
   });
 });
 ```
@@ -353,8 +355,8 @@ This pattern is also named "Given-When-Then" or "Setup-Exercise-Verify".
 
 Always use simple statements. Don't use loops and/or conditionals. If you do, you add a possible entry point for bugs in the test itself:
 
-- Conditionals: you don't know which path the test will take
-- Loops: you could be sharing state between tests
+- Conditionals: you don't know which path the test will take.
+- Loops: you could be sharing state between tests.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -414,13 +416,8 @@ it("should add a user in memory", () => {
 });
 ```
 
-Pro:
-
-- Changing the internal implementation will not necessarily force you to refactor the tests
-
-Con:
-
-- If a test is failing, you might have to debug to know which part of the code needs to be fixed
+- Pro: changing the internal implementation will not necessarily force you to refactor the tests.
+- Con: when a test is failing, you might have to debug to know which part of the code needs to be fixed.
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
@@ -430,9 +427,9 @@ Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
 Factories can:
 
-- help reduce the setup code, especially if you use dependency injection
-- make each test more readable by favoring cohesion, since the creation is a single function call in the test itself instead of the setup
-- provide flexibility when creating new instances (setting an initial state, for example)
+- help reduce the setup code, especially if you use dependency injection,
+- make each test more readable by favoring cohesion, since the creation is a single function call in the test itself instead of the setup,
+- provide flexibility when creating new instances (setting an initial state, for example).
 
 **:(**
 
@@ -473,23 +470,23 @@ describe("User profile module", () => {
 **:)**
 
 ```js
+function createProfileModule({ likesCount = 0 } = {}) {
+  const element = document.getElementById("my-profile"),;
+  const pubSub = { notify: jest.fn() };
+
+  const profileModule = new ProfileModule({
+    element,
+    pubSub
+    likesCount,
+  });
+
+  return {
+    pubSub,
+    profileModule,
+  };
+}
+
 describe("User profile module", () => {
-  function createProfileModule({ likesCount = 0 } = {}) {
-    const element = document.getElementById("my-profile"),;
-    const pubSub = { notify: jest.fn() };
-
-    const profileModule = new ProfileModule({
-      element,
-      pubSub
-      likesCount,
-    });
-
-    return {
-      pubSub,
-      profileModule,
-    };
-  }
-
   it('should publish a topic when a new "like" is given', () => {
     const {
       profileModule,
@@ -632,7 +629,11 @@ Pay attention when writing "and" or "or" in your test names ;)
 
 ### ✨ Cover the general case and the edge cases
 
-Because "strange behaviour" usually happens at the edges... And also because tests can be the live documentation of the code. Having edge cases covered will help the future reader fully understand what the code does:
+Having edge cases covered will:
+
+- clarify what the code does in a wide range of situations,
+- capture regressions early when the code is refactored,
+- help the future reader fully understand what the code fully does, as tests can be the live documentation of the code.
 
 **:(**
 
@@ -683,7 +684,7 @@ describe("when the user has already visited the page", () => {
     it("should display the survey", () => {
       const storage = window.localStorage;
       storage.setItem("page-visited", "1");
-      storage.setItem("survey-disabled", "1");
+      storage.setItem("survey-disabled", null);
 
       const surveyManager = new SurveyManager();
       jest.spyOn(surveyManager, "display");
@@ -709,7 +710,7 @@ describe("when the user has already visited the page", () => {
       // E.g. https://github.com/tatsuyaoiw/webstorage
       const storage = new MemoryStorage();
       storage.setItem("page-visited", "1");
-      storage.setItem("survey-disabled", "1");
+      storage.setItem("survey-disabled", null);
 
       const surveyManager = new SurveyManager(storage);
       jest.spyOn(surveyManager, "display");
@@ -728,10 +729,10 @@ describe("when the user has already visited the page", () => {
 
 The idea to keep in mind is that **dependencies can still be real objects**. Don't mock everything because you can. Consider using the real version if:
 
-- it leads to a simple, nice and easy tests setup,
 - it does not create a shared state between the tests, causing unexpected side effects,
-- the code being tested does not make HTTP requests, API calls or browser page reloads,
-- the speed of execution of the tests stays within the limits you fixed.
+- the code being tested does not make HTTP requests or browser page reloads,
+- the speed of execution of the tests stays within the limits you fixed,
+- it leads to a simple, nice and easy tests setup.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -755,7 +756,7 @@ Example of simple user actions:
 - Clicking on a link that toggles the visibility of a DOM element
 - Clicking on a button that performs an API call (like sending a tracking event).
 
-These actions can be easily tested **by simulating DOM events**, for example:
+These actions can be easily tested by simulating DOM events, for example:
 
 ```js
 describe('clicking on the "Preview profile" link', () => {
@@ -874,6 +875,7 @@ There's a ton of resources available out there, here are just a few I've found u
 - http://codekata.com/
 - https://github.com/gamontal/awesome-katas
 - https://github.com/cesalberca/katas
+- https://github.com/emilybache
 
 ## 🌐 Translations
 
