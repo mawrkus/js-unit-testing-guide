@@ -817,7 +817,7 @@ Having a good knowledge of the framework will help you in reducing the size and 
 
 ### ✨ Review test code first
 
-When reviewing code, always start by reading the code of the tests. Tests are mini use cases of the code that you can drill into.
+[When reviewing code](https://github.com/mawrkus/pull-request-review-guide), always start by reading the code of the tests. Tests are mini use cases of the code that you can drill into.
 
 It will help you understand the intent of the developer very quickly (could be just by looking at the names of the tests).
 
