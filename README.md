@@ -72,7 +72,9 @@ The code is designed to support this independence (see "Design principles" below
 
 **Unit tests are code too**
 
-They should meet the same level of quality as the code being tested. They can also be refactored to be more maintainable and readable.
+They should be easily **readable** and **maintainable**.
+
+Don't hesitate to refactor them to help your future self. For instance, it should be trivial to understand why a test is failing just by looking at its own code, without having to search in many places in the test file (variables declared in the top-level scope, closures, test setup & teardown hooks, etc.).
 
 • [Back to ToC](#-table-of-contents) •
 
