@@ -6,7 +6,7 @@
 > The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
 > Many thanks to all of the sources of information & contributors.
 
-📅 _Last edit: November 2021._
+📅 _Last edit: September 2023._
 
 ## 📖 Table of contents
 
@@ -131,7 +131,7 @@ Notice also how code written without a test-first approach is often very hard to
 **:(**
 
 ```js
-it("should properly calculate a RPN expression", () => {
+it("calculates a RPN expression", () => {
   const result = RPN("5 1 2 + 4 * - 10 /");
   expect(result).toBe(-0.7);
 });
@@ -140,7 +140,7 @@ it("should properly calculate a RPN expression", () => {
 **:)**
 
 ```js
-it("should return null when the expression is an empty string", () => {
+it("returns null when the expression is an empty string", () => {
   const result = RPN("");
   expect(result).toBeNull();
 });
@@ -157,12 +157,12 @@ Build your tests suite from the simple case to the more complex ones. Keep in mi
 **:(**
 
 ```js
-it("should return null when the expression is an empty string", () => {
+it("returns null when the expression is an empty string", () => {
   const result = RPN("");
   expect(result).toBeNull();
 });
 
-it("should properly calculate a RPN expression", () => {
+it("calculates a RPN expression", () => {
   const result = RPN("5 1 2 + 4 * - 10 /");
   expect(result).toBe(-0.7);
 });
@@ -172,25 +172,25 @@ it("should properly calculate a RPN expression", () => {
 
 ```js
 describe("The RPN expression evaluator", () => {
-  it("should return null when the expression is an empty string", () => {
+  it("returns null when the expression is an empty string", () => {
     const result = RPN("");
     expect(result).toBeNull();
   });
 
-  it("should return the same value when the expression holds a single value", () => {
+  it("returns the same value when the expression holds a single value", () => {
     const result = RPN("42");
     expect(result).toBe(42);
   });
 
   describe("Additions", () => {
-    it("should properly calculate a simple addition", () => {
+    it("calculates a simple addition", () => {
       const result = RPN("41 1 +");
       expect(result).toBe(42);
     });
 
     // ...
 
-    it("should properly calculate a complex addition", () => {
+    it("calculates a complex addition", () => {
       const result = RPN("2 9 + 15 3 + + 7 6 + +");
       expect(result).toBe(42);
     });
@@ -199,7 +199,7 @@ describe("The RPN expression evaluator", () => {
   // ...
 
   describe("Complex expressions", () => {
-    it("should properly calculate an expression containing all 4 operators", () => {
+    it("calculates an expression containing all 4 operators", () => {
       const result = RPN("5 1 2 + 4 * - 10 /");
       expect(result).toBe(-0.7);
     });
@@ -217,13 +217,13 @@ Don't hesitate to nest your suites to structure logically your tests in subsets:
 
 ```js
 describe("A set of functionalities", () => {
-  it("a set of functionalities should do something nice", () => {});
+  it("does something nice", () => {});
 
-  it("a subset of functionalities should do something great", () => {});
+  it("a subset of functionalities does something great", () => {});
 
-  it("a subset of functionalities should do something awesome", () => {});
+  it("a subset of functionalities does something awesome", () => {});
 
-  it("another subset of functionalities should also do something great", () => {});
+  it("another subset of functionalities also does something great", () => {});
 });
 ```
 
@@ -231,16 +231,16 @@ describe("A set of functionalities", () => {
 
 ```js
 describe("A set of functionalities", () => {
-  it("should do something nice", () => {});
+  it("does something nice", () => {});
 
   describe("A subset of functionalities", () => {
-    it("should do something great", () => {});
+    it("does something great", () => {});
 
-    it("should do something awesome", () => {});
+    it("does something awesome", () => {});
   });
 
   describe("Another subset of functionalities", () => {
-    it("should also do something great", () => {});
+    it("also does something great", () => {});
   });
 });
 ```
@@ -265,9 +265,9 @@ describe("myGallery", () => {
 
 ```js
 describe("The Gallery instance", () => {
-  it("should properly calculate the thumb size when initialized", () => {});
+  it("calculates the thumb size when initialized", () => {});
 
-  it("should properly calculate the thumbs count when initialized", () => {});
+  it("calculates the thumbs count when initialized", () => {});
 });
 ```
 
@@ -275,7 +275,7 @@ In order to help you write test names properly, you can use the **"unit of work 
 
 ```js
 describe("[unit of work]", () => {
-  it("should [expected behaviour] when [scenario/context]", () => {});
+  it("[expected behaviour] when [scenario/context]", () => {});
 });
 ```
 
@@ -284,7 +284,7 @@ Or if there are many tests that follow the same scenario or are related to the s
 ```js
 describe("[unit of work]", () => {
   describe("when [scenario/context]", () => {
-    it("should [expected behaviour]", () => {});
+    it("[expected behaviour]", () => {});
   });
 });
 ```
@@ -296,10 +296,10 @@ For example:
 ```js
 describe("The Gallery instance", () => {
   describe("when initialized", () => {
-    it("should properly calculate the thumb size", () => {});
+    it("calculates the thumb size", () => {});
 
-    it("should properly calculate the thumbs count", () => {});
-    
+    it("calculates the thumbs count", () => {});
+
     // ...
   });
 });
@@ -310,9 +310,9 @@ You might also want to use this pattern to describe a class and its methods:
 ```js
 describe("Gallery", () => {
   describe("init()", () => {
-    it("should properly calculate the thumb size", () => {});
+    it("calculates the thumb size", () => {});
 
-    it("should properly calculate the thumbs count", () => {});
+    it("calculates the thumbs count", () => {});
   });
 
   describe("goTo(index)", () => {});
@@ -320,6 +320,8 @@ describe("Gallery", () => {
   // ...
 });
 ```
+
+Also, tests ["should not begin with should"](https://github.com/spotify/should-up).
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -334,7 +336,7 @@ This pattern is a good support to help you read and understand tests more easily
 ```js
 describe("Gallery", () => {
   describe("goTo(index)", () => {
-    it("should display the proper image", () => {
+    it("displays the image identified by its index", () => {
       // arrange
       const myGallery = new Gallery();
       const index = 1;
@@ -369,7 +371,7 @@ Remember, unit tests are a design specification of how a certain _behaviour_ sho
 **:(**
 
 ```js
-it("should compute the result properly", () => {
+it("computes the result of an expression", () => {
   const multiplySpy = jest.spyOn(Calculator, "multiple");
   const subtractSpy = jest.spyOn(Calculator, "subtract");
 
@@ -384,7 +386,7 @@ it("should compute the result properly", () => {
 **:)**
 
 ```js
-it("should compute the result properly", () => {
+it("computes the result of the expression", () => {
   const result = Calculator.compute("(21.5 x 2) - 1");
 
   expect(result).toBe(42);
@@ -398,11 +400,10 @@ it("should compute the result properly", () => {
 **:(**
 
 ```js
-it("should add a user in memory", () => {
-  userManager.addUser("Dr. Falker", "Joshua");
+it("adds a user in memory", () => {
+  usersManager.addUser("Dr. Falker");
 
-  expect(userManager._users[0].name).toBe("Dr. Falker");
-  expect(userManager._users[0].password).toBe("Joshua");
+  expect(usersManager._users[0].name).toBe("Dr. Falker");
 });
 ```
 
@@ -411,15 +412,15 @@ A better approach is to test at the same level of the API:
 **:)**
 
 ```js
-it("should add a user in memory", () => {
-  userManager.addUser("Dr. Falker", "Joshua");
+it("adds a user in memory", () => {
+  usersManager.addUser("Dr. Falker");
 
-  expect(userManager.loginUser("Dr. Falker", "Joshua")).toBe(true);
+  expect(usersManager.hasUser("Dr. Falker")).toBe(true);
 });
 ```
 
-- Pro: changing the internal implementation will not necessarily force you to refactor the tests.
-- Con: when a test is failing, you might have to debug to know which part of the code needs to be fixed.
+- **Pro:** changing the internal implementation will not necessarily force you to refactor the tests.
+- **Con:** when a test is failing, you might have to debug to know which part of the code needs to be fixed.
 
 Here, a balance has to be found, unit-testing some key parts can be beneficial.
 
@@ -436,8 +437,8 @@ Factories can:
 **:(**
 
 ```js
-describe("User profile module", () => {
-  let profileModule;
+describe("The UserProfile class", () => {
+  let userProfile;
   let pubSub;
 
   beforeEach(() => {
@@ -445,26 +446,26 @@ describe("User profile module", () => {
 
     pubSub = { notify() {} };
 
-    profileModule = new ProfileModule({
+    userProfile = new UserProfile({
       element,
       pubSub,
       likes: 0,
     });
   });
 
-  it('should publish a topic when a new "like" is given', () => {
+  it('publishes a topic when a new "like" is given', () => {
     jest.spyOn(pubSub, "notify");
 
-    profileModule.incLikes();
+    userProfile.incLikes();
 
     expect(pubSub.notify).toHaveBeenCalledWith("likes:inc", { count: 1 });
   });
 
-  it("should retrieve the correct number of likes", () => {
-    profileModule.incLikes();
-    profileModule.incLikes();
+  it("retrieves the number of likes", () => {
+    userProfile.incLikes();
+    userProfile.incLikes();
 
-    expect(profileModule.getLikes()).toBe(2);
+    expect(userProfile.getLikes()).toBe(2);
   });
 });
 ```
@@ -472,41 +473,41 @@ describe("User profile module", () => {
 **:)**
 
 ```js
-function createProfileModule({ likesCount = 0 } = {}) {
+function createUserProfile({ likes = 0 } = {}) {
   const element = document.getElementById("my-profile"),;
   const pubSub = { notify: jest.fn() };
 
-  const profileModule = new ProfileModule({
+  const userProfile = new UserProfile({
     element,
     pubSub
-    likesCount,
+    likes,
   });
 
   return {
     pubSub,
-    profileModule,
+    userProfile,
   };
 }
 
-describe("User profile module", () => {
-  it('should publish a topic when a new "like" is given', () => {
+describe("The UserProfile class", () => {
+  it('publishes a topic when a new "like" is given', () => {
     const {
-      profileModule,
+      userProfile,
       pubSub,
-    } = createProfileModule();
+    } = createUserProfile();
 
-    profileModule.incLikes();
+    userProfile.incLikes();
 
     expect(pubSub.notify).toHaveBeenCalledWith("likes:inc");
   });
 
-  it("should retrieve the correct number of likes", () => {
-    const { profileModule } = createProfileModule({ likes: 40 });
+  it("retrieves the number of likes", () => {
+    const { userProfile } = createUserProfile({ likes: 40 });
 
-    profileModule.incLikes();
-    profileModule.incLikes();
+    userProfile.incLikes();
+    userProfile.incLikes();
 
-    expect(profileModule.getLikes()).toBe(42);
+    expect(userProfile.getLikes()).toBe(42);
   });
 });
 ```
@@ -537,7 +538,7 @@ describe("The search component", () => {
       submitInput = form.querySelector("input[type=submith]");
     });
 
-    it("should validate the text entered", () => {
+    it("validates the text entered", () => {
       const search = new Search({ container });
       jest.spyOn(search, "validate");
 
@@ -578,7 +579,7 @@ function createHTMLFixture() {
 
 describe("The search component", () => {
   describe("when the search button is clicked", () => {
-    it("should validate the text entered", () => {
+    it("validates the text entered", () => {
       const { container, searchInput, submitInput } = createHTMLFixture();
 
       const search = new Search({ container });
@@ -596,7 +597,7 @@ describe("The search component", () => {
 });
 ```
 
-Notice that there's a trade-off to find between applying the DRY principle and readability.
+Here also, there's a trade-off to find between applying the DRY principle and readability.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -607,7 +608,7 @@ If a method has several end results, each one should be tested separately so tha
 **:(**
 
 ```js
-it("should send the profile data to the API and update the profile view properly", () => {
+it("sends the profile data to the API and updates the profile view", () => {
   // expect(...)to(...);
   // expect(...)to(...);
 });
@@ -616,11 +617,11 @@ it("should send the profile data to the API and update the profile view properly
 **:)**
 
 ```js
-it("should send the profile data to the API", () => {
+it("sends the profile data to the API", () => {
   // expect(...)to(...);
 });
 
-it("should update the profile view properly", () => {
+it("updates the profile view", () => {
   // expect(...)to(...);
 });
 ```
@@ -640,7 +641,7 @@ Having edge cases covered will:
 **:(**
 
 ```js
-it("should properly calculate a RPN expression", () => {
+it("calculates the value of an expression", () => {
   const result = RPN("5 1 2 + 4 * - 10 /");
   expect(result).toBe(-0.7);
 });
@@ -650,24 +651,28 @@ it("should properly calculate a RPN expression", () => {
 
 ```js
 describe("The RPN expression evaluator", () => {
-  it("should return null when the expression is an empty string", () => {
+  // edge case
+  it("returns null when the expression is an empty string", () => {
     const result = RPN("");
     expect(result).toBeNull();
   });
 
-  it("should return the same value when the expression holds a single value", () => {
+  // edge case
+  it("returns the same value when the expression holds a single value", () => {
     const result = RPN("42");
     expect(result).toBe(42);
   });
 
-  it("should properly calculate an expression", () => {
-    const result = RPN("5 1 2 + 4 * - 10 /");
-    expect(result).toBe(-0.7);
-  });
-
-  it("should throw an error whenever an invalid expression is passed", () => {
+  // edge case
+  it("throws an error whenever an invalid expression is passed", () => {
     const compute = () => RPN("1 + - 1");
     expect(compute).toThrow();
+  });
+
+  // general case
+  it("calculates the value of an expression", () => {
+    const result = RPN("5 1 2 + 4 * - 10 /");
+    expect(result).toBe(-0.7);
   });
 });
 ```
@@ -683,7 +688,7 @@ describe("when the user has already visited the page", () => {
   // storage.getItem('page-visited', '1') === '1'
   describe("when the survey is not disabled", () => {
     // storage.getItem('survey-disabled') === null
-    it("should display the survey", () => {
+    it("displays the survey", () => {
       const storage = window.localStorage;
       storage.setItem("page-visited", "1");
       storage.setItem("survey-disabled", null);
@@ -708,7 +713,7 @@ describe("when the user has already visited the page", () => {
   // storage.getItem('page-visited', '1') === '1'
   describe("when the survey is not disabled", () => {
     // storage.getItem('survey-disabled') === null
-    it("should display the survey", () => {
+    it("displays the survey", () => {
       // E.g. https://github.com/tatsuyaoiw/webstorage
       const storage = new MemoryStorage();
       storage.setItem("page-visited", "1");
@@ -747,7 +752,7 @@ Examples of complex user interactions:
 
 These interactions involve many units of work and should be handled at a higher level by **end-to-end tests**. They will usually take more time to execute, they could be flaky (false negatives) and they will require debugging whenever a failure is reported.
 
-For these complex user scenarios, consider using a test automation framework like the excellent [Cypress](https://www.cypress.io/), or manual QA testing.
+For these complex user scenarios, consider using tools like [Playwright](https://playwright.dev/) or [Cypress](https://www.cypress.io/), or manual QA testing.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -761,29 +766,29 @@ Example of simple user actions:
 These actions can be easily tested by simulating DOM events, for example:
 
 ```js
-describe('clicking on the "Preview profile" link', () => {
-  it("should show the profile preview if it is hidden", () => {
-    const { profileModule, previewLink } = createProfileModule({
+describe('when clicking on the "Preview profile" link', () => {
+  it("shows the preview if it is hidden", () => {
+    const { userProfile, previewLink } = createUserProfile({
       previewIsVisible: false,
     });
 
-    jest.spyOn(profileModule, "showPreview");
+    jest.spyOn(userProfile, "showPreview");
 
     click(previewLink);
 
-    expect(profileModule.showPreview).toHaveBeenCalled();
+    expect(userProfile.showPreview).toHaveBeenCalled();
   });
 
-  it("should hide the profile preview if it is visible", () => {
-    const { profileModule, previewLink } = createProfileModule({
+  it("hides the preview if it is visible", () => {
+    const { userProfile, previewLink } = createUserProfile({
       previewIsVisible: true,
     });
 
-    jest.spyOn(profileModule, "hidePreview");
+    jest.spyOn(userProfile, "hidePreview");
 
     click(previewLink);
 
-    expect(profileModule.hidePreview).toHaveBeenCalled();
+    expect(userProfile.hidePreview).toHaveBeenCalled();
   });
 });
 ```
@@ -863,15 +868,21 @@ There's a ton of resources available out there, here are just a few I've found u
 
 ### Tools
 
+#### Unit testing libraries
+
 - Jest: https://jestjs.io/
 - Mocha: https://mochajs.org/
 - Node TAP: https://github.com/tapjs/node-tap
 - Tape: https://github.com/substack/tape
+
+#### End-to-end testing tools
+
 - Cypress: https://www.cypress.io/
+- Playwright: https://playwright.dev/
 
 • [Back to ToC](#-table-of-contents) •
 
-### Katas
+### Code katas
 
 - https://kata-log.rocks/index.html
 - http://codekata.com/
@@ -883,6 +894,6 @@ There's a ton of resources available out there, here are just a few I've found u
 
 This style guide is also available in other languages:
 
-- 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) - Thanks to [GabrielchenCN](https://github.com/GabrielchenCN)
+- 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) - Thanks to [GabrielchenCN](https://github.com/GabrielchenCN)!
 
 • [Back to ToC](#-table-of-contents) •
