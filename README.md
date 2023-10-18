@@ -40,8 +40,8 @@
 - [Practice code katas, learn with pair programming](#-practice-code-katas-learn-with-pair-programming)
 
 3. [Resources](#-resources)
-4. [Translations](#translations)
-5. [Contributors](#contributors)
+4. [Translations](#-translations)
+5. [Contributors](#-contributors)
 
 ## ⛩️ General principles
 
