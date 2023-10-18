@@ -41,6 +41,7 @@
 
 3. [Resources](#-resources)
 4. [Translations](#translations)
+5. [Contributors](#contributors)
 
 ## ⛩️ General principles
 
@@ -898,7 +899,7 @@ This style guide is also available in other languages:
 
 • [Back to ToC](#-table-of-contents) •
 
-## Contributors
+## 🫶🏾 Contributors
 
 <a href="https://github.com/mawrkus/js-unit-testing-guide/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=mawrkus/js-unit-testing-guide" />
