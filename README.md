@@ -897,3 +897,9 @@ This style guide is also available in other languages:
 - 🇨🇳 [Chinese (Simplified)](https://github.com/mawrkus/js-unit-testing-guide/tree/master/translations/zh-cn/README.md) - Thanks to [GabrielchenCN](https://github.com/GabrielchenCN)!
 
 • [Back to ToC](#-table-of-contents) •
+
+## Contributors
+
+<a href="https://github.com/mawrkus/js-unit-testing-guide/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=mawrkus/js-unit-testing-guide" />
+</a>
