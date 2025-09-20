@@ -6,7 +6,7 @@
 > The guidelines are illustrated by my own examples, fruit of my personal experience writing and reviewing unit tests.
 > Many thanks to all of the sources of information & contributors.
 
-📅 _Last edit: September 2023._
+📅 _Last edit: September 2025._
 
 ## 📖 Table of contents
 
@@ -31,6 +31,7 @@
 - [Cover the general case and the edge cases](#-cover-the-general-case-and-the-edge-cases)
 - [Use dependency injection](#-use-dependency-injection)
 - [Don't mock everything](#-dont-mock-everything)
+- [Use realistic, production-like, data](#-use-realistic-production-like-data)
 - [Don't write unit tests for complex user interactions](#-dont-write-unit-tests-for-complex-user-interactions)
 - [Test simple user actions](#-test-simple-user-actions)
 - [Create new tests for every defect](#-create-new-tests-for-every-defect)
@@ -132,8 +133,8 @@ Notice also how code written without a test-first approach is often very hard to
 **:(**
 
 ```js
-it("calculates a RPN expression", () => {
-  const result = RPN("5 1 2 + 4 * - 10 /");
+it('calculates a RPN expression', () => {
+  const result = RPN('5 1 2 + 4 * - 10 /');
   expect(result).toBe(-0.7);
 });
 ```
@@ -141,8 +142,8 @@ it("calculates a RPN expression", () => {
 **:)**
 
 ```js
-it("returns null when the expression is an empty string", () => {
-  const result = RPN("");
+it('returns null when the expression is an empty string', () => {
+  const result = RPN('');
   expect(result).toBeNull();
 });
 ```
@@ -158,13 +159,13 @@ Build your tests suite from the simple case to the more complex ones. Keep in mi
 **:(**
 
 ```js
-it("returns null when the expression is an empty string", () => {
-  const result = RPN("");
+it('returns null when the expression is an empty string', () => {
+  const result = RPN('');
   expect(result).toBeNull();
 });
 
-it("calculates a RPN expression", () => {
-  const result = RPN("5 1 2 + 4 * - 10 /");
+it('calculates a RPN expression', () => {
+  const result = RPN('5 1 2 + 4 * - 10 /');
   expect(result).toBe(-0.7);
 });
 ```
@@ -172,36 +173,36 @@ it("calculates a RPN expression", () => {
 **:)**
 
 ```js
-describe("The RPN expression evaluator", () => {
-  it("returns null when the expression is an empty string", () => {
-    const result = RPN("");
+describe('The RPN expression evaluator', () => {
+  it('returns null when the expression is an empty string', () => {
+    const result = RPN('');
     expect(result).toBeNull();
   });
 
-  it("returns the same value when the expression holds a single value", () => {
-    const result = RPN("42");
+  it('returns the same value when the expression holds a single value', () => {
+    const result = RPN('42');
     expect(result).toBe(42);
   });
 
-  describe("Additions", () => {
-    it("calculates a simple addition", () => {
-      const result = RPN("41 1 +");
+  describe('Additions', () => {
+    it('calculates a simple addition', () => {
+      const result = RPN('41 1 +');
       expect(result).toBe(42);
     });
 
     // ...
 
-    it("calculates a complex addition", () => {
-      const result = RPN("2 9 + 15 3 + + 7 6 + +");
+    it('calculates a complex addition', () => {
+      const result = RPN('2 9 + 15 3 + + 7 6 + +');
       expect(result).toBe(42);
     });
   });
 
   // ...
 
-  describe("Complex expressions", () => {
-    it("calculates an expression containing all 4 operators", () => {
-      const result = RPN("5 1 2 + 4 * - 10 /");
+  describe('Complex expressions', () => {
+    it('calculates an expression containing all 4 operators', () => {
+      const result = RPN('5 1 2 + 4 * - 10 /');
       expect(result).toBe(-0.7);
     });
   });
@@ -217,31 +218,31 @@ Don't hesitate to nest your suites to structure logically your tests in subsets:
 **:(**
 
 ```js
-describe("A set of functionalities", () => {
-  it("does something nice", () => {});
+describe('A set of functionalities', () => {
+  it('does something nice', () => {});
 
-  it("a subset of functionalities does something great", () => {});
+  it('a subset of functionalities does something great', () => {});
 
-  it("a subset of functionalities does something awesome", () => {});
+  it('a subset of functionalities does something awesome', () => {});
 
-  it("another subset of functionalities also does something great", () => {});
+  it('another subset of functionalities also does something great', () => {});
 });
 ```
 
 **:)**
 
 ```js
-describe("A set of functionalities", () => {
-  it("does something nice", () => {});
+describe('A set of functionalities', () => {
+  it('does something nice', () => {});
 
-  describe("A subset of functionalities", () => {
-    it("does something great", () => {});
+  describe('A subset of functionalities', () => {
+    it('does something great', () => {});
 
-    it("does something awesome", () => {});
+    it('does something awesome', () => {});
   });
 
-  describe("Another subset of functionalities", () => {
-    it("also does something great", () => {});
+  describe('Another subset of functionalities', () => {
+    it('also does something great', () => {});
   });
 });
 ```
@@ -257,35 +258,35 @@ Keep in mind that someone else will read it too and that tests can be the live d
 **:(**
 
 ```js
-describe("myGallery", () => {
-  it("init set correct property when called (thumb size, thumbs count)", () => {});
+describe('myGallery', () => {
+  it('init set correct property when called (thumb size, thumbs count)', () => {});
 });
 ```
 
 **:)**
 
 ```js
-describe("The Gallery instance", () => {
-  it("calculates the thumb size when initialized", () => {});
+describe('The Gallery instance', () => {
+  it('calculates the thumb size when initialized', () => {});
 
-  it("calculates the thumbs count when initialized", () => {});
+  it('calculates the thumbs count when initialized', () => {});
 });
 ```
 
 In order to help you write test names properly, you can use the **"unit of work - scenario/context - expected behaviour"** pattern:
 
 ```js
-describe("[unit of work]", () => {
-  it("[expected behaviour] when [scenario/context]", () => {});
+describe('[unit of work]', () => {
+  it('[expected behaviour] when [scenario/context]', () => {});
 });
 ```
 
 Or if there are many tests that follow the same scenario or are related to the same context:
 
 ```js
-describe("[unit of work]", () => {
-  describe("when [scenario/context]", () => {
-    it("[expected behaviour]", () => {});
+describe('[unit of work]', () => {
+  describe('when [scenario/context]', () => {
+    it('[expected behaviour]', () => {});
   });
 });
 ```
@@ -295,11 +296,11 @@ For example:
 **:) :)**
 
 ```js
-describe("The Gallery instance", () => {
-  describe("when initialized", () => {
-    it("calculates the thumb size", () => {});
+describe('The Gallery instance', () => {
+  describe('when initialized', () => {
+    it('calculates the thumb size', () => {});
 
-    it("calculates the thumbs count", () => {});
+    it('calculates the thumbs count', () => {});
 
     // ...
   });
@@ -309,14 +310,14 @@ describe("The Gallery instance", () => {
 You might also want to use this pattern to describe a class and its methods:
 
 ```js
-describe("Gallery", () => {
-  describe("init()", () => {
-    it("calculates the thumb size", () => {});
+describe('Gallery', () => {
+  describe('init()', () => {
+    it('calculates the thumb size', () => {});
 
-    it("calculates the thumbs count", () => {});
+    it('calculates the thumbs count', () => {});
   });
 
-  describe("goTo(index)", () => {});
+  describe('goTo(index)', () => {});
 
   // ...
 });
@@ -335,9 +336,9 @@ This pattern is a good support to help you read and understand tests more easily
 - The **assert** part is where you test your expectations.
 
 ```js
-describe("Gallery", () => {
-  describe("goTo(index)", () => {
-    it("displays the image identified by its index", () => {
+describe('Gallery', () => {
+  describe('goTo(index)', () => {
+    it('displays the image identified by its index', () => {
       // arrange
       const myGallery = new Gallery();
       const index = 1;
@@ -346,7 +347,7 @@ describe("Gallery", () => {
       myGallery.goTo(index);
 
       // assert
-      expect(document.getElementById("image-1")).toBeVisible();
+      expect(document.getElementById('image-1')).toBeVisible();
     });
   });
 });
@@ -372,11 +373,11 @@ Remember, unit tests are a design specification of how a certain _behaviour_ sho
 **:(**
 
 ```js
-it("computes the result of an expression", () => {
-  const multiplySpy = jest.spyOn(Calculator, "multiple");
-  const subtractSpy = jest.spyOn(Calculator, "subtract");
+it('computes the result of an expression', () => {
+  const multiplySpy = jest.spyOn(Calculator, 'multiple');
+  const subtractSpy = jest.spyOn(Calculator, 'subtract');
 
-  const result = Calculator.compute("(21.5 x 2) - 1");
+  const result = Calculator.compute('(21.5 x 2) - 1');
 
   expect(multiplySpy).toHaveBeenCalledWith(21.5, 2);
   expect(subtractSpy).toHaveBeenCalledWith(43, 1);
@@ -387,8 +388,8 @@ it("computes the result of an expression", () => {
 **:)**
 
 ```js
-it("computes the result of the expression", () => {
-  const result = Calculator.compute("(21.5 x 2) - 1");
+it('computes the result of the expression', () => {
+  const result = Calculator.compute('(21.5 x 2) - 1');
 
   expect(result).toBe(42);
 });
@@ -401,10 +402,10 @@ it("computes the result of the expression", () => {
 **:(**
 
 ```js
-it("adds a user in memory", () => {
-  usersManager.addUser("Dr. Falker");
+it('adds a user in memory', () => {
+  usersManager.addUser('Dr. Falker');
 
-  expect(usersManager._users[0].name).toBe("Dr. Falker");
+  expect(usersManager._users[0].name).toBe('Dr. Falker');
 });
 ```
 
@@ -413,10 +414,10 @@ A better approach is to test at the same level of the API:
 **:)**
 
 ```js
-it("adds a user in memory", () => {
-  usersManager.addUser("Dr. Falker");
+it('adds a user in memory', () => {
+  usersManager.addUser('Dr. Falker');
 
-  expect(usersManager.hasUser("Dr. Falker")).toBe(true);
+  expect(usersManager.hasUser('Dr. Falker')).toBe(true);
 });
 ```
 
@@ -438,12 +439,12 @@ Factories can:
 **:(**
 
 ```js
-describe("The UserProfile class", () => {
+describe('The UserProfile class', () => {
   let userProfile;
   let pubSub;
 
   beforeEach(() => {
-    const element = document.getElementById("my-profile");
+    const element = document.getElementById('my-profile');
 
     pubSub = { notify() {} };
 
@@ -455,14 +456,14 @@ describe("The UserProfile class", () => {
   });
 
   it('publishes a topic when a new "like" is given', () => {
-    jest.spyOn(pubSub, "notify");
+    jest.spyOn(pubSub, 'notify');
 
     userProfile.incLikes();
 
-    expect(pubSub.notify).toHaveBeenCalledWith("likes:inc", { count: 1 });
+    expect(pubSub.notify).toHaveBeenCalledWith('likes:inc', { count: 1 });
   });
 
-  it("retrieves the number of likes", () => {
+  it('retrieves the number of likes', () => {
     userProfile.incLikes();
     userProfile.incLikes();
 
@@ -518,8 +519,8 @@ Factories can be particularly useful when dealing with the DOM:
 **:(**
 
 ```js
-describe("The search component", () => {
-  describe("when the search button is clicked", () => {
+describe('The search component', () => {
+  describe('when the search button is clicked', () => {
     let container;
     let form;
     let searchInput;
@@ -533,22 +534,22 @@ describe("The search component", () => {
         </form>
       </div>`);
 
-      container = document.getElementById("container");
-      form = container.getElementsByClassName("js-form")[0];
-      searchInput = form.querySelector("input[type=search]");
-      submitInput = form.querySelector("input[type=submith]");
+      container = document.getElementById('container');
+      form = container.getElementsByClassName('js-form')[0];
+      searchInput = form.querySelector('input[type=search]');
+      submitInput = form.querySelector('input[type=submith]');
     });
 
-    it("validates the text entered", () => {
+    it('validates the text entered', () => {
       const search = new Search({ container });
-      jest.spyOn(search, "validate");
+      jest.spyOn(search, 'validate');
 
       search.init();
 
-      input(searchInput, "peace");
+      input(searchInput, 'peace');
       click(submitInput);
 
-      expect(search.validate).toHaveBeenCalledWith("peace");
+      expect(search.validate).toHaveBeenCalledWith('peace');
     });
   });
 });
@@ -565,10 +566,10 @@ function createHTMLFixture() {
     </form>
   </div>`);
 
-  const container = document.getElementById("container");
-  const form = container.getElementsByClassName("js-form")[0];
-  const searchInput = form.querySelector("input[type=search]");
-  const submitInput = form.querySelector("input[type=submith]");
+  const container = document.getElementById('container');
+  const form = container.getElementsByClassName('js-form')[0];
+  const searchInput = form.querySelector('input[type=search]');
+  const submitInput = form.querySelector('input[type=submith]');
 
   return {
     container,
@@ -578,21 +579,21 @@ function createHTMLFixture() {
   };
 }
 
-describe("The search component", () => {
-  describe("when the search button is clicked", () => {
-    it("validates the text entered", () => {
+describe('The search component', () => {
+  describe('when the search button is clicked', () => {
+    it('validates the text entered', () => {
       const { container, searchInput, submitInput } = createHTMLFixture();
 
       const search = new Search({ container });
 
-      jest.spyOn(search, "validate");
+      jest.spyOn(search, 'validate');
 
       search.init();
 
-      input(searchInput, "peace");
+      input(searchInput, 'peace');
       click(submitInput);
 
-      expect(search.validate).toHaveBeenCalledWith("peace");
+      expect(search.validate).toHaveBeenCalledWith('peace');
     });
   });
 });
@@ -609,7 +610,7 @@ If a method has several end results, each one should be tested separately so tha
 **:(**
 
 ```js
-it("sends the profile data to the API and updates the profile view", () => {
+it('sends the profile data to the API and updates the profile view', () => {
   // expect(...)to(...);
   // expect(...)to(...);
 });
@@ -618,11 +619,11 @@ it("sends the profile data to the API and updates the profile view", () => {
 **:)**
 
 ```js
-it("sends the profile data to the API", () => {
+it('sends the profile data to the API', () => {
   // expect(...)to(...);
 });
 
-it("updates the profile view", () => {
+it('updates the profile view', () => {
   // expect(...)to(...);
 });
 ```
@@ -642,8 +643,8 @@ Having edge cases covered will:
 **:(**
 
 ```js
-it("calculates the value of an expression", () => {
-  const result = RPN("5 1 2 + 4 * - 10 /");
+it('calculates the value of an expression', () => {
+  const result = RPN('5 1 2 + 4 * - 10 /');
   expect(result).toBe(-0.7);
 });
 ```
@@ -651,28 +652,28 @@ it("calculates the value of an expression", () => {
 **:)**
 
 ```js
-describe("The RPN expression evaluator", () => {
+describe('The RPN expression evaluator', () => {
   // edge case
-  it("returns null when the expression is an empty string", () => {
-    const result = RPN("");
+  it('returns null when the expression is an empty string', () => {
+    const result = RPN('');
     expect(result).toBeNull();
   });
 
   // edge case
-  it("returns the same value when the expression holds a single value", () => {
-    const result = RPN("42");
+  it('returns the same value when the expression holds a single value', () => {
+    const result = RPN('42');
     expect(result).toBe(42);
   });
 
   // edge case
-  it("throws an error whenever an invalid expression is passed", () => {
-    const compute = () => RPN("1 + - 1");
+  it('throws an error whenever an invalid expression is passed', () => {
+    const compute = () => RPN('1 + - 1');
     expect(compute).toThrow();
   });
 
   // general case
-  it("calculates the value of an expression", () => {
-    const result = RPN("5 1 2 + 4 * - 10 /");
+  it('calculates the value of an expression', () => {
+    const result = RPN('5 1 2 + 4 * - 10 /');
     expect(result).toBe(-0.7);
   });
 });
@@ -685,17 +686,17 @@ describe("The RPN expression evaluator", () => {
 **:(**
 
 ```js
-describe("when the user has already visited the page", () => {
+describe('when the user has already visited the page', () => {
   // storage.getItem('page-visited', '1') === '1'
-  describe("when the survey is not disabled", () => {
+  describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
-    it("displays the survey", () => {
+    it('displays the survey', () => {
       const storage = window.localStorage;
-      storage.setItem("page-visited", "1");
-      storage.setItem("survey-disabled", null);
+      storage.setItem('page-visited', '1');
+      storage.setItem('survey-disabled', null);
 
       const surveyManager = new SurveyManager();
-      jest.spyOn(surveyManager, "display");
+      jest.spyOn(surveyManager, 'display');
 
       surveyManager.start();
 
@@ -710,18 +711,18 @@ We created a permanent storage of data. What happens if we do not properly clean
 **:)**
 
 ```js
-describe("when the user has already visited the page", () => {
+describe('when the user has already visited the page', () => {
   // storage.getItem('page-visited', '1') === '1'
-  describe("when the survey is not disabled", () => {
+  describe('when the survey is not disabled', () => {
     // storage.getItem('survey-disabled') === null
-    it("displays the survey", () => {
+    it('displays the survey', () => {
       // E.g. https://github.com/tatsuyaoiw/webstorage
       const storage = new MemoryStorage();
-      storage.setItem("page-visited", "1");
-      storage.setItem("survey-disabled", null);
+      storage.setItem('page-visited', '1');
+      storage.setItem('survey-disabled', null);
 
       const surveyManager = new SurveyManager(storage);
-      jest.spyOn(surveyManager, "display");
+      jest.spyOn(surveyManager, 'display');
 
       surveyManager.start();
 
@@ -741,6 +742,51 @@ The idea to keep in mind is that **dependencies can still be real objects**. Don
 - the code being tested does not make HTTP requests or browser page reloads,
 - the speed of execution of the tests stays within the limits you fixed,
 - it leads to a simple, nice and easy tests setup.
+
+• [Back to ToC](#-table-of-contents) •
+
+### ✨ Use realistic, production-like, data
+
+**:(**
+
+```js
+it('parses a log entry', () => {
+  const logLine = 'foo|bar|baz|qux|foo|bar|baz';
+
+  const result = parseLogEntry(logLine);
+
+  expect(result.action).toBe('foo');
+  expect(result.service).toBe('baz');
+  expect(result.level).toBe('bar');
+  expect(result.statusCode).toBe('baz');
+  expect(result.userId).toBe('qux');
+  expect(result.timestamp).toBe('foo');
+  expect(result.resource).toBe('bar');
+});
+```
+
+**:)**
+
+```js
+it('parses a log entry', () => {
+  const logLine =
+    '2024-01-15T14:30:22Z|error|auth-service|user-47291|login-attempt|/api/sessions|401';
+
+  const result = parseLogEntry(logLine);
+
+  expect(result.action).toBe('login-attempt');
+  expect(result.service).toBe('auth-service');
+  expect(result.level).toBe('error');
+  expect(result.statusCode).toBe('401');
+  expect(result.userId).toBe('user-47291');
+  expect(result.timestamp).toBe('2024-01-15T14:30:22Z');
+  expect(result.resource).toBe('/api/sessions');
+});
+```
+
+Why? To enable your future self and other contributors to immediately grasp what real-world scenarios the test covers, without needing to decipher abstract values like `foo` or `bar`.
+
+Code is read more often than it's written, and realistic test data transforms your test suite into living documentation that clearly communicates expected data patterns and business requirements.
 
 • [Back to ToC](#-table-of-contents) •
 
@@ -768,24 +814,24 @@ These actions can be easily tested by simulating DOM events, for example:
 
 ```js
 describe('when clicking on the "Preview profile" link', () => {
-  it("shows the preview if it is hidden", () => {
+  it('shows the preview if it is hidden', () => {
     const { userProfile, previewLink } = createUserProfile({
       previewIsVisible: false,
     });
 
-    jest.spyOn(userProfile, "showPreview");
+    jest.spyOn(userProfile, 'showPreview');
 
     click(previewLink);
 
     expect(userProfile.showPreview).toHaveBeenCalled();
   });
 
-  it("hides the preview if it is visible", () => {
+  it('hides the preview if it is visible', () => {
     const { userProfile, previewLink } = createUserProfile({
       previewIsVisible: true,
     });
 
-    jest.spyOn(userProfile, "hidePreview");
+    jest.spyOn(userProfile, 'hidePreview');
 
     click(previewLink);
 
